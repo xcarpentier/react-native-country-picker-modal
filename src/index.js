@@ -79,33 +79,30 @@ class CountryPicker extends React.Component {
   }
 
   _scrollTo(letter) {
-    if (letter === 'A') {
-      this._scrollView.scrollTo({
-        y: 0
-      });
-    } else if (letter > 'U') {
-      this._scrollView.scrollTo({
-        y: this.lettersPositions['Z'] - Ratio.getHeightPercent(85)
-      });
-    } else {
-      this._scrollView.scrollTo({
-        y: this.lettersPositions[letter]
-      });
+    // dimensions of country list and window
+    const itemHeight = Ratio.getHeightPercent(7);
+    const listPadding = Ratio.getPercent(2);
+    const listHeight = countries.length * itemHeight + 2 * listPadding;
+    const windowHeight = Ratio.getHeightPercent(100);
+
+    // find position of first country that starts with letter
+    const index = this._orderCountryList().map((country) => {
+      return this._getCountryName(country)[0];
+    }).indexOf(letter);
+    if (index === -1) {
+      return;
+    }
+    let position = index * itemHeight + listPadding;
+
+    // do not scroll past the end of the list
+    if (position + windowHeight > listHeight) {
+      position = listHeight - windowHeight;
     }
 
-  }
-
-  _updateLetterPosition(countryName, position_y) {
-
-    let firstLetter = countryName.substr(0, 1);
-
-    if (!this.lettersPositions[firstLetter] ||
-      (
-        this.lettersPositions[firstLetter] &&
-        this.lettersPositions[firstLetter] > position_y)
-    ) {
-      this.lettersPositions[firstLetter] = position_y;
-    }
+    // scroll
+    this._scrollView.scrollTo({
+      y: position
+    });
   }
 
   _renderCountry(country, index) {
@@ -113,8 +110,7 @@ class CountryPicker extends React.Component {
       <TouchableOpacity
         key={index}
         onPress={()=> this._onSelect(country)}
-        activeOpacity={0.99}
-        onLayout={ e => this._updateLetterPosition(this._getCountryName(country), e.nativeEvent.layout.y) }>
+        activeOpacity={0.99}>
         {this._renderCountryDetail(country)}
     </TouchableOpacity>);
   }
@@ -174,6 +170,8 @@ class CountryPicker extends React.Component {
             ref={(scrollView) => { this._scrollView = scrollView; }}
             dataSource={this.state.countries}
             renderRow={(country) => this._renderCountry(country)}
+            initialListSize={20}
+            pageSize={countries.length - 20}
           />
           <View style={styles.letters}>
             {_.map(this.letters, (letter, index) => this._renderLetters(letter, index))}

@@ -109,52 +109,36 @@ var CountryPicker = function (_React$Component) {
   }, {
     key: '_scrollTo',
     value: function _scrollTo(letter) {
-      if (letter === 'A') {
-        this._scrollView.scrollTo({
-          y: 0
-        });
-      } else if (letter > 'U') {
-        this._scrollView.scrollTo({
-          y: this.lettersPositions['Z'] - _Ratio2.default.getHeightPercent(85)
-        });
-      } else {
-        this._scrollView.scrollTo({
-          y: this.lettersPositions[letter]
-        });
-      }
-    }
-  }, {
-    key: '_updateLetterPosition',
-    value: function _updateLetterPosition(countryName, position_y) {
+      var _this3 = this;
 
-      var firstLetter = countryName.substr(0, 1);
+      // dimensions of country list and window
+      var itemHeight = _Ratio2.default.getHeightPercent(7);
+      var listPadding = _Ratio2.default.getPercent(2);
+      var listHeight = _worldCountries2.default.length * itemHeight + 2 * listPadding;
+      var windowHeight = _Ratio2.default.getHeightPercent(100);
 
-      if (!this.lettersPositions[firstLetter] || this.lettersPositions[firstLetter] && this.lettersPositions[firstLetter] > position_y) {
-        this.lettersPositions[firstLetter] = position_y;
+      // find position of first country that starts with letter
+      var index = this._orderCountryList().map(function (country) {
+        return _this3._getCountryName(country)[0];
+      }).indexOf(letter);
+      if (index === -1) {
+        return;
       }
+      var position = index * itemHeight + listPadding;
+
+      // do not scroll past the end of the list
+      if (position + windowHeight > listHeight) {
+        position = listHeight - windowHeight;
+      }
+
+      // scroll
+      this._scrollView.scrollTo({
+        y: position
+      });
     }
   }, {
     key: '_renderCountry',
     value: function _renderCountry(country, index) {
-      var _this3 = this;
-
-      return _reactNative2.default.createElement(
-        _reactNative.TouchableOpacity,
-        {
-          key: index,
-          onPress: function onPress() {
-            return _this3._onSelect(country);
-          },
-          activeOpacity: 0.99,
-          onLayout: function onLayout(e) {
-            return _this3._updateLetterPosition(_this3._getCountryName(country), e.nativeEvent.layout.y);
-          } },
-        this._renderCountryDetail(country)
-      );
-    }
-  }, {
-    key: '_renderLetters',
-    value: function _renderLetters(letter, index) {
       var _this4 = this;
 
       return _reactNative2.default.createElement(
@@ -162,7 +146,23 @@ var CountryPicker = function (_React$Component) {
         {
           key: index,
           onPress: function onPress() {
-            return _this4._scrollTo(letter);
+            return _this4._onSelect(country);
+          },
+          activeOpacity: 0.99 },
+        this._renderCountryDetail(country)
+      );
+    }
+  }, {
+    key: '_renderLetters',
+    value: function _renderLetters(letter, index) {
+      var _this5 = this;
+
+      return _reactNative2.default.createElement(
+        _reactNative.TouchableOpacity,
+        {
+          key: index,
+          onPress: function onPress() {
+            return _this5._scrollTo(letter);
           },
           activeOpacity: 0.6 },
         _reactNative2.default.createElement(
@@ -203,7 +203,7 @@ var CountryPicker = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       return _reactNative2.default.createElement(
         _reactNative.View,
@@ -212,7 +212,7 @@ var CountryPicker = function (_React$Component) {
           _reactNative.TouchableOpacity,
           {
             onPress: function onPress() {
-              return _this5.setState({ modalVisible: true });
+              return _this6.setState({ modalVisible: true });
             },
             activeOpacity: 0.7 },
           _reactNative2.default.createElement(
@@ -229,18 +229,20 @@ var CountryPicker = function (_React$Component) {
           _reactNative2.default.createElement(_reactNative.ListView, {
             contentContainerStyle: styles.contentContainer,
             ref: function ref(scrollView) {
-              _this5._scrollView = scrollView;
+              _this6._scrollView = scrollView;
             },
             dataSource: this.state.countries,
             renderRow: function renderRow(country) {
-              return _this5._renderCountry(country);
-            }
+              return _this6._renderCountry(country);
+            },
+            initialListSize: 20,
+            pageSize: _worldCountries2.default.length - 20
           }),
           _reactNative2.default.createElement(
             _reactNative.View,
             { style: styles.letters },
             _lodash2.default.map(this.letters, function (letter, index) {
-              return _this5._renderLetters(letter, index);
+              return _this6._renderLetters(letter, index);
             })
           )
         )
