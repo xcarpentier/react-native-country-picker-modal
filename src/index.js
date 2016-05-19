@@ -5,7 +5,8 @@
  * @author xcarpentier<contact@xaviercarpentier.com>
  */
 
-import React, {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   View,
   PixelRatio,
@@ -15,14 +16,13 @@ import React, {
   ScrollView,
   Text,
   ListView
-}
-from 'react-native';
+} from 'react-native';
 import countries from 'world-countries';
 import _ from 'lodash';
 import CountryFlags from './CountryFlags';
 import Ratio from './Ratio';
 
-class CountryPicker extends React.Component {
+class CountryPicker extends Component {
 
   constructor(props) {
     super(props);

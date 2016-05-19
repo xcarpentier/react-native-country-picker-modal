@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/xcarpentier/react-native-country-picker-modal#readme",
   "devDependencies": {
-    "babel-cli": "6.6.4",
-    "babel-preset-es2015": "6.6.0",
+    "babel-cli": "6.9.0",
+    "babel-preset-es2015": "6.9.0",
     "babel-preset-react": "6.5.0",
-    "cz-conventional-changelog": "1.1.5"
+    "cz-conventional-changelog": "1.1.6"
   },
   "config": {
     "commitizen": {
@@ -36,7 +36,7 @@
     }
   },
   "dependencies": {
-    "lodash": "4.6.1",
-    "world-countries": "1.7.7"
+    "lodash": "4.12.0",
+    "world-countries": "1.7.8"
   }
 }

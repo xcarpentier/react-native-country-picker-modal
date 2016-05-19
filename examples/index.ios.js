@@ -3,21 +3,20 @@
  * https://github.com/xcarpentier/react-native-country-picker
  */
 'use strict';
-import React, {
+import React, { Component } from 'react';
+import {
   AppRegistry,
-  Component,
   StyleSheet,
   Text,
   View,
-  StatusBarIOS,
+  StatusBar,
   PixelRatio
 } from 'react-native';
-
-import CountryPicker from './examples/index';
+import CountryPicker from 'react-native-country-picker-modal';
 
 class Example extends Component {
   constructor(props){
-    StatusBarIOS.setHidden(true);
+    StatusBar.setHidden(true);
     super(props);
     this.state = {
       cca2: 'US'
