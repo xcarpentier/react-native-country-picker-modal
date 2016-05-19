@@ -6,10 +6,13 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react-native": "0.21.0"
+    "react": "15.0.2",
+    "react-native": "0.26.0",
+    "react-native-country-picker-modal": "file:../"
   },
   "devDependencies": {
-    "eslint": "2.4.0",
-    "eslint-plugin-react": "4.2.3"
+    "eslint": "2.10.2",
+    "eslint-plugin-react": "5.1.1",
+    "rnpm-plugin-upgrade": "^0.26.0"
   }
 }

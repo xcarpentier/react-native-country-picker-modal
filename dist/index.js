@@ -7,9 +7,11 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _reactNative = require('react-native');
+var _react = require('react');
 
-var _reactNative2 = _interopRequireDefault(_reactNative);
+var _react2 = _interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
 
 var _worldCountries = require('world-countries');
 
@@ -35,8 +37,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CountryPicker = function (_React$Component) {
-  _inherits(CountryPicker, _React$Component);
+var CountryPicker = function (_Component) {
+  _inherits(CountryPicker, _Component);
 
   function CountryPicker(props) {
     _classCallCheck(this, CountryPicker);
@@ -138,7 +140,7 @@ var CountryPicker = function (_React$Component) {
     value: function _renderCountry(country, index) {
       var _this3 = this;
 
-      return _reactNative2.default.createElement(
+      return _react2.default.createElement(
         _reactNative.TouchableOpacity,
         {
           key: index,
@@ -157,7 +159,7 @@ var CountryPicker = function (_React$Component) {
     value: function _renderLetters(letter, index) {
       var _this4 = this;
 
-      return _reactNative2.default.createElement(
+      return _react2.default.createElement(
         _reactNative.TouchableOpacity,
         {
           key: index,
@@ -165,10 +167,10 @@ var CountryPicker = function (_React$Component) {
             return _this4._scrollTo(letter);
           },
           activeOpacity: 0.6 },
-        _reactNative2.default.createElement(
+        _react2.default.createElement(
           _reactNative.View,
           { style: styles.letter },
-          _reactNative2.default.createElement(
+          _react2.default.createElement(
             _reactNative.Text,
             { style: styles.letterText },
             letter
@@ -179,20 +181,20 @@ var CountryPicker = function (_React$Component) {
   }, {
     key: '_renderCountryDetail',
     value: function _renderCountryDetail(country) {
-      return _reactNative2.default.createElement(
+      return _react2.default.createElement(
         _reactNative.View,
         { style: styles.itemCountry },
-        _reactNative2.default.createElement(
+        _react2.default.createElement(
           _reactNative.View,
           { style: styles.itemCountryFlag },
-          _reactNative2.default.createElement(_reactNative.Image, {
+          _react2.default.createElement(_reactNative.Image, {
             style: styles.imgStyle,
             source: { uri: _CountryFlags2.default[country.cca2] } })
         ),
-        _reactNative2.default.createElement(
+        _react2.default.createElement(
           _reactNative.View,
           { style: styles.itemCountryName },
-          _reactNative2.default.createElement(
+          _react2.default.createElement(
             _reactNative.Text,
             { style: styles.countryName },
             this._getCountryName(country)
@@ -205,28 +207,28 @@ var CountryPicker = function (_React$Component) {
     value: function render() {
       var _this5 = this;
 
-      return _reactNative2.default.createElement(
+      return _react2.default.createElement(
         _reactNative.View,
         null,
-        _reactNative2.default.createElement(
+        _react2.default.createElement(
           _reactNative.TouchableOpacity,
           {
             onPress: function onPress() {
               return _this5.setState({ modalVisible: true });
             },
             activeOpacity: 0.7 },
-          _reactNative2.default.createElement(
+          _react2.default.createElement(
             _reactNative.View,
             { style: styles.touchFlag },
-            _reactNative2.default.createElement(_reactNative.Image, {
+            _react2.default.createElement(_reactNative.Image, {
               style: styles.imgStyle,
               source: { uri: _CountryFlags2.default[this.state.cca2] } })
           )
         ),
-        _reactNative2.default.createElement(
+        _react2.default.createElement(
           _reactNative.Modal,
           { visible: this.state.modalVisible },
-          _reactNative2.default.createElement(_reactNative.ListView, {
+          _react2.default.createElement(_reactNative.ListView, {
             contentContainerStyle: styles.contentContainer,
             ref: function ref(scrollView) {
               _this5._scrollView = scrollView;
@@ -236,7 +238,7 @@ var CountryPicker = function (_React$Component) {
               return _this5._renderCountry(country);
             }
           }),
-          _reactNative2.default.createElement(
+          _react2.default.createElement(
             _reactNative.View,
             { style: styles.letters },
             _lodash2.default.map(this.letters, function (letter, index) {
@@ -249,7 +251,7 @@ var CountryPicker = function (_React$Component) {
   }]);
 
   return CountryPicker;
-}(_reactNative2.default.Component);
+}(_react.Component);
 
 var styles = _reactNative.StyleSheet.create({
   contentContainer: {
