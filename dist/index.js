@@ -73,7 +73,6 @@ var CountryPicker = function (_Component) {
     value: function _getCountryName(country) {
       var translation = this.props.translation || 'eng';
       return country.translations[translation] && country.translations[translation].common || country.name.common;
-      xrg;
     }
   }, {
     key: '_orderCountryList',
@@ -227,7 +226,12 @@ var CountryPicker = function (_Component) {
         ),
         _react2.default.createElement(
           _reactNative.Modal,
-          { visible: this.state.modalVisible },
+          {
+            visible: this.state.modalVisible,
+            onRequestClose: function onRequestClose() {
+              return _this6.setState({ modalVisible: false });
+            }
+          },
           _react2.default.createElement(_reactNative.ListView, {
             contentContainerStyle: styles.contentContainer,
             ref: function ref(scrollView) {
@@ -269,7 +273,7 @@ var styles = _reactNative.StyleSheet.create({
     height: _Ratio2.default.getHeightPercent(2.5)
   },
   imgStyle: {
-    resizeMode: 'stretch',
+    resizeMode: 'contain',
     width: 25,
     height: 19,
     borderWidth: 1 / _reactNative.PixelRatio.get(),

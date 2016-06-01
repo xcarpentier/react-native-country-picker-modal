@@ -155,7 +155,10 @@ class CountryPicker extends Component {
               source={{uri: CountryFlags[this.state.cca2]}}/>
           </View>
         </TouchableOpacity>
-        <Modal visible={this.state.modalVisible}>
+        <Modal
+          visible={this.state.modalVisible}
+          onRequestClose={() => this.setState({modalVisible: false})}
+        >
           <ListView
             contentContainerStyle={styles.contentContainer}
             ref={(scrollView) => { this._scrollView = scrollView; }}
