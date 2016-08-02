@@ -19,6 +19,7 @@ class CountryPicker extends Component {
 
   constructor(props) {
     super(props);
+    this._openModal = this._openModal.bind(this);
     this.letters = _
       .range('A'.charCodeAt(0), 'Z'.charCodeAt(0) + 1)
       .map(n => String.fromCharCode(n).substr(0));
@@ -26,6 +27,7 @@ class CountryPicker extends Component {
     // dimensions of country list and window
     this.itemHeight = getHeightPercent(7);
     this.listHeight = countries.length * this.itemHeight;
+
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -145,6 +147,10 @@ class CountryPicker extends Component {
         </View>
       </View>
     );
+  }
+
+  _openModal() {
+    this.setState({modalVisible: true});
   }
 
   render() {
