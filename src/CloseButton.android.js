@@ -3,13 +3,14 @@ import {
   Image,
   StyleSheet,
   TouchableNativeFeedback,
-  View
+  View,
+  Platform
 } from 'react-native';
 
 const CloseButton = (props) => (
   <View style={styles.closeButton}>
     <TouchableNativeFeedback
-      background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
+      background={Platform.Version < 21 ? TouchableNativeFeedback.SelectableBackground() : TouchableNativeFeedback.SelectableBackgroundBorderless()}
       {...props}
     >
       <View>
