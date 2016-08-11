@@ -54,7 +54,7 @@ class Example extends Component {
           Welcome to Country Picker !
         </Text>
         <CountryPicker
-          onChange={(value)=> this.setState({country: value})}
+          onChange={(value)=> this.setState({country: value, cca2: value.cca2})}
           cca2={this.state.cca2}
           translation='eng'
         />
