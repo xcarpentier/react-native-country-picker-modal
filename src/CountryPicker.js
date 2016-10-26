@@ -39,6 +39,7 @@ export default class CountryPicker extends Component {
     translation: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     closeable: React.PropTypes.bool,
+    renderButton: React.PropTypes.func,
   }
   static defaultProps = {
     translation: 'eng',
@@ -177,9 +178,13 @@ export default class CountryPicker extends Component {
           onPress={() => this.setState({ modalVisible: true })}
           activeOpacity={0.7}
         >
-          <View style={styles.touchFlag}>
-            {this.renderFlag(this.props.cca2)}
-          </View>
+          {
+            this.props.renderButton ?
+            this.props.renderButton() :
+            (<View style={styles.touchFlag}>
+              {this.renderFlag(this.props.cca2)}
+            </View>)
+          }
         </TouchableOpacity>
         <Modal
           visible={this.state.modalVisible}
