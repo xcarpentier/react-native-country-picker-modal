@@ -180,7 +180,7 @@ export default class CountryPicker extends Component {
         >
           {
             this.props.renderButton ?
-            this.props.renderButton() :
+            this.props.renderButton(this.renderFlag.bind(this, this.props.cca2)) :
             (<View style={styles.touchFlag}>
               {this.renderFlag(this.props.cca2)}
             </View>)
