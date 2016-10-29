@@ -15,6 +15,10 @@ The best Country Picker for React Native.
 ```bash
 $ npm i react-native-country-picker-modal --save
 ```
+or
+```bash
+$ yarn add react-native-country-picker-modal
+```
 ## Basic Usage
 - Install `react-native` first
 
