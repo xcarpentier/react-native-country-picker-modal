@@ -39,6 +39,7 @@ export default class CountryPicker extends Component {
     translation: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     closeable: React.PropTypes.bool,
+    children: React.PropTypes.node,
   }
   static defaultProps = {
     translation: 'eng',
@@ -135,7 +136,7 @@ export default class CountryPicker extends Component {
     const country = countries[cca2];
     return (
       <View style={styles.itemCountry}>
-        {this.renderFlag(cca2)}
+        {CountryPicker.renderFlag(cca2)}
         <View style={styles.itemCountryName}>
           <Text style={styles.countryName}>
             {this.getCountryName(country)}
@@ -145,27 +146,27 @@ export default class CountryPicker extends Component {
     );
   }
 
-  renderEmojiFlag(cca2) {
+  static renderEmojiFlag(cca2, emojiStyle) {
     return (
-      <Text style={styles.emojiFlag}>
+      <Text style={[ styles.emojiFlag, emojiStyle ]}>
         <Emoji name={countries[cca2].flag} />
       </Text>
     );
   }
 
-  renderImageFlag(cca2) {
+  static renderImageFlag(cca2, imageStyle) {
     return (
       <Image
-        style={styles.imgStyle}
+        style={[ styles.imgStyle, imageStyle ]}
         source={{ uri: countries[cca2].flag }}
       />
     );
   }
 
-  renderFlag(cca2) {
+  static renderFlag(cca2, itemStyle, emojiStyle, imageStyle) {
     return (
-      <View style={styles.itemCountryFlag}>
-        {isEmojiable ? this.renderEmojiFlag(cca2) : this.renderImageFlag(cca2)}
+      <View style={[ styles.itemCountryFlag, itemStyle ]}>
+        {isEmojiable ? CountryPicker.renderEmojiFlag(cca2, emojiStyle) : CountryPicker.renderImageFlag(cca2, imageStyle)}
       </View>
     );
   }
@@ -175,11 +176,15 @@ export default class CountryPicker extends Component {
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ modalVisible: true })}
-          activeOpacity={0.7}
-        >
-          <View style={styles.touchFlag}>
-            {this.renderFlag(this.props.cca2)}
-          </View>
+          activeOpacity={0.7}>
+          {
+            this.props.children ?
+              this.props.children
+            :
+              (<View style={styles.touchFlag}>
+                {CountryPicker.renderFlag(this.props.cca2)}
+              </View>)
+          }
         </TouchableOpacity>
         <Modal
           visible={this.state.modalVisible}
