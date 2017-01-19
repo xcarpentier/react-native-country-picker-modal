@@ -120,6 +120,7 @@ AppRegistry.registerComponent('example', () => Example);
 | cca2 | string | \*required | code ISO 3166-1 alpha-2 (ie. FR, US, etc.)|
 | translation | string | 'eng' | The language display for the name of the country (deu, fra, hrv, ita, jpn, nld, por, rus, spa, svk,  fin, zho, cym) |
 | onChange | function | \*required | The handler when a country is selected |
+| onClose | function | \*required | The handler when the close button is clicked |
 | closeable | bool | false | If true, the CountryPicker will have a close button |
 
 ## Dependencies
