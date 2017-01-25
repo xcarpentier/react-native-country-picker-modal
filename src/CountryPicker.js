@@ -155,12 +155,10 @@ export default class CountryPicker extends Component {
   }
 
   static renderImageFlag(cca2, imageStyle) {
-    return (
-      { cca2 !== '' ? <Image
-          style={[ styles.imgStyle, imageStyle ]}
-          source={{ uri: countries[cca2].flag }}
-        /> : null }
-    );
+    return cca2 !== '' ? <Image
+        style={[ styles.imgStyle, imageStyle ]}
+        source={{ uri: countries[cca2].flag }}
+      /> : null;
   }
 
   static renderFlag(cca2, itemStyle, emojiStyle, imageStyle) {
