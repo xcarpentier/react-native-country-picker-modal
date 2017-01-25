@@ -31,6 +31,7 @@ export default StyleSheet.create({
     height: 30,
     borderWidth: 1 / PixelRatio.get(),
     borderColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   itemCountry: {
     flexDirection: 'row',
