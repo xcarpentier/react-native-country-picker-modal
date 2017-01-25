@@ -149,17 +149,17 @@ export default class CountryPicker extends Component {
   static renderEmojiFlag(cca2, emojiStyle) {
     return (
       <Text style={[ styles.emojiFlag, emojiStyle ]}>
-        <Emoji name={countries[cca2].flag} />
+        { cca2 !== '' ? <Emoji name={countries[cca2].flag} /> : null }
       </Text>
     );
   }
 
   static renderImageFlag(cca2, imageStyle) {
     return (
-      <Image
-        style={[ styles.imgStyle, imageStyle ]}
-        source={{ uri: countries[cca2].flag }}
-      />
+      { cca2 !== '' ? <Image
+          style={[ styles.imgStyle, imageStyle ]}
+          source={{ uri: countries[cca2].flag }}
+        /> : null }
     );
   }
 
