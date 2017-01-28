@@ -38,7 +38,7 @@ export default class CountryPicker extends Component {
     cca2: React.PropTypes.string.isRequired,
     translation: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func.isRequired,
+    onClose: React.PropTypes.func,
     closeable: React.PropTypes.bool,
     children: React.PropTypes.node,
   }
