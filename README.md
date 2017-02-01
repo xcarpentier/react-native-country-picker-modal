@@ -121,6 +121,7 @@ AppRegistry.registerComponent('example', () => Example);
 | translation | string | 'eng' | The language display for the name of the country (deu, fra, hrv, ita, jpn, nld, por, rus, spa, svk,  fin, zho, cym) |
 | onChange | function | \*required | The handler when a country is selected |
 | closeable | bool | false | If true, the CountryPicker will have a close button |
+| styles | object | {} | Override any style specified in the component (see source code)
 
 ## Dependencies
 - world-countries : https://www.npmjs.com/package/world-countries

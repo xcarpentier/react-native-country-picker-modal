@@ -5,16 +5,17 @@
  */
 
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Modal, Text, ListView, Platform } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Modal, Text, ListView, Platform } from 'react-native';
 import _ from 'lodash';
 
 import cca2List from '../data/cca2';
 import { getHeightPercent } from './ratio';
 import CloseButton from './CloseButton';
-import styles from './CountryPicker.style';
+import countryPickerStyles from './CountryPicker.style';
 
 let countries = null;
 let Emoji = null;
+let styles = {};
 
 // Maybe someday android get all flags emoji
 // but for now just ios
@@ -34,22 +35,39 @@ if (isEmojiable) {
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class CountryPicker extends Component {
+
   static propTypes = {
     cca2: React.PropTypes.string.isRequired,
     translation: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     closeable: React.PropTypes.bool,
     children: React.PropTypes.node,
+    styles: React.PropTypes.object
   }
+
   static defaultProps = {
     translation: 'eng',
   }
 
-  state = {
-    modalVisible: false,
-    cca2List,
-    dataSource: ds.cloneWithRows(cca2List),
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalVisible: false,
+      cca2List,
+      dataSource: ds.cloneWithRows(cca2List),
+    };
+
+    Object.keys(countryPickerStyles).map(key => {
+      styles[key] = StyleSheet.flatten([
+        countryPickerStyles[key],
+        this.props.styles[key]
+      ]);
+    });
+    styles = StyleSheet.create(styles);
+
+  }
+
 
   onSelectCountry(cca2) {
     this.setState({
