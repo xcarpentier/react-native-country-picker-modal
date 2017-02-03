@@ -5,7 +5,16 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Modal, Text, ListView, Platform } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Modal,
+  Text,
+  ListView,
+  Platform,
+} from 'react-native';
 import _ from 'lodash';
 
 import cca2List from '../data/cca2';
@@ -42,11 +51,36 @@ export default class CountryPicker extends Component {
     onChange: React.PropTypes.func.isRequired,
     closeable: React.PropTypes.bool,
     children: React.PropTypes.node,
-    styles: React.PropTypes.object
+    styles: React.PropTypes.object,
   }
 
   static defaultProps = {
     translation: 'eng',
+  }
+
+  static renderEmojiFlag(cca2, emojiStyle) {
+    return (
+      <Text style={[styles.emojiFlag, emojiStyle]}>
+        { cca2 !== '' ? <Emoji name={countries[cca2].flag} /> : null }
+      </Text>
+    );
+  }
+
+  static renderImageFlag(cca2, imageStyle) {
+    return cca2 !== '' ? <Image
+      style={[styles.imgStyle, imageStyle]}
+      source={{ uri: countries[cca2].flag }}
+    /> : null;
+  }
+
+  static renderFlag(cca2, itemStyle, emojiStyle, imageStyle) {
+    return (
+      <View style={[styles.itemCountryFlag, itemStyle]}>
+        {isEmojiable ?
+            CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+            : CountryPicker.renderImageFlag(cca2, imageStyle)}
+      </View>
+    );
   }
 
   constructor(props) {
@@ -58,16 +92,18 @@ export default class CountryPicker extends Component {
       dataSource: ds.cloneWithRows(cca2List),
     };
 
-    Object.keys(countryPickerStyles).map(key => {
-      styles[key] = StyleSheet.flatten([
-        countryPickerStyles[key],
-        this.props.styles[key]
-      ]);
-    });
-    styles = StyleSheet.create(styles);
-
+    if (this.props.styles) {
+      Object.keys(countryPickerStyles).each(key => {
+        styles[key] = StyleSheet.flatten([
+          countryPickerStyles[key],
+          this.props.styles[key],
+        ]);
+      });
+      styles = StyleSheet.create(styles);
+    } else {
+      styles = countryPickerStyles;
+    }
   }
-
 
   onSelectCountry(cca2) {
     this.setState({
@@ -164,35 +200,13 @@ export default class CountryPicker extends Component {
     );
   }
 
-  static renderEmojiFlag(cca2, emojiStyle) {
-    return (
-      <Text style={[ styles.emojiFlag, emojiStyle ]}>
-        { cca2 !== '' ? <Emoji name={countries[cca2].flag} /> : null }
-      </Text>
-    );
-  }
-
-  static renderImageFlag(cca2, imageStyle) {
-    return cca2 !== '' ? <Image
-        style={[ styles.imgStyle, imageStyle ]}
-        source={{ uri: countries[cca2].flag }}
-      /> : null;
-  }
-
-  static renderFlag(cca2, itemStyle, emojiStyle, imageStyle) {
-    return (
-      <View style={[ styles.itemCountryFlag, itemStyle ]}>
-        {isEmojiable ? CountryPicker.renderEmojiFlag(cca2, emojiStyle) : CountryPicker.renderImageFlag(cca2, imageStyle)}
-      </View>
-    );
-  }
-
   render() {
     return (
       <View>
         <TouchableOpacity
           onPress={() => this.setState({ modalVisible: true })}
-          activeOpacity={0.7}>
+          activeOpacity={0.7}
+        >
           {
             this.props.children ?
               this.props.children
