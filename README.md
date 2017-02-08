@@ -37,7 +37,8 @@ $ react-native init myproject
 
 - Then, edit `myproject/index.ios.js`, like this:
 
-```javascript
+```jsx
+import DeviceInfo from 'react-native-device-info';
 
 import React, {
   AppRegistry,
@@ -48,15 +49,29 @@ import React, {
   StatusBarIOS,
   PixelRatio
 } from 'react-native';
+import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 
-import CountryPicker from 'react-native-country-picker-modal';
+const NORTH_AMERICA = ['CA', 'MX', 'US'];
 
 class Example extends Component {
   constructor(props){
     StatusBarIOS.setHidden(true);
     super(props);
+    let userLocaleCountryCode = DeviceInfo.getDeviceCountry();
+    const userCountryData = getAllCountries()
+      .filter((country) => NORTH_AMERICA.includes(country.cca2))
+      .filter((country) => country.cca2 === userLocaleCountryCode).pop();
+    let callingCode = null;
+    let cca2 = userLocaleCountryCode;
+    if (!cca2 || !userCountryData) {
+      cca2 = 'US';
+      callingCode = '1';
+    } else {
+      callingCode = userCountryData.callingCode;
+    }
     this.state = {
-      cca2: 'US'
+      cca2,
+      callingCode
     };
   }
   render() {
@@ -66,7 +81,10 @@ class Example extends Component {
           Welcome to Country Picker !
         </Text>
         <CountryPicker
-          onChange={(value)=> this.setState({country: value, cca2: value.cca2})}
+          countryList={NORTH_AMERICA}
+          onChange={(value)=> {
+            this.setState({cca2: value.cca2, callingCode: value.callingCode});
+          }}
           cca2={this.state.cca2}
           translation='eng'
         />
@@ -121,6 +139,7 @@ AppRegistry.registerComponent('example', () => Example);
 | translation | string | 'eng' | The language display for the name of the country (deu, fra, hrv, ita, jpn, nld, por, rus, spa, svk,  fin, zho, cym) |
 | onChange | function | \*required | The handler when a country is selected |
 | onClose | function | \*required | The handler when the close button is clicked |
+| countryList | array | See [cca2.json](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/data/cca2.json)| List of custom CCA2 countries to render in the list.  Use getAllCountries to filter what you need if you want to pass in a custom list |
 | closeable | bool | false | If true, the CountryPicker will have a close button |
 | styles | object | {} | Override any style specified in the component (see source code)
 
