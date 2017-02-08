@@ -43,6 +43,10 @@ if (isEmojiable) {
   Emoji = <View />;
 }
 
+export const getCountry = (cca2) => {
+  return countries[cca2]
+};
+
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class CountryPicker extends Component {
