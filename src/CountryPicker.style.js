@@ -1,16 +1,29 @@
 // eslint-disable-next-line
-import { StyleSheet, PixelRatio } from 'react-native';
+import { Platform, StyleSheet, PixelRatio } from 'react-native';
 import { getWidthPercent, getHeightPercent } from './ratio';
 
 export default StyleSheet.create({
   modalContainer: {
     backgroundColor: 'white',
-    width: getWidthPercent(100),
-    height: getHeightPercent(100),
+    flex: 1,
   },
   contentContainer: {
-    width: getWidthPercent(100),
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     backgroundColor: 'white',
+  },
+  header: {
+    marginTop: Platform.OS === 'ios' ? 16 : 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    height: 48,
+    width: getWidthPercent(70),
+  },
+  inputOnly: {
+    marginLeft: getWidthPercent(15),
   },
   touchFlag: {
     alignItems: 'center',
@@ -56,12 +69,11 @@ export default StyleSheet.create({
   countryName: {
     fontSize: getHeightPercent(2.2),
   },
+  scrollView: {
+    flex: 1,
+  },
   letters: {
-    position: 'absolute',
-    height: getHeightPercent(100),
-    top: 0,
-    bottom: 0,
-    right: 10,
+    marginRight: 10,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',

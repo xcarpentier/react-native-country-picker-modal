@@ -68,6 +68,7 @@ export default class Example extends Component {
           onChange={(value)=> this.setState({country: value, cca2: value.cca2})}
           cca2={this.state.cca2}
           closeable
+          filterable
         />
         <Text style={styles.instructions}>
           press on the flag

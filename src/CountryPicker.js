@@ -14,15 +14,18 @@ import {
   TouchableOpacity,
   Modal,
   Text,
+  TextInput,
   ListView,
+  ScrollView,
   Platform,
 } from 'react-native';
-import _ from 'lodash';
+import Fuse from 'fuse.js';
 
 import cca2List from '../data/cca2';
 import { getHeightPercent } from './ratio';
 import CloseButton from './CloseButton';
 import countryPickerStyles from './CountryPicker.style';
+import KeyboardAvoidingView from './KeyboardAvoidingView';
 
 let countries = null;
 let Emoji = null;
@@ -43,11 +46,7 @@ if (isEmojiable) {
   Emoji = <View />;
 }
 
-export const getAllCountries = () => {
-  return cca2List.map((cca2) => {
-    return {...countries[cca2], cca2};
-  });
-};
+export const getAllCountries = () => cca2List.map((cca2) => ({ ...countries[cca2], cca2 }));
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -58,14 +57,19 @@ export default class CountryPicker extends Component {
     onChange: React.PropTypes.func.isRequired,
     onClose: React.PropTypes.func,
     closeable: React.PropTypes.bool,
+    filterable: React.PropTypes.bool,
     children: React.PropTypes.node,
     countryList: React.PropTypes.array,
     styles: React.PropTypes.object,
+    filterPlaceholder: React.PropTypes.string,
+    autoFocusFilter: React.PropTypes.bool,
   }
 
   static defaultProps = {
     translation: 'eng',
-    countryList: cca2List
+    countryList: cca2List,
+    filterPlaceholder: 'Filter',
+    autoFocusFilter: true,
   }
 
   static renderEmojiFlag(cca2, emojiStyle) {
@@ -99,7 +103,9 @@ export default class CountryPicker extends Component {
     this.state = {
       modalVisible: false,
       cca2List: props.countryList,
-      dataSource: ds.cloneWithRows(cca2List),
+      dataSource: ds.cloneWithRows(props.countryList),
+      filter: '',
+      letters: this.getLetters(props.countryList),
     };
 
     if (this.props.styles) {
@@ -113,11 +119,29 @@ export default class CountryPicker extends Component {
     } else {
       styles = countryPickerStyles;
     }
+
+    this.fuse = new Fuse(
+      props.countryList.reduce(
+        (acc, item) => [...acc, { id: item, name: this.getCountryName(countries[item]) }],
+        [],
+      ), {
+        shouldSort: true,
+        threshold: 0.6,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: ['name'],
+        id: 'id',
+      }
+    );
   }
 
   onSelectCountry(cca2) {
     this.setState({
       modalVisible: false,
+      filter: '',
+      dataSource: ds.cloneWithRows(this.state.cca2List),
     });
 
     this.props.onChange({
@@ -129,7 +153,11 @@ export default class CountryPicker extends Component {
   }
 
   onClose() {
-    this.setState({ modalVisible: false });
+    this.setState({
+      modalVisible: false,
+      filter: '',
+      dataSource: ds.cloneWithRows(this.state.cca2List),
+    });
     if (this.props.onClose) {
       this.props.onClose();
     }
@@ -144,10 +172,14 @@ export default class CountryPicker extends Component {
     this.visibleListHeight = getHeightPercent(100) - offset;
   }
 
+  getLetters(list) {
+    return Object.keys(list.reduce((acc, val) => ({
+      ...acc,
+      [this.getCountryName(countries[val]).slice(0, 1).toUpperCase()]: '',
+    }), {})).sort();
+  }
+
   openModal = this.openModal.bind(this);
-  letters = _
-    .range('A'.charCodeAt(0), 'Z'.charCodeAt(0) + 1)
-    .map(n => String.fromCharCode(n).substr(0));
 
   // dimensions of country list and window
   itemHeight = getHeightPercent(7);
@@ -174,6 +206,17 @@ export default class CountryPicker extends Component {
     // scroll
     this._listView.scrollTo({
       y: position,
+    });
+  }
+
+  handleFilterChange = (value) => {
+    const filteredCountries = value === '' ? this.state.cca2List : this.fuse.search(value);
+
+    this._listView.scrollTo({ y: 0 });
+
+    this.setState({
+      filter: value,
+      dataSource: ds.cloneWithRows(filteredCountries),
     });
   }
 
@@ -217,8 +260,6 @@ export default class CountryPicker extends Component {
     );
   }
 
-
-
   render() {
     return (
       <View>
@@ -240,26 +281,52 @@ export default class CountryPicker extends Component {
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
           <View style={styles.modalContainer}>
-            {
-              this.props.closeable &&
-                <CloseButton
-                  onPress={() => this.onClose()}
-                />
-            }
-            <ListView
-              contentContainerStyle={styles.contentContainer}
-              ref={listView => this._listView = listView}
-              dataSource={this.state.dataSource}
-              renderRow={country => this.renderCountry(country)}
-              initialListSize={30}
-              pageSize={countries.length - 30}
-              onLayout={
-                ({ nativeEvent: { layout: { y: offset } } }) => this.setVisibleListHeight(offset)
+            <View style={styles.header}>
+              {
+                this.props.closeable &&
+                  <CloseButton
+                    onPress={() => this.onClose()}
+                  />
               }
-            />
-            <View style={styles.letters}>
-              {this.letters.map((letter, index) => this.renderLetters(letter, index))}
+              {
+                this.props.filterable &&
+                  <TextInput
+                    autoFocus={this.props.autoFocusFilter}
+                    autoCorrect={false}
+                    placeholder={this.props.filterPlaceholder}
+                    style={[styles.input, !this.props.closeable && styles.inputOnly]}
+                    onChangeText={this.handleFilterChange}
+                    value={this.state.filter}
+                  />
+              }
             </View>
+            <KeyboardAvoidingView behavior="padding">
+              <View style={styles.contentContainer}>
+                <ListView
+                  keyboardShouldPersistTaps="always"
+                  enableEmptySections
+                  ref={listView => this._listView = listView}
+                  dataSource={this.state.dataSource}
+                  renderRow={country => this.renderCountry(country)}
+                  initialListSize={30}
+                  pageSize={15}
+                  onLayout={
+                    (
+                      { nativeEvent: { layout: { y: offset } } }
+                    ) => this.setVisibleListHeight(offset)
+                  }
+                />
+                <ScrollView
+                  contentContainerStyle={styles.letters}
+                  keyboardShouldPersistTaps="always"
+                >
+                  {
+                    this.state.filter === '' &&
+                    this.state.letters.map((letter, index) => this.renderLetters(letter, index))
+                  }
+                </ScrollView>
+              </View>
+            </KeyboardAvoidingView>
           </View>
         </Modal>
       </View>

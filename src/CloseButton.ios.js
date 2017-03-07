@@ -8,11 +8,14 @@ import {
   View,
 } from 'react-native';
 
+import { getWidthPercent } from './ratio';
+
 const styles = StyleSheet.create({
   closeButton: {
-    marginTop: 20,
-    height: 44,
-    width: 44,
+    height: 48,
+    width: getWidthPercent(15),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   closeButtonImage: {
     height: 35,
