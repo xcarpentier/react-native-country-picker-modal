@@ -109,7 +109,7 @@ export default class CountryPicker extends Component {
     };
 
     if (this.props.styles) {
-      Object.keys(countryPickerStyles).each(key => {
+      Object.keys(countryPickerStyles).forEach(key => {
         styles[key] = StyleSheet.flatten([
           countryPickerStyles[key],
           this.props.styles[key],
