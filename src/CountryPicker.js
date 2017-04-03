@@ -60,6 +60,7 @@ export default class CountryPicker extends Component {
     filterable: React.PropTypes.bool,
     children: React.PropTypes.node,
     countryList: React.PropTypes.array,
+    excludeCountries: React.PropTypes.array,
     styles: React.PropTypes.object,
     filterPlaceholder: React.PropTypes.string,
     autoFocusFilter: React.PropTypes.bool,
@@ -68,6 +69,7 @@ export default class CountryPicker extends Component {
   static defaultProps = {
     translation: 'eng',
     countryList: cca2List,
+    excludeCountries: [],
     filterPlaceholder: 'Filter',
     autoFocusFilter: true,
   }
@@ -100,12 +102,23 @@ export default class CountryPicker extends Component {
   constructor(props) {
     super(props);
 
+    let countryList = [...props.countryList],
+      excludeCountries = [...props.excludeCountries];
+
+    excludeCountries.map((excludeCountry)=>{
+      let index = countryList.indexOf(excludeCountry);
+
+      if(index !== -1){
+        countryList.splice(index, 1);
+      }
+    });
+
     this.state = {
       modalVisible: false,
-      cca2List: props.countryList,
-      dataSource: ds.cloneWithRows(props.countryList),
+      cca2List: countryList,
+      dataSource: ds.cloneWithRows(countryList),
       filter: '',
-      letters: this.getLetters(props.countryList),
+      letters: this.getLetters(countryList),
     };
 
     if (this.props.styles) {
@@ -121,7 +134,7 @@ export default class CountryPicker extends Component {
     }
 
     this.fuse = new Fuse(
-      props.countryList.reduce(
+      countryList.reduce(
         (acc, item) => [...acc, { id: item, name: this.getCountryName(countries[item]) }],
         [],
       ), {
