@@ -150,6 +150,15 @@ export default class CountryPicker extends Component {
     );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.countryList !== this.props.countryList) {
+      this.setState({
+        cca2List: nextProps.countryList,
+        dataSource: ds.cloneWithRows(nextProps.countryList),
+      });
+    }
+  }
+
   onSelectCountry(cca2) {
     this.setState({
       modalVisible: false,
