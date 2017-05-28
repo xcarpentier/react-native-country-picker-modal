@@ -26,6 +26,7 @@ export default StyleSheet.create({
     marginLeft: getWidthPercent(15),
   },
   touchFlag: {
+    flexDirection:'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -88,4 +89,21 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: getHeightPercent(2.2),
   },
+    countryCodeStyle:{
+        width:80,
+        height:40,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'#fff',
+        marginLeft:10, 
+        flexDirection:'row',
+        borderColor:'#CECECE',
+        borderWidth:1,
+        borderRadius:4
+    },
+    flag:{
+        width:25,
+        height:25,
+        lineHeight:30
+    },
 });
