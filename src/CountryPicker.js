@@ -60,7 +60,6 @@ export default class CountryPicker extends Component {
     filterable: React.PropTypes.bool,
     children: React.PropTypes.node,
     countryList: React.PropTypes.array,
-    excludeCountries: React.PropTypes.array,
     styles: React.PropTypes.object,
     filterPlaceholder: React.PropTypes.string,
     autoFocusFilter: React.PropTypes.bool,
@@ -69,7 +68,6 @@ export default class CountryPicker extends Component {
   static defaultProps = {
     translation: 'eng',
     countryList: cca2List,
-    excludeCountries: [],
     filterPlaceholder: 'Filter',
     autoFocusFilter: true,
   }
@@ -102,23 +100,12 @@ export default class CountryPicker extends Component {
   constructor(props) {
     super(props);
 
-    let countryList = [...props.countryList],
-      excludeCountries = [...props.excludeCountries];
-
-    excludeCountries.map((excludeCountry)=>{
-      let index = countryList.indexOf(excludeCountry);
-
-      if(index !== -1){
-        countryList.splice(index, 1);
-      }
-    });
-
     this.state = {
       modalVisible: false,
-      cca2List: countryList,
-      dataSource: ds.cloneWithRows(countryList),
+      cca2List: props.countryList,
+      dataSource: ds.cloneWithRows(props.countryList),
       filter: '',
-      letters: this.getLetters(countryList),
+      letters: this.getLetters(props.countryList),
     };
 
     if (this.props.styles) {
@@ -134,7 +121,7 @@ export default class CountryPicker extends Component {
     }
 
     this.fuse = new Fuse(
-      countryList.reduce(
+      props.countryList.reduce(
         (acc, item) => [...acc, { id: item, name: this.getCountryName(countries[item]) }],
         [],
       ), {
@@ -169,7 +156,6 @@ export default class CountryPicker extends Component {
     this.props.onChange({
       cca2,
       ...countries[cca2],
-      flag: undefined,
       name: this.getCountryName(countries[cca2]),
     });
   }
@@ -275,28 +261,40 @@ export default class CountryPicker extends Component {
         {CountryPicker.renderFlag(cca2)}
         <View style={styles.itemCountryName}>
           <Text style={styles.countryName}>
-            {this.getCountryName(country)}
+            {this.getCountryName(country)} - (+{ country.callingCode })
           </Text>
         </View>
       </View>
     );
   }
+  
+    renderFlagAndCallingCode(country){
+        if(isEmojiable){
+            return(
+                <Text style={[styles.flag,{fontSize:25}]}>
+                { <Emoji name={country.flag} /> }
+                </Text>
+            );
+        }else{
+            return(
+                <Image
+                style={[styles.flag,{ resizeMode:'contain'}]}
+                source={{ uri: country.flag }}
+                />
+            );
+        }
+    }
 
   render() {
+    const country = countries[this.props.cca2]
     return (
       <View>
-        <TouchableOpacity
+        <TouchableOpacity style={styles.countryCodeStyle}
           onPress={() => this.setState({ modalVisible: true })}
           activeOpacity={0.7}
         >
-          {
-            this.props.children ?
-              this.props.children
-            :
-              (<View style={styles.touchFlag}>
-                {CountryPicker.renderFlag(this.props.cca2)}
-              </View>)
-          }
+        <Text style={{ fontSize:12, color:'#C4C4C4',fontWeight:'100', lineHeight:30 }} > +{ country.callingCode} </Text>
+        { this.renderFlagAndCallingCode(country) }
         </TouchableOpacity>
         <Modal
           visible={this.state.modalVisible}
