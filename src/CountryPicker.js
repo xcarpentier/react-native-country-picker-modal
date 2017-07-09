@@ -6,6 +6,7 @@
 
 // eslint-disable-next-line
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import {
   StyleSheet,
@@ -26,6 +27,7 @@ import { getHeightPercent } from './ratio';
 import CloseButton from './CloseButton';
 import countryPickerStyles from './CountryPicker.style';
 import KeyboardAvoidingView from './KeyboardAvoidingView';
+import EmojiView from './Emoji'
 
 let countries = null;
 let Emoji = null;
@@ -39,7 +41,7 @@ const isEmojiable = Platform.OS === 'ios';
 
 if (isEmojiable) {
   countries = require('../data/countries-emoji');
-  Emoji = require('react-native-emoji').default;
+  Emoji = EmojiView;
 } else {
   countries = require('../data/countries');
 
@@ -52,18 +54,18 @@ const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class CountryPicker extends Component {
   static propTypes = {
-    cca2: React.PropTypes.string.isRequired,
-    translation: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func,
-    closeable: React.PropTypes.bool,
-    filterable: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    countryList: React.PropTypes.array,
-    excludeCountries: React.PropTypes.array,
-    styles: React.PropTypes.object,
-    filterPlaceholder: React.PropTypes.string,
-    autoFocusFilter: React.PropTypes.bool,
+    cca2: PropTypes.string.isRequired,
+    translation: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
+    closeable: PropTypes.bool,
+    filterable: PropTypes.bool,
+    children: PropTypes.node,
+    countryList: PropTypes.array,
+    excludeCountries: PropTypes.array,
+    styles: PropTypes.object,
+    filterPlaceholder: PropTypes.string,
+    autoFocusFilter: PropTypes.bool,
   }
 
   static defaultProps = {
