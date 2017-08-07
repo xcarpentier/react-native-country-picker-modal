@@ -140,6 +140,7 @@ AppRegistry.registerComponent('example', () => Example);
 | onChange | function | \*required | The handler when a country is selected |
 | onClose | function | \*required | The handler when the close button is clicked |
 | countryList | array | See [cca2.json](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/data/cca2.json)| List of custom CCA2 countries to render in the list.  Use getAllCountries to filter what you need if you want to pass in a custom list |
+| excludeCountries | array | [] | List of custom CCA2 countries you don't want to render |
 | closeable | bool | false | If true, the CountryPicker will have a close button |
 | filterable | bool | false | If true, the CountryPicker will have search bar |
 | filterPlaceholder | string | 'Filter' | The search bar placeholder |
