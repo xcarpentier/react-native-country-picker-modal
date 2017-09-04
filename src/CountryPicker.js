@@ -63,6 +63,7 @@ export default class CountryPicker extends Component {
     excludeCountries: React.PropTypes.array,
     styles: React.PropTypes.object,
     filterPlaceholder: React.PropTypes.string,
+    filterPlaceholderTextColor: React.PropTypes.string,
     autoFocusFilter: React.PropTypes.bool,
   }
 
@@ -325,6 +326,7 @@ export default class CountryPicker extends Component {
                     autoFocus={this.props.autoFocusFilter}
                     autoCorrect={false}
                     placeholder={this.props.filterPlaceholder}
+                    placeholderTextColor={this.props.filterPlaceholderTextColor}
                     style={[styles.input, !this.props.closeable && styles.inputOnly]}
                     onChangeText={this.handleFilterChange}
                     value={this.state.filter}
