@@ -7,5 +7,6 @@ import CountryPicker from '../src/CountryPicker';
 
 
 test('CountryPicker can be created', () => {
-  renderer.create(<CountryPicker cca2={'US'} onChange={() => {}} />);
+  const picker = renderer.create(<CountryPicker cca2={'US'} onChange={() => {}} />);
+  expect(picker).toBeDefined();
 });
