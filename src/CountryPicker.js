@@ -306,6 +306,7 @@ export default class CountryPicker extends Component {
     return (
       <View>
         <TouchableOpacity
+          disabled={this.props.disabled}    //to provide a functionality to disable/enable the onPress of Country Picker.
           onPress={() => this.setState({ modalVisible: true })}
           activeOpacity={0.7}
         >
@@ -336,6 +337,7 @@ export default class CountryPicker extends Component {
                     autoFocus={this.props.autoFocusFilter}
                     autoCorrect={false}
                     placeholder={this.props.filterPlaceholder}
+                    placeholderTextColor={this.props.filterPlaceholderTextColor}
                     style={[styles.input, !this.props.closeable && styles.inputOnly]}
                     onChangeText={this.handleFilterChange}
                     value={this.state.filter}
