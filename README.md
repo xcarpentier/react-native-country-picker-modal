@@ -145,7 +145,8 @@ AppRegistry.registerComponent('example', () => Example);
 | filterable | bool | false | If true, the CountryPicker will have search bar |
 | filterPlaceholder | string | 'Filter' | The search bar placeholder |
 | autoFocusFilter | bool | true | Whether or not the search bar should be autofocused |
-| styles | object | {} | Override any style specified in the component (see source code)
+| styles | object | {} | Override any style specified in the component (see source code)|
+| disabled | bool | false | Whether or not the Country Picker onPress is disabled
 
 ## Dependencies
 - world-countries : https://www.npmjs.com/package/world-countries
