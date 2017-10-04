@@ -31,7 +31,7 @@
     "babel-preset-react-native-stage-0": "1.0.1",
     "fuse.js": "2.6.2",
     "lodash": "4.12.0",
-    "react-native-emoji": "git://github.com/niftylettuce/react-native-emoji.git",
+    "node-emoji": "1.8.1",
     "world-countries": "1.8.0"
   },
   "devDependencies": {

@@ -50,7 +50,7 @@ const isEmojiable = Platform.OS === 'ios';
 
 if (isEmojiable) {
   countries = require('../data/countries-emoji');
-  Emoji = require('react-native-emoji').default;
+  Emoji = require('./emoji').default;
 } else {
   countries = require('../data/countries');
 
