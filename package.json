@@ -11,7 +11,8 @@
     "lint": "eslint ./src",
     "gendata": "rm -rf ./data/countries.json && babel-node ./scripts/transform-world-countries.js > ./data/countries.json",
     "gendata-emoji": "rm -rf ./data/countries-emoji.json && babel-node ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
-    "gendata-cca2": "rm -rf ./data/cca2.json && babel-node ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json"
+    "gendata-cca2": "rm -rf ./data/cca2.json && babel-node ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json",
+    "test": "jest"
   },
   "keywords": [
     "react-native",
@@ -46,6 +47,12 @@
     "eslint-plugin-import": "^1.12.0",
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^6.0.0",
-    "eslint-plugin-react-native": "2.0.0"
+    "eslint-plugin-react-native": "2.0.0",
+    "react-native": "0.47.2",
+    "react": "16.0.0-alpha.12",
+    "react-test-renderer": "16.0.0-alpha.12"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }

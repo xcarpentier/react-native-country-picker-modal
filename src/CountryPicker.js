@@ -6,6 +6,16 @@
 
 // eslint-disable-next-line
 import React, { Component } from 'react';
+
+let PropTypes = null;
+
+// eslint-disable-next-line
+PropTypes = require('prop-types');
+
+if (!PropTypes) {
+  PropTypes = React.PropTypes;
+}
+
 // eslint-disable-next-line
 import {
   StyleSheet,
@@ -19,6 +29,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+
 import Fuse from 'fuse.js';
 
 import cca2List from '../data/cca2';
@@ -52,18 +63,18 @@ const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 export default class CountryPicker extends Component {
   static propTypes = {
-    cca2: React.PropTypes.string.isRequired,
-    translation: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func,
-    closeable: React.PropTypes.bool,
-    filterable: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    countryList: React.PropTypes.array,
-    excludeCountries: React.PropTypes.array,
-    styles: React.PropTypes.object,
-    filterPlaceholder: React.PropTypes.string,
-    autoFocusFilter: React.PropTypes.bool,
+    cca2: PropTypes.string.isRequired,
+    translation: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
+    closeable: PropTypes.bool,
+    filterable: PropTypes.bool,
+    children: PropTypes.node,
+    countryList: PropTypes.array,
+    excludeCountries: PropTypes.array,
+    styles: PropTypes.object,
+    filterPlaceholder: PropTypes.string,
+    autoFocusFilter: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -295,6 +306,7 @@ export default class CountryPicker extends Component {
     return (
       <View>
         <TouchableOpacity
+          disabled={this.props.disabled}    //to provide a functionality to disable/enable the onPress of Country Picker.
           onPress={() => this.setState({ modalVisible: true })}
           activeOpacity={0.7}
         >
@@ -325,6 +337,7 @@ export default class CountryPicker extends Component {
                     autoFocus={this.props.autoFocusFilter}
                     autoCorrect={false}
                     placeholder={this.props.filterPlaceholder}
+                    placeholderTextColor={this.props.filterPlaceholderTextColor}
                     style={[styles.input, !this.props.closeable && styles.inputOnly]}
                     onChangeText={this.handleFilterChange}
                     value={this.state.filter}
