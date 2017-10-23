@@ -321,6 +321,7 @@ export default class CountryPicker extends Component {
           )}
         </TouchableOpacity>
         <Modal
+          transparent={this.props.transparent}
           visible={this.state.modalVisible}
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
