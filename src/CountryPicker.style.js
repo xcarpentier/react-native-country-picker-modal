@@ -86,5 +86,16 @@ export default StyleSheet.create({
   letterText: {
     textAlign: 'center',
     fontSize: getHeightPercent(2.2)
+  },
+  closeButton: {
+    height: 48,
+    width: '15%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  closeButtonImage: {
+    height: 24,
+    width: 24,
+    resizeMode: 'contain'
   }
 })

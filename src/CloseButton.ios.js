@@ -16,15 +16,20 @@ const styles = StyleSheet.create({
   }
 })
 
-const CloseButton = props => (
-  <View style={styles.closeButton}>
-    <TouchableOpacity {...props}>
+const CloseButton = props => {
+
+  let closeImage = require('./ios7-close-empty.png');
+  if (props.image) closeImage = props.image;
+
+  return(
+  <View style={props.styles[0]}>
+    <TouchableOpacity onPress={props.onPress}>
       <Image
-        source={require('./ios7-close-empty.png')}
-        style={styles.closeButtonImage}
+        source={closeImage}
+        style={props.styles[1]}
       />
     </TouchableOpacity>
   </View>
-)
+)}
 
 export default CloseButton

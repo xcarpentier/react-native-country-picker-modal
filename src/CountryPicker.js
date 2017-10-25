@@ -322,13 +322,18 @@ export default class CountryPicker extends Component {
         </TouchableOpacity>
         <Modal
           transparent={this.props.transparent}
+          animationType={this.props.animationType}
           visible={this.state.modalVisible}
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
           <View style={styles.modalContainer}>
             <View style={styles.header}>
               {this.props.closeable && (
-                <CloseButton onPress={() => this.onClose()} />
+                <CloseButton 
+                  image={this.props.closeButtonImage}
+                  styles={[styles.closeButton, styles.closeButtonImage]}
+                  onPress={() => this.onClose()} 
+                />
               )}
               {this.props.filterable && (
                 <TextInput

@@ -23,24 +23,29 @@ const styles = StyleSheet.create({
   }
 })
 
-const CloseButton = props => (
-  <View style={styles.closeButton}>
+const CloseButton = props => {
+
+  let closeImage = require('./android-close.png');
+  if (props.image) closeImage = props.image;
+  
+  return(
+  <View style={props.styles[0]}>
     <TouchableNativeFeedback
       background={
         Platform.Version < 21
           ? TouchableNativeFeedback.SelectableBackground()
           : TouchableNativeFeedback.SelectableBackgroundBorderless()
       }
-      {...props}
+      onPress={props.onPress}
     >
       <View>
         <Image
-          source={require('./android-close.png')}
-          style={styles.closeButtonImage}
+          source={closeImage}
+          style={props.styles[1]}
         />
       </View>
     </TouchableNativeFeedback>
   </View>
-)
+)}
 
 export default CloseButton
