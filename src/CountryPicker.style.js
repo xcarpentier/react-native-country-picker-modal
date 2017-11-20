@@ -64,11 +64,10 @@ export default StyleSheet.create({
     width: "70%",
     borderBottomWidth: 2 / PixelRatio.get(),
     borderBottomColor: "#ccc",
-    height: "7%"
+    height: 20
   },
   countryName: {
-    fontSize: getHeightPercent(2.2),
-    height: 30
+    fontSize: getHeightPercent(2.2)
   },
   scrollView: {
     flex: 1
