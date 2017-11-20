@@ -67,8 +67,8 @@ export default StyleSheet.create({
     height: "7%"
   },
   countryName: {
-    fontSize: getHeightPercent(2.8),
-    height: 20
+    fontSize: getHeightPercent(2.2),
+    height: 30
   },
   scrollView: {
     flex: 1
