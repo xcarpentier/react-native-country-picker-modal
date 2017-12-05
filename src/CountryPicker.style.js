@@ -49,7 +49,7 @@ export default StyleSheet.create({
   },
   itemCountry: {
     flexDirection: 'row',
-    height: 48,
+    height: getHeightPercent(7),
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
