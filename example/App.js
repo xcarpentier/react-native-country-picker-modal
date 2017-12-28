@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: '#888',
-    marginBottom: 5
+    marginTop: 5,
+    backgroundColor: 'transparent'
   },
   data: {
     padding: 15,

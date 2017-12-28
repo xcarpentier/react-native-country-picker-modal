@@ -2,13 +2,16 @@
   "name": "example",
   "version": "0.0.0",
   "description": "Hello Expo!",
-  "author": null,
+  "author":
+    "Xavier Carpentier <contact@xaviercarpentier.com> (http://xaviercarpentier.com/)",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "dependencies": {
-    "expo": "^21.0.0",
-    "react": "16.0.0-alpha.12",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz",
-    "react-native-country-picker-modal": "^0.3.0"
+    "expo": "^23.0.0",
+    "react": "16.0.0",
+    "react-native":
+      "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "react-native-country-picker-modal":
+      "https://github.com/xcarpentier/react-native-country-picker-modal.git"
   }
 }

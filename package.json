@@ -1,32 +1,24 @@
 {
   "name": "react-native-country-picker-modal",
-  "version": "0.3.0",
+  "version": "0.5.1",
   "description": "Country picker",
   "main": "src/CountryPicker.js",
   "repository": {
     "type": "git",
-    "url":
-      "git+https://github.com/xcarpentier/react-native-country-picker-modal.git"
+    "url": "git+https://github.com/xcarpentier/react-native-country-picker-modal.git"
   },
   "scripts": {
     "lint": "eslint ./src",
     "flow": "./node_modules/flow-bin/cli.js",
-    "test": "jest",
-    "gendata":
-      "rm -rf ./data/countries.json && babel-node ./scripts/transform-world-countries.js > ./data/countries.json",
-    "gendata-emoji":
-      "rm -rf ./data/countries-emoji.json && babel-node ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
-    "gendata-cca2":
-      "rm -rf ./data/cca2.json && babel-node ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json",
-    "bump-patch-push":
-      "yarn version --new-version `./scripts/version_increment.js patch` && git push --follow-tags",
-    "bump-minor-push":
-      "yarn version --new-version `./scripts/version_increment.js minor` && git push --follow-tags",
-    "bump-major-push":
-      "yarn version --new-version `./scripts/version_increment.js major` && git push --follow-tags",
+    "test": "node_modules/jest/bin/jest.js",
+    "gendata": "rm -rf ./data/countries.json && babel-node ./scripts/transform-world-countries.js > ./data/countries.json",
+    "gendata-emoji": "rm -rf ./data/countries-emoji.json && babel-node ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
+    "gendata-cca2": "rm -rf ./data/cca2.json && babel-node ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json",
+    "bump-patch-push": "yarn version --new-version `./scripts/version_increment.js patch` && git push --follow-tags",
+    "bump-minor-push": "yarn version --new-version `./scripts/version_increment.js minor` && git push --follow-tags",
+    "bump-major-push": "yarn version --new-version `./scripts/version_increment.js major` && git push --follow-tags",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "cleaning":
-      "rm -rf node_modules && rm -f yarn.lock && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*"
+    "cleaning": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*"
   },
   "keywords": [
     "react-native",
@@ -35,27 +27,25 @@
     "country",
     "flag"
   ],
-  "author":
-    "Xavier Carpentier <contact@xaviercarpentier.com> (http://xaviercarpentier.com/)",
+  "author": "Xavier Carpentier <contact@xaviercarpentier.com> (http://xaviercarpentier.com/)",
   "license": "MIT",
   "bugs": {
-    "url":
-      "https://github.com/xcarpentier/react-native-country-picker-modal/issues"
+    "url": "https://github.com/xcarpentier/react-native-country-picker-modal/issues"
   },
-  "homepage":
-    "https://github.com/xcarpentier/react-native-country-picker-modal#readme",
+  "homepage": "https://github.com/xcarpentier/react-native-country-picker-modal#readme",
   "dependencies": {
-    "babel-preset-react-native-stage-0": "1.0.1",
-    "flow-bin": "^0.57.3",
     "fuse.js": "2.6.2",
     "lodash": "4.12.0",
     "node-emoji": "1.8.1",
-    "world-countries": "1.8.0"
+    "prop-types": "15.6.0",
+    "world-countries": "1.8.0",
+    "babel-preset-react-native-stage-0": "1.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.14.0",
     "babel-eslint": "6.1.2",
     "babel-preset-latest": "6.14.0",
+    "babel-preset-react-native-stage-0": "1.0.1",
     "babel-preset-stage-2": "6.13.0",
     "eslint": "^3.3.1",
     "eslint-config-airbnb": "^10.0.0",
@@ -65,12 +55,16 @@
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-react-native": "2.0.0",
+    "flow-bin": "^0.57.3",
     "jest": "^20.0.4",
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.47.2",
-    "react-test-renderer": "16.0.0-alpha.12"
+    "react": "16.0.0",
+    "react-native": "0.50.3",
+    "react-test-renderer": "16.0.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example/"
+    ]
   }
 }

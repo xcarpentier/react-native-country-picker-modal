@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "example",
-    "description": "An empty new project",
-    "slug": "example",
+    "name": "react-native-country-picker-modal",
+    "description": "react-native-country-picker-modal",
+    "slug": "react-native-country-picker-modal",
     "privacy": "public",
-    "sdkVersion": "21.0.0",
+    "sdkVersion": "23.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
