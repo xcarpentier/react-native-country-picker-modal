@@ -61,9 +61,9 @@ export default class CountryPicker extends Component {
     // to provide a functionality to disable/enable the onPress of Country Picker.
     disabled: PropTypes.bool,
     filterPlaceholderTextColor: PropTypes.string,
-    closeButtonImage: Image.propTypes.source,
+    closeButtonImage: PropTypes.element,
     transparent: PropTypes.bool,
-    animationType: PropTypes.string
+    animationType: PropTypes.oneOf(['slide', 'fade','none'])
   }
 
   static defaultProps = {

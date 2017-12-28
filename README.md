@@ -136,6 +136,9 @@ AppRegistry.registerComponent('example', () => Example)
 | autoFocusFilter   | bool     | true                                                                                                         | Whether or not the search bar should be autofocused                                                                                   |
 | styles            | object   | {}                                                                                                           | Override any style specified in the component (see source code)                                                                       |
 | disabled          | bool     | false                                                                                                        | Whether or not the Country Picker onPress is disabled                                                                                 |
+| tranparent        | bool     | false                                                                                                        | If true, the CountryPicker will render the modal over a transparent background                                                        |                                                                                                              
+| animationType     | string   |'none'                                                                                                        | The handler that controls how the modal animates                                                                                      |
+| closeButtonImage  | React.element| default close button Image                                                                               | Custom close button Image
 
 ## Dependencies
 
