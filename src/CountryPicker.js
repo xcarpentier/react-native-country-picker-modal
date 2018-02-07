@@ -78,7 +78,7 @@ export default class CountryPicker extends Component {
 
   static renderEmojiFlag(cca2, emojiStyle) {
     return (
-      <Text style={[styles.emojiFlag, emojiStyle]}>
+      <Text style={[styles.emojiFlag, emojiStyle]} allowFontScaling={false}>
         {cca2 !== '' && countries[cca2.toUpperCase()] ? (
           <Emoji name={countries[cca2.toUpperCase()].flag} />
         ) : null}
@@ -292,7 +292,7 @@ export default class CountryPicker extends Component {
         activeOpacity={0.6}
       >
         <View style={styles.letter}>
-          <Text style={styles.letterText}>{letter}</Text>
+          <Text style={styles.letterText} allowFontScaling={false}>{letter}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -304,7 +304,7 @@ export default class CountryPicker extends Component {
       <View style={styles.itemCountry}>
         {CountryPicker.renderFlag(cca2)}
         <View style={styles.itemCountryName}>
-          <Text style={styles.countryName}>{this.getCountryName(country)}</Text>
+          <Text style={styles.countryName} allowFontScaling={false}>{this.getCountryName(country)}</Text>
         </View>
       </View>
     )
@@ -355,6 +355,7 @@ export default class CountryPicker extends Component {
                   ]}
                   onChangeText={this.handleFilterChange}
                   value={this.state.filter}
+                  allowFontScaling={false}
                 />
               )}
             </View>

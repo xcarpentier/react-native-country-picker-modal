@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 function Emoji({ name }) {
   const emoji = nodeEmoji.get(name)
-  return <Text>{emoji}</Text>
+  return <Text allowFontScaling={false}>{emoji}</Text>
 }
 
 Emoji.propTypes = {
