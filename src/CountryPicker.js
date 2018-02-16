@@ -76,7 +76,8 @@ export default class CountryPicker extends Component {
     closeButtonImage: PropTypes.element,
     transparent: PropTypes.bool,
     animationType: PropTypes.oneOf(['slide', 'fade', 'none']),
-    flagType: PropTypes.oneOf(Object.values(FLAG_TYPES))
+    flagType: PropTypes.oneOf(Object.values(FLAG_TYPES)),
+    hideAlphabetFilter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -387,6 +388,7 @@ export default class CountryPicker extends Component {
                     this.setVisibleListHeight(offset)
                   }
                 />
+                {!this.props.hideAlphabetFilter &&
                 <ScrollView
                   contentContainerStyle={styles.letters}
                   keyboardShouldPersistTaps="always"
@@ -396,6 +398,7 @@ export default class CountryPicker extends Component {
                       this.renderLetters(letter, index)
                     )}
                 </ScrollView>
+                }
               </View>
             </KeyboardAvoidingView>
           </View>
