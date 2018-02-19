@@ -78,7 +78,8 @@ export default class CountryPicker extends Component {
     transparent: PropTypes.bool,
     animationType: PropTypes.oneOf(['slide', 'fade', 'none']),
     flagType: PropTypes.oneOf(Object.values(FLAG_TYPES)),
-    hideAlphabetFilter: PropTypes.bool
+    hideAlphabetFilter: PropTypes.bool,
+    renderFilter: PropTypes.func
   }
 
   static defaultProps = {
@@ -330,6 +331,26 @@ export default class CountryPicker extends Component {
     )
   }
 
+  renderFilter = () => {
+    const {renderFilter, autoFocusFilter, filterPlaceholder, filterPlaceholderTextColor } = this.props;
+
+    const value = this.state.filter;
+    const onChange = this.handleFilterChange;
+
+    return (renderFilter ? renderFilter({value, onChange}) : <TextInput
+      autoFocus={autoFocusFilter}
+      autoCorrect={false}
+      placeholder={filterPlaceholder}
+      placeholderTextColor={filterPlaceholderTextColor}
+      style={[
+        styles.input,
+        !this.props.closeable && styles.inputOnly
+      ]}
+      onChangeText={onChange}
+      value={value}
+    />)
+  }
+
   render() {
     return (
       <View>
@@ -363,21 +384,7 @@ export default class CountryPicker extends Component {
                   onPress={() => this.onClose()}
                 />
               )}
-              {this.props.filterable && (
-                <TextInput
-                  autoFocus={this.props.autoFocusFilter}
-                  autoCorrect={false}
-                  placeholder={this.props.filterPlaceholder}
-                  placeholderTextColor={this.props.filterPlaceholderTextColor}
-                  style={[
-                    styles.input,
-                    !this.props.closeable && styles.inputOnly
-                  ]}
-                  onChangeText={this.handleFilterChange}
-                  value={this.state.filter}
-                  allowFontScaling={false}
-                />
-              )}
+              {this.props.filterable && this.renderFilter()}
             </View>
             <KeyboardAvoidingView behavior="padding">
               <View style={styles.contentContainer}>
