@@ -212,7 +212,7 @@ export default class CountryPicker extends Component {
     })
   }
 
-  onClose() {
+  onClose = () => {
     this.setState({
       modalVisible: false,
       filter: '',
@@ -336,8 +336,9 @@ export default class CountryPicker extends Component {
 
     const value = this.state.filter;
     const onChange = this.handleFilterChange;
+    const onClose = this.onClose;
 
-    return (renderFilter ? renderFilter({value, onChange}) : <TextInput
+    return (renderFilter ? renderFilter({value, onChange, onClose}) : <TextInput
       autoFocus={autoFocusFilter}
       autoCorrect={false}
       placeholder={filterPlaceholder}
