@@ -146,7 +146,9 @@ AppRegistry.registerComponent('example', () => Example)
 | hideAlphabetFilter  | bool | false | If set to true, prevents the alphabet filter rendering
 | renderFilter  | Function | undefined | If 'filterable={true}' and renderFilter function is provided, render custom filter component.\*
 
-\* `renderFilter = ({value, onChange, onClose}) => <CustomFilterComponent value={value} onChange={onChange} onClose={onClose} />`
+\* ```js
+renderFilter = ({value, onChange, onClose}) => <CustomFilterComponent value={value} onChange={onChange} onClose={onClose} />
+```
 ## Dependencies
 
 * world-countries : https://www.npmjs.com/package/world-countries
