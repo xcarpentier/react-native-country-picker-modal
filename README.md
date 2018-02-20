@@ -142,9 +142,9 @@ AppRegistry.registerComponent('example', () => Example)
 | transparent        | bool     | false                                                                                                        | If true, the CountryPicker will render the modal over a transparent background                                                        |
 | animationType     | string   |'none'                                                                                                        | The handler that controls how the modal animates                                                                                      |
 | closeButtonImage  | React.element| default close button Image                                                                               | Custom close button Image
-| flagType  | string | 'emoji' on iOS, 'flat' on Android                                                                             | If set, overwrites the default OS based flag type.
-| hideAlphabetFilter  | bool | false                                                                             | If set to true, prevents the alphabet filter rendering
-| renderFilter  | Function | undefined                                                                             | If 'filterable={true}' and renderFilter function is provided, render custom filter component.\*
+| flagType  | string | 'emoji' on iOS, 'flat' on Android | If set, overwrites the default OS based flag type.
+| hideAlphabetFilter  | bool | false | If set to true, prevents the alphabet filter rendering
+| renderFilter  | Function | undefined | If 'filterable={true}' and renderFilter function is provided, render custom filter component.\*
 
 \* `renderFilter = ({value, onChange, onClose}) => <CustomFilterComponent value={value} onChange={onChange} onClose={onClose} />`
 ## Dependencies
