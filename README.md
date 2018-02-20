@@ -1,3 +1,4 @@
+
 <p align="center">
     <img alt="react-native-country-picker-modal" src="https://thumbs.gfycat.com/HandsomeInnocentAnura-size_restricted.gif" width=150>
 </p>
@@ -23,19 +24,13 @@
 <br />
 
 ## Installation
-<<<<<<< HEAD
 
-=======
->>>>>>> c4f1ed8e1e8519f701b08b2a40944fbbeef0a503
 ```bash
 $ yarn add react-native-country-picker-modal
 ```
 
 ## Basic Usage
-<<<<<<< HEAD
 
-=======
->>>>>>> c4f1ed8e1e8519f701b08b2a40944fbbeef0a503
 ```jsx
 import DeviceInfo from 'react-native-device-info'
 
@@ -145,10 +140,14 @@ AppRegistry.registerComponent('example', () => Example)
 | autoFocusFilter   | bool     | true                                                                                                         | Whether or not the search bar should be autofocused                                                                                   |
 | styles            | object   | {}                                                                                                           | Override any style specified in the component (see source code)                                                                       |
 | disabled          | bool     | false                                                                                                        | Whether or not the Country Picker onPress is disabled                                                                                 |
-| tranparent        | bool     | false                                                                                                        | If true, the CountryPicker will render the modal over a transparent background                                                        |                                                                                                              
+| transparent        | bool     | false                                                                                                        | If true, the CountryPicker will render the modal over a transparent background                                                        |
 | animationType     | string   |'none'                                                                                                        | The handler that controls how the modal animates                                                                                      |
 | closeButtonImage  | React.element| default close button Image                                                                               | Custom close button Image
+| flagType  | string | 'emoji' on iOS, 'flat' on Android                                                                             | If set, overwrites the default OS based flag type.
+| hideAlphabetFilter  | bool | false                                                                             | If set to true, prevents the alphabet filter rendering
+| renderFilter  | Function | undefined                                                                             | If 'filterable={true}' and renderFilter function is provided, render custom filter component.\*
 
+\* `renderFilter = ({value, onChange, onClose}) => <CustomFilterComponent value={value} onChange={onChange} onClose={onClose} />`
 ## Dependencies
 
 * world-countries : https://www.npmjs.com/package/world-countries
