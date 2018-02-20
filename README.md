@@ -1,4 +1,3 @@
-
 <p align="center">
     <img alt="react-native-country-picker-modal" src="https://thumbs.gfycat.com/HandsomeInnocentAnura-size_restricted.gif" width=150>
 </p>
