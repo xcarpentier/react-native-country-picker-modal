@@ -13,7 +13,6 @@ export default StyleSheet.create({
     backgroundColor: 'white'
   },
   header: {
-    marginTop: Platform.OS === 'ios' ? 16 : 0,
     flexDirection: 'row',
     alignItems: 'center'
   },
