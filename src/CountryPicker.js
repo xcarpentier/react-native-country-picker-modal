@@ -3,6 +3,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import SafeAreaView from 'react-native-safe-area-view'
 
 import {
   StyleSheet,
@@ -382,7 +383,7 @@ export default class CountryPicker extends Component {
           visible={this.state.modalVisible}
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
-          <View style={styles.modalContainer}>
+          <SafeAreaView style={styles.modalContainer}>
             <View style={styles.header}>
               {this.props.closeable && (
                 <CloseButton
@@ -420,7 +421,7 @@ export default class CountryPicker extends Component {
                 )}
               </View>
             </KeyboardAvoidingView>
-          </View>
+          </SafeAreaView>
         </Modal>
       </View>
     )
