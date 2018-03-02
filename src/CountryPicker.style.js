@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, PixelRatio } from 'react-native'
+import { StyleSheet, PixelRatio } from 'react-native'
 import { getHeightPercent } from './ratio'
 
 export default StyleSheet.create({
