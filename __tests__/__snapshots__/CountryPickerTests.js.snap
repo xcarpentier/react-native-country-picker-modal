@@ -92,10 +92,17 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
     visible={false}
   >
     <View
+      collapsable={undefined}
+      onLayout={[Function]}
+      pointerEvents="box-none"
       style={
         Object {
           "backgroundColor": "white",
           "flex": 1,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 20,
         }
       }
     >
@@ -104,7 +111,6 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
           Object {
             "alignItems": "center",
             "flexDirection": "row",
-            "marginTop": 16,
           }
         }
       />
