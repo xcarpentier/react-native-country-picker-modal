@@ -34,7 +34,6 @@
   },
   "homepage": "https://github.com/xcarpentier/react-native-country-picker-modal#readme",
   "dependencies": {
-    "babel-preset-react-native-stage-0": "1.0.1",
     "fuse.js": "2.6.2",
     "lodash": "4.12.0",
     "node-emoji": "1.8.1",
