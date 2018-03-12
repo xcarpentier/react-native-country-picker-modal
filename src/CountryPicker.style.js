@@ -63,7 +63,7 @@ export default StyleSheet.create({
     width: '70%',
     borderBottomWidth: 2 / PixelRatio.get(),
     borderBottomColor: '#ccc',
-    height: '7%'
+    height: getHeightPercent(7),
   },
   countryName: {
     fontSize: getHeightPercent(2.2)
