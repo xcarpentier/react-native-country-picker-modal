@@ -144,6 +144,7 @@ AppRegistry.registerComponent('example', () => Example)
 | closeButtonImage  | React.element| default close button Image                                                                               | Custom close button Image
 | flagType  | string | 'emoji' on iOS, 'flat' on Android | If set, overwrites the default OS based flag type.
 | hideAlphabetFilter  | bool | false | If set to true, prevents the alphabet filter rendering
+| showCallingCode | bool | false | If set to true, Country Picker List will show calling code after country name `United States (+1)`
 | renderFilter  | Function | undefined | If 'filterable={true}' and renderFilter function is provided, render custom filter component.\*
 
 \* 
