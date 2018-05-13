@@ -81,7 +81,8 @@ export default class CountryPicker extends Component {
     flagType: PropTypes.oneOf(Object.values(FLAG_TYPES)),
     hideAlphabetFilter: PropTypes.bool,
     renderFilter: PropTypes.func,
-    showCallingCode: PropTypes.bool
+    showCallingCode: PropTypes.bool,
+    filterOptions: PropTypes.object
   }
 
   static defaultProps = {
@@ -169,6 +170,16 @@ export default class CountryPicker extends Component {
       styles = countryPickerStyles
     }
 
+    const options = Object.assign({
+      shouldSort: true,
+      threshold: 0.6,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: ['name'],
+      id: 'id'
+    },  this.props.filterOptions);
     this.fuse = new Fuse(
       countryList.reduce(
         (acc, item) => [
@@ -177,16 +188,7 @@ export default class CountryPicker extends Component {
         ],
         []
       ),
-      {
-        shouldSort: true,
-        threshold: 0.6,
-        location: 0,
-        distance: 100,
-        maxPatternLength: 32,
-        minMatchCharLength: 1,
-        keys: ['name'],
-        id: 'id'
-      }
+      options
     )
   }
 
