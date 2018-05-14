@@ -179,7 +179,7 @@ export default class CountryPicker extends Component {
       minMatchCharLength: 1,
       keys: ['name'],
       id: 'id'
-    },  this.props.filterOptions);
+    }, this.props.filterOptions);
     this.fuse = new Fuse(
       countryList.reduce(
         (acc, item) => [
