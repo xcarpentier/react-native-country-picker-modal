@@ -2,6 +2,7 @@ import { StyleSheet, PixelRatio } from 'react-native'
 import { getHeightPercent } from './ratio'
 
 export default StyleSheet.create({
+  container: {},
   modalContainer: {
     backgroundColor: 'white',
     flex: 1
