@@ -39,13 +39,13 @@
     "node-emoji": "1.8.1",
     "prop-types": "15.6.0",
     "react-native-safe-area-view": "^0.7.0",
-    "world-countries": "1.8.0"
+    "world-countries": "1.8.0",
+    "babel-preset-react-native-stage-0": "1.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.14.0",
     "babel-eslint": "6.1.2",
     "babel-preset-latest": "6.14.0",
-    "babel-preset-react-native-stage-0": "1.0.1",
     "babel-preset-stage-2": "6.13.0",
     "eslint": "^3.3.1",
     "eslint-config-airbnb": "^10.0.0",
