@@ -319,6 +319,7 @@ export default class CountryPicker extends PureComponent {
                   keyExtractor={(item, index) => item + index}
                   renderItem={this.renderCountry}
                 />
+                {!this.props.hideAlphabetFilter && (
                 <ScrollView
                   contentContainerStyle={styles.letters}
                   keyboardShouldPersistTaps="always"
@@ -326,6 +327,7 @@ export default class CountryPicker extends PureComponent {
                   {this.state.filter === '' &&
                     this.state.letters.map((letter, index) => this.renderLetters(letter, index))}
                 </ScrollView>
+                )}
               </View>
             </KeyboardAvoidingView>
           </View>
