@@ -60,6 +60,7 @@ export default class CountryPicker extends PureComponent {
     closeButtonImage: Image.propTypes.source,
     transparent: PropTypes.bool,
     animationType: PropTypes.string,
+    hideAlphabetFilter: PropTypes.bool,
   };
 
   static defaultProps = {
