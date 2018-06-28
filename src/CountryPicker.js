@@ -1,6 +1,8 @@
 // @flow
+/* eslint import/newline-after-import: 0 */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import SafeAreaView from 'react-native-safe-area-view';
 
 import {
   StyleSheet,
@@ -29,6 +31,11 @@ let styles = {};
 
 const isEmojiable = Platform.OS === 'ios';
 
+const FLAG_TYPES = {
+  flat: 'flat',
+  emoji: 'emoji',
+};
+
 if (isEmojiable) {
   countries = require('../data/countries-emoji');
   Emoji = require('./emoji').default;
@@ -37,6 +44,8 @@ if (isEmojiable) {
 
   Emoji = <View />;
 }
+
+const itemHeight = getHeightPercent(7);
 
 export const getAllCountries = () => cca2List.map(cca2 => ({ ...countries[cca2], cca2 }));
 
@@ -60,7 +69,11 @@ export default class CountryPicker extends PureComponent {
     closeButtonImage: Image.propTypes.source,
     transparent: PropTypes.bool,
     animationType: PropTypes.string,
+    flagType: PropTypes.oneOf(Object.values(FLAG_TYPES)),
     hideAlphabetFilter: PropTypes.bool,
+    renderFilter: PropTypes.func,
+    showCallingCode: PropTypes.bool,
+    filterOptions: PropTypes.object,
   };
 
   static defaultProps = {
@@ -205,9 +218,8 @@ export default class CountryPicker extends PureComponent {
       {},
     )).sort();
 
-  getItemLayout = (data, index) => (
-    { length: 40, offset: 40 * index, index }
-  )
+
+  getItemLayout = (data, index) => ({ offset: itemHeight * index, length: itemHeight, index });
 
   openModal = () => {
     this.setState({ modalVisible: true });
@@ -235,17 +247,15 @@ export default class CountryPicker extends PureComponent {
     });
   };
 
-  renderCountry = (country, index) =>
-    (
-      <TouchableOpacity
-        key={index}
-        onPress={() => this.onSelectCountry(country.item)}
-        activeOpacity={0.99}
-      >
-        {this.renderCountryDetail(country.item)}
-      </TouchableOpacity>
-    );
-
+  renderCountry = (country, index) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => this.onSelectCountry(country.item)}
+      activeOpacity={0.99}
+    >
+      {this.renderCountryDetail(country.item)}
+    </TouchableOpacity>
+  );
 
   renderLetters = (letter, index) => (
     <TouchableOpacity key={index} onPress={() => this.scrollTo(letter)} activeOpacity={0.6}>
@@ -261,7 +271,11 @@ export default class CountryPicker extends PureComponent {
       <View style={styles.itemCountry}>
         {CountryPicker.renderFlag(cca2)}
         <View style={styles.itemCountryName}>
-          <Text style={styles.countryName}>{this.getCountryName(country)}</Text>
+          <Text style={styles.countryName} allowFontScaling={false}>
+            {this.getCountryName(country)}
+            {this.props.showCallingCode &&
+              country.callingCode && <Text>{` (+${country.callingCode})`}</Text>}
+          </Text>
         </View>
       </View>
     );
@@ -269,7 +283,7 @@ export default class CountryPicker extends PureComponent {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TouchableOpacity
           disabled={this.props.disabled}
           onPress={() => this.setState({ modalVisible: true })}
@@ -289,7 +303,7 @@ export default class CountryPicker extends PureComponent {
           visible={this.state.modalVisible}
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
-          <View style={styles.modalContainer}>
+          <SafeAreaView style={styles.modalContainer}>
             <View style={styles.header}>
               {this.props.closeable && (
                 <CloseButton
@@ -314,24 +328,26 @@ export default class CountryPicker extends PureComponent {
               <View style={styles.contentContainer}>
                 <FlatList
                   data={this.state.cca2List}
-                  ref={(ref) => { this.flatListRef = ref; }}
+                  ref={(ref) => {
+                    this.flatListRef = ref;
+                  }}
                   getItemLayout={this.getItemLayout}
-                  initialNumToRender={40}
+                  initialNumToRender={30}
                   keyExtractor={(item, index) => item + index}
                   renderItem={this.renderCountry}
                 />
                 {!this.props.hideAlphabetFilter && (
-                <ScrollView
-                  contentContainerStyle={styles.letters}
-                  keyboardShouldPersistTaps="always"
-                >
-                  {this.state.filter === '' &&
-                    this.state.letters.map((letter, index) => this.renderLetters(letter, index))}
-                </ScrollView>
+                  <ScrollView
+                    contentContainerStyle={styles.letters}
+                    keyboardShouldPersistTaps="always"
+                  >
+                    {this.state.filter === '' &&
+                      this.state.letters.map((letter, index) => this.renderLetters(letter, index))}
+                  </ScrollView>
                 )}
               </View>
             </KeyboardAvoidingView>
-          </View>
+          </SafeAreaView>
         </Modal>
       </View>
     );
