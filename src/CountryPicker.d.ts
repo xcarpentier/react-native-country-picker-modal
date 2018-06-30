@@ -2,11 +2,28 @@ import { StyleProp, ViewStyle, ImageProps } from 'react-native';
 import * as React from 'react';
 import countries from '../data/countries.json';
 
+/**
+ * Country metadata stored in this library to display and query `<CountryPicker
+ * />`
+ */
 export type Country = (typeof countries)[CCA2Code];
+/**
+ * Country code, as specified in ISO 3166-1 alpha-2 (ie. `FR`, `US`, etc.)
+ */
 export type CCA2Code = keyof typeof countries;
+/**
+ * Calling code for a given country. For example: `United States (+1)`
+ */
 export type CallingCode = string;
+/**
+ * Currency code for a country, as specified in ISO 4217. For example, US
+ * Dollars are `USD`
+ */
 export type CurrencyCode = string;
-export type LanguageCode = keyof Country['name'];
+/**
+ * Language codes for available translations in this library
+ */
+export type TranslationLanguageCode = keyof Country['name'];
 
 export enum FlagType {
   FLAT = 'flat',
@@ -20,7 +37,7 @@ export enum AnimationType {
 
 export interface CountryPickerProps {
   /**
-   * Country code, as specified in ISO 3166-1 alpha-2 (ie. FR, US, etc.)
+   * Country code, as specified in ISO 3166-1 alpha-2 (ie. `FR`, `US`, etc.)
    */
   cca2: CCA2Code;
   /**
@@ -46,7 +63,7 @@ export interface CountryPickerProps {
   /**
    * The language display for the name of the country
    */
-  translation?: LanguageCode;
+  translation?: TranslationLanguageCode;
   /**
    * If true, the CountryPicker will have a close button
    */
@@ -106,7 +123,9 @@ export interface CountryPickerProps {
     }
   ) => React.ReactNode;
 }
+
 export default class CountryPicker extends React.Component<CountryPickerProps> {
   openModal: () => void;
 }
+
 export function getAllCountries(): Country[];
