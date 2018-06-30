@@ -1,31 +1,13 @@
 import { StyleProp, ViewStyle, ImageProps } from 'react-native';
 import * as React from 'react';
+import countries from '../data/countries.json';
 
-export type CountryCode = string;
+export type Country = (typeof countries)[CountryCode];
+export type CountryCode = keyof typeof countries;
 export type CallingCode = string;
 export type CurrencyCode = string;
-export type LanguageCode =
-  | 'deu'
-  | 'fra'
-  | 'hrv'
-  | 'ita'
-  | 'jpn'
-  | 'nld'
-  | 'por'
-  | 'rus'
-  | 'spa'
-  | 'svk'
-  | 'fin'
-  | 'zho'
-  | 'isr';
+export type LanguageCode = keyof Country['name'];
 
-export interface Country {
-  cca2: CountryCode;
-  callingCode: CallingCode;
-  currency: CurrencyCode;
-  flag: string; // data uri
-  name: { [key in LanguageCode]: string };
-}
 export enum FlagType {
   FLAT = 'flat',
   EMOJI = 'emoji'
