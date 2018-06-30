@@ -2,8 +2,8 @@ import { StyleProp, ViewStyle, ImageProps } from 'react-native';
 import * as React from 'react';
 import countries from '../data/countries.json';
 
-export type Country = (typeof countries)[CountryCode];
-export type CountryCode = keyof typeof countries;
+export type Country = (typeof countries)[CCA2Code];
+export type CCA2Code = keyof typeof countries;
 export type CallingCode = string;
 export type CurrencyCode = string;
 export type LanguageCode = keyof Country['name'];
@@ -20,9 +20,9 @@ export enum AnimationType {
 
 export interface CountryPickerProps {
   /**
-   * code ISO 3166-1 alpha-2 (ie. FR, US, etc.)
+   * Country code, as specified in ISO 3166-1 alpha-2 (ie. FR, US, etc.)
    */
-  cca2: CountryCode;
+  cca2: CCA2Code;
   /**
    * The handler when a country is selected
    */
@@ -42,7 +42,7 @@ export interface CountryPickerProps {
   /**
    * List of custom CCA2 countries to render in the list. Use getAllCountries to filter what you need if you want to pass in a custom list
    */
-  countryList?: CountryCode[];
+  countryList?: CCA2Code[];
   /**
    * The language display for the name of the country
    */
@@ -58,7 +58,7 @@ export interface CountryPickerProps {
   /**
    * List of custom CCA2 countries you don't want to render
    */
-  excludeCountries?: CountryCode[];
+  excludeCountries?: CCA2Code[];
   /**
    * The search bar placeholder
    */
