@@ -42,6 +42,8 @@
     "world-countries": "1.8.0"
   },
   "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-native": "^0.55.26",
     "babel-cli": "6.14.0",
     "babel-eslint": "6.1.2",
     "babel-jest": "23.0.1",
@@ -59,7 +61,8 @@
     "react": "16.0.0",
     "react-native": "0.50.3",
     "react-test-renderer": "16.0.0",
-    "regenerator-runtime": "0.11.1"
+    "regenerator-runtime": "0.11.1",
+    "typescript": "^2.9.2"
   },
   "jest": {
     "preset": "react-native",
