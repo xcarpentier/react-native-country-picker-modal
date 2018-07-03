@@ -15,9 +15,6 @@
     /* Additional Checks */
     "noUnusedLocals": true /* Report errors on unused locals. */,
     "noUnusedParameters": true /* Report errors on unused parameters. */,
-    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
-
-    /* Module Resolution Options */
-    "resolveJsonModule": true /* Resolve JSON modules to get types from JSON source data*/
+    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */
   }
 }
