@@ -42,7 +42,12 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
               "justifyContent": "center",
               "width": "15%",
             },
-            undefined,
+            Object {
+              "alignItems": "center",
+              "height": "7%",
+              "justifyContent": "center",
+              "width": "15%",
+            },
           ]
         }
       >
@@ -62,7 +67,16 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
                 "justifyContent": "center",
                 "width": 30,
               },
-              undefined,
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "transparent",
+                "borderColor": "transparent",
+                "borderWidth": 0.5,
+                "fontSize": 30,
+                "height": 30,
+                "justifyContent": "center",
+                "width": 30,
+              },
             ]
           }
         >
