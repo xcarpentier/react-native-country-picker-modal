@@ -20,7 +20,7 @@ import {
 
 import Fuse from 'fuse.js'
 
-import cca2List from '../data/cca2'
+import cca2List from '../data/cca2.json'
 import { getHeightPercent } from './ratio'
 import CloseButton from './CloseButton'
 import countryPickerStyles from './CountryPicker.style'
@@ -43,10 +43,10 @@ const setCountries = flagType => {
   }
 
   if (isEmojiable) {
-    countries = require('../data/countries-emoji')
+    countries = require('../data/countries-emoji.json')
     Emoji = require('./emoji').default
   } else {
-    countries = require('../data/countries')
+    countries = require('../data/countries.json')
     Emoji = <View />
   }
 }
