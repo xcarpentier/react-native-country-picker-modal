@@ -39,4 +39,7 @@ KeyboardAvoidingView.propTypes = {
   styles: PropTypes.array
 }
 
+KeyboardViewDefault.propTypes = KeyboardAvoidingView.propTypes
+KeyboardViewIos.propTypes = KeyboardAvoidingView.propTypes
+
 export default KeyboardAvoidingView

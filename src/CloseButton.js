@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import React from 'react'
 // eslint-disable-next-line
-import { Image, TouchableNativeFeedback, View, Platform } from 'react-native'
+import { Image, TouchableOpacity, TouchableNativeFeedback, View, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 
 const CloseButtonAndroid = (props, closeImage) => (
@@ -48,5 +48,8 @@ CloseButton.propTypes = {
   onPress: PropTypes.func,
   image: PropTypes.any
 }
+
+CloseButtonAndroid.propTypes = CloseButton.propTypes
+CloseButtonDefault.propTypes = CloseButton.propTypes
 
 export default CloseButton
