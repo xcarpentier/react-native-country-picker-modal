@@ -196,11 +196,12 @@ const darkTheme = StyleSheet.create({
 | disabled          | bool     | false                                                                                                        | Whether or not the Country Picker onPress is disabled                                                                                 |
 | transparent        | bool     | false                                                                                                        | If true, the CountryPicker will render the modal over a transparent background                                                        |
 | animationType     | string   |'none'                                                                                                        | The handler that controls how the modal animates                                                                                      |
-| closeButtonImage  | React.element| default close button Image                                                                               | Custom close button Image
+| closeButtonImage  | React.Element| default close button Image                                                                               | Custom close button Image
 | flagType  | string | 'emoji' on iOS, 'flat' on Android | If set, overwrites the default OS based flag type.
 | hideAlphabetFilter  | bool | false | If set to true, prevents the alphabet filter rendering
 | showCallingCode | bool | false | If set to true, Country Picker List will show calling code after country name `United States (+1)`
 | renderFilter  | Function | undefined | If 'filterable={true}' and renderFilter function is provided, render custom filter component.\*
+| children | React.Element | undefined | If passed, will render instead of flag, in closed state
 
 \* 
 ```js
