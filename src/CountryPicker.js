@@ -22,9 +22,17 @@ import Fuse from 'fuse.js'
 
 import cca2List from '../data/cca2'
 import { getHeightPercent } from './ratio'
-import CloseButton from './CloseButton'
 import countryPickerStyles from './CountryPicker.style'
-import KeyboardAvoidingView from './KeyboardAvoidingView'
+
+let CloseButton;
+let KeyboardAvoidingView;
+if(Platform.OS === 'ios') {
+  KeyboardAvoidingView = require('./KeyboardAvoidingView.ios')
+  CloseButton = require('./CloseButton.ios')
+} else {
+  KeyboardAvoidingView = require('./KeyboardAvoidingView.android')
+  CloseButton = require('./CloseButton.android')
+}
 
 let countries = null
 let Emoji = null
