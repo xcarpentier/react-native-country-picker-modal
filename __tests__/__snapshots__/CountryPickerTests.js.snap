@@ -5372,7 +5372,7 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
                           }
                         }
                       >
-                        Czech Republic
+                        Czechia
                       </Text>
                     </View>
                   </View>
@@ -6396,6 +6396,99 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
                         }
                       >
                         Estonia
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  accessible={true}
+                  isTVSelectable={true}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "height": 93.38000000000001,
+                        "justifyContent": "flex-start",
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "height": "7%",
+                            "justifyContent": "center",
+                            "width": "15%",
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={false}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "alignItems": "center",
+                              "backgroundColor": "transparent",
+                              "borderColor": "transparent",
+                              "borderWidth": 0.5,
+                              "fontSize": 30,
+                              "height": 30,
+                              "justifyContent": "center",
+                              "width": 30,
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={false}
+                          ellipsizeMode="tail"
+                        >
+                          🇸🇿
+                        </Text>
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "borderBottomColor": "#ccc",
+                          "borderBottomWidth": 1,
+                          "height": 20,
+                          "justifyContent": "center",
+                          "width": "70%",
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={false}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "fontSize": 29.348000000000003,
+                          }
+                        }
+                      >
+                        Eswatini
                       </Text>
                     </View>
                   </View>
@@ -19695,99 +19788,6 @@ exports[`<CountryPicker /> toMatchSnapshot 1`] = `
                         }
                       >
                         Svalbard and Jan Mayen
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  accessible={true}
-                  isTVSelectable={true}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    Object {
-                      "opacity": 1,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "flexDirection": "row",
-                        "height": 93.38000000000001,
-                        "justifyContent": "flex-start",
-                      }
-                    }
-                  >
-                    <View
-                      style={
-                        Array [
-                          Object {
-                            "alignItems": "center",
-                            "height": "7%",
-                            "justifyContent": "center",
-                            "width": "15%",
-                          },
-                          undefined,
-                        ]
-                      }
-                    >
-                      <Text
-                        accessible={true}
-                        allowFontScaling={false}
-                        ellipsizeMode="tail"
-                        style={
-                          Array [
-                            Object {
-                              "alignItems": "center",
-                              "backgroundColor": "transparent",
-                              "borderColor": "transparent",
-                              "borderWidth": 0.5,
-                              "fontSize": 30,
-                              "height": 30,
-                              "justifyContent": "center",
-                              "width": 30,
-                            },
-                            undefined,
-                          ]
-                        }
-                      >
-                        <Text
-                          accessible={true}
-                          allowFontScaling={false}
-                          ellipsizeMode="tail"
-                        >
-                          🇸🇿
-                        </Text>
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        Object {
-                          "borderBottomColor": "#ccc",
-                          "borderBottomWidth": 1,
-                          "height": 20,
-                          "justifyContent": "center",
-                          "width": "70%",
-                        }
-                      }
-                    >
-                      <Text
-                        accessible={true}
-                        allowFontScaling={false}
-                        ellipsizeMode="tail"
-                        style={
-                          Object {
-                            "fontSize": 29.348000000000003,
-                          }
-                        }
-                      >
-                        Swaziland
                       </Text>
                     </View>
                   </View>
