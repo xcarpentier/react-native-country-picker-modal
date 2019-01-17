@@ -279,13 +279,13 @@ export default class CountryPicker extends Component {
       position = this.listHeight - this.visibleListHeight
     }
 
-    this._flatList.scrollToIndex({ index:index });
+    this._flatList.scrollToIndex({ 'index': index });
   }
 
   handleFilterChange = value => {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
-    this._flatList.scrollToIndex({ index:0 });
+    this._flatList.scrollToIndex({ 'index': 0 });
 
     this.setState({
       filter: value,
@@ -328,7 +328,7 @@ export default class CountryPicker extends Component {
       <View style={styles.itemCountry}>
         {!this.props.hideCountryFlag && CountryPicker.renderFlag(cca2)}
         <View style={styles.itemCountryName}>
-          <Text style={styles.countryName} allowFontScaling={true}>
+          <Text style={styles.countryName} allowFontScaling>
             {this.getCountryName(country)}
           </Text>
           {this.props.showCallingCode &&
@@ -411,7 +411,7 @@ export default class CountryPicker extends Component {
                   ref={flatList => (this._flatList = flatList)}
                   initialNumToRender={30}
                   renderItem={country => this.renderCountry(country.item.key)}
-                  keyExtractor={ (item) => item.key }
+                  keyExtractor={(item) => item.key}
                 />
                 {!this.props.hideAlphabetFilter && (
                   <ScrollView
