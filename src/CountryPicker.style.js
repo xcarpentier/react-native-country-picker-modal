@@ -51,7 +51,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     height: getHeightPercent(7),
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: 5
   },
   itemCountryFlag: {
     justifyContent: 'center',
@@ -60,14 +61,19 @@ export default StyleSheet.create({
     width: '15%'
   },
   itemCountryName: {
-    justifyContent: 'center',
-    width: '70%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: '100%',
     borderBottomWidth: 2 / PixelRatio.get(),
     borderBottomColor: '#ccc',
-    height: 20
+    height: 22
+
   },
   countryName: {
     fontSize: getHeightPercent(2.2)
+  },
+  countryCode: {
+    textAlign: 'right'
   },
   scrollView: {
     flex: 1
