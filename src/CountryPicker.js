@@ -14,6 +14,7 @@ import {
   Text,
   TextInput,
   ListView,
+  FlatList,
   ScrollView,
   Platform
 } from 'react-native'
@@ -153,6 +154,7 @@ export default class CountryPicker extends Component {
     this.state = {
       modalVisible: false,
       cca2List: countryList,
+      flatListMap: countryList.map(n => ({ key: n })),
       dataSource: ds.cloneWithRows(countryList),
       filter: '',
       letters: this.getLetters(countryList)
@@ -405,18 +407,11 @@ export default class CountryPicker extends Component {
             </View>
             <KeyboardAvoidingView behavior="padding">
               <View style={styles.contentContainer}>
-                <ListView
-                  keyboardShouldPersistTaps="always"
-                  enableEmptySections
-                  ref={listView => (this._listView = listView)}
-                  dataSource={this.state.dataSource}
-                  renderRow={country => this.renderCountry(country)}
-                  initialListSize={30}
-                  pageSize={15}
-                  onLayout={({ nativeEvent: { layout: { y: offset } } }) =>
-                    this.setVisibleListHeight(offset)
-                  }
-                />
+                <FlatList
+                  data={this.state.flatListMap}
+                  initialNumToRender={30}
+                  renderItem={country => this.renderCountry(country.item.key)}
+                  keyExtractor={(item, index) => item.key}/>
                 {!this.props.hideAlphabetFilter && (
                   <ScrollView
                     contentContainerStyle={styles.letters}
