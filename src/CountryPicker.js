@@ -277,21 +277,18 @@ export default class CountryPicker extends Component {
       position = this.listHeight - this.visibleListHeight
     }
 
-    // scroll
-    this._listView.scrollTo({
-      y: position
-    })
+    this._flatList.scrollToIndex({index:index});
   }
 
   handleFilterChange = value => {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
-
-    this._listView.scrollTo({ y: 0 })
+    this._flatList.scrollToIndex({index:0});
 
     this.setState({
       filter: value,
-      dataSource: ds.cloneWithRows(filteredCountries)
+      dataSource: ds.cloneWithRows(filteredCountries),
+      flatListMap: filteredCountries.map(n => ({ key: n }))
     })
   }
 
@@ -409,6 +406,7 @@ export default class CountryPicker extends Component {
               <View style={styles.contentContainer}>
                 <FlatList
                   data={this.state.flatListMap}
+                  ref={flatList => (this._flatList = flatList)}
                   initialNumToRender={30}
                   renderItem={country => this.renderCountry(country.item.key)}
                   keyExtractor={(item, index) => item.key}/>
