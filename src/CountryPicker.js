@@ -279,13 +279,21 @@ export default class CountryPicker extends Component {
       position = this.listHeight - this.visibleListHeight
     }
 
+<<<<<<< HEAD
     this._flatList.scrollToIndex({ index: index });
+=======
+    this._flatList.scrollToIndex({ 'index': index });
+>>>>>>> 0e75589933b8411e55f8665e84f9ee0a372f6bb3
   }
 
   handleFilterChange = value => {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
+<<<<<<< HEAD
     this._flatList.scrollToIndex({ index: 0 });
+=======
+    this._flatList.scrollToIndex({ 'index': 0 });
+>>>>>>> 0e75589933b8411e55f8665e84f9ee0a372f6bb3
 
     this.setState({
       filter: value,
