@@ -279,7 +279,7 @@ export default class CountryPicker extends Component {
       position = this.listHeight - this.visibleListHeight
     }
 
-    this._flatList.scrollToIndex({ index: index });
+    this._flatList.scrollToIndex({ index });
   }
 
   handleFilterChange = value => {
