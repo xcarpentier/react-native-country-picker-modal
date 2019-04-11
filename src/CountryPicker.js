@@ -155,7 +155,8 @@ export default class CountryPicker extends Component {
       cca2List: countryList,
       dataSource: ds.cloneWithRows(countryList),
       filter: '',
-      letters: this.getLetters(countryList)
+      letters: this.getLetters(countryList),
+      isResultFound : true
     }
 
     if (this.props.styles) {
@@ -288,10 +289,18 @@ export default class CountryPicker extends Component {
     this._listView.scrollTo({ y: 0 })
 
     console.log(filteredCountries+"In country picker filteredCountries "+filteredCountries.length);
-
+    if(filteredCountries.length == 0 || filteredCountries.length < 0){
+      this.setState({
+        isResultFound : false 
+      })
+    }else {
+      this.setState({
+        isResultFound : true 
+      })
+    }
     this.setState({
       filter: value,
-      dataSource:filteredCountries.length==0 ? ds.cloneWithRows(filteredCountries) : 'No result found'
+      dataSource: ds.cloneWithRows(filteredCountries) 
     })
   }
 
@@ -406,6 +415,7 @@ export default class CountryPicker extends Component {
               {this.props.filterable && this.renderFilter()}
             </View>
             <KeyboardAvoidingView behavior="padding">
+            {this.state.isResultFound ? 
               <View style={styles.contentContainer}>
                 <ListView
                   keyboardShouldPersistTaps="always"
@@ -431,6 +441,11 @@ export default class CountryPicker extends Component {
                   </ScrollView>
                 )}
               </View>
+              : 
+              <View style={styles.contentContainer}>
+               <Text style={{color:'white'}}>{'Sorry, the country code entered is not available'}</Text>
+              </View>
+            }
             </KeyboardAvoidingView>
           </SafeAreaView>
         </Modal>
