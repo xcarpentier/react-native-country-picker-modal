@@ -82,7 +82,10 @@ export default class CountryPicker extends Component {
     hideAlphabetFilter: PropTypes.bool,
     renderFilter: PropTypes.func,
     showCallingCode: PropTypes.bool,
-    filterOptions: PropTypes.object
+    filterOptions: PropTypes.object,
+    noResultMessage: PropTypes.string,
+    textStyle: PropTypes.object
+
   }
 
   static defaultProps = {
@@ -92,7 +95,8 @@ export default class CountryPicker extends Component {
     filterPlaceholder: 'Filter',
     autoFocusFilter: true,
     transparent: false,
-    animationType: 'none'
+    animationType: 'none',
+    noResultMessage: this.props.noResultMessage || 'Result Not Found'
   }
 
   static renderEmojiFlag(cca2, emojiStyle) {
@@ -443,7 +447,7 @@ export default class CountryPicker extends Component {
               </View>
               : 
               <View style={styles.contentContainer}>
-               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30}]}>{'Sorry, the country code entered is not available.'}</Text>
+               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30},this.props.textStyle]}>{this.state.noResultMessage}</Text>
               </View>
             }
             </KeyboardAvoidingView>
