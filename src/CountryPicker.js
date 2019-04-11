@@ -285,8 +285,8 @@ export default class CountryPicker extends Component {
   handleFilterChange = value => {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
-
-    this._listView.scrollTo({ y: 0 })
+    if(this._listView != null) {
+    this._listView.scrollTo({ y: 0 })}
 
     console.log(filteredCountries+"In country picker filteredCountries "+filteredCountries.length);
     if(filteredCountries.length == 0 || filteredCountries.length < 0){
@@ -443,7 +443,7 @@ export default class CountryPicker extends Component {
               </View>
               : 
               <View style={styles.contentContainer}>
-               <Text style={{color:'white'}}>{'Sorry, the country code entered is not available'}</Text>
+               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30}]}>{'Sorry, the country code entered is not available.'}</Text>
               </View>
             }
             </KeyboardAvoidingView>
