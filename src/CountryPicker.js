@@ -229,7 +229,7 @@ export default class CountryPicker extends Component {
 
   getCountryName(country, optionalTranslation) {
     const translation = optionalTranslation || this.props.translation || 'eng'
-    return country.name[translation]
+    return country.name[translation] || country.name.common
   }
 
   setVisibleListHeight(offset) {
