@@ -383,6 +383,14 @@ export interface CountryPickerProps {
    */
   hideAlphabetFilter?: boolean
   /**
+   *  No result message, by default 'Result Not Found'
+   */
+  noResultMessage?: string
+  /**
+   *  Result message style (see source code)
+   */
+  resultTextStyle?: StyleProp<ViewStyle>
+  /**
    * If 'filterable={true}' and renderFilter function is provided, render custom filter component.*
    */
   renderFilter?: (args: {

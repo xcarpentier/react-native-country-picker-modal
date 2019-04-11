@@ -84,7 +84,7 @@ export default class CountryPicker extends Component {
     showCallingCode: PropTypes.bool,
     filterOptions: PropTypes.object,
     noResultMessage: PropTypes.string,
-    textStyle: PropTypes.object
+    resultTextStyle: PropTypes.object
 
   }
 
@@ -447,7 +447,7 @@ export default class CountryPicker extends Component {
               </View>
               : 
               <View style={styles.contentContainer}>
-               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30},this.props.textStyle]}>{this.state.noResultMessage}</Text>
+               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30},this.props.resultTextStyle]}>{this.state.noResultMessage}</Text>
               </View>
             }
             </KeyboardAvoidingView>
