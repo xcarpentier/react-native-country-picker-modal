@@ -96,7 +96,6 @@ export default class CountryPicker extends Component {
     autoFocusFilter: true,
     transparent: false,
     animationType: 'none',
-    noResultMessage: this.props.noResultMessage || 'Result Not Found'
   }
 
   static renderEmojiFlag(cca2, emojiStyle) {
@@ -447,7 +446,7 @@ export default class CountryPicker extends Component {
               </View>
               : 
               <View style={styles.contentContainer}>
-               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30},this.props.resultTextStyle]}>{this.state.noResultMessage}</Text>
+               <Text style={[countryPickerStyles.letterText,{color:'white',marginHorizontal:50,marginVertical:30},this.props.resultTextStyle]}>{this.props.noResultMessage}</Text>
               </View>
             }
             </KeyboardAvoidingView>
