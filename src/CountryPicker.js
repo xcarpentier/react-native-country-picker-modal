@@ -288,15 +288,16 @@ export default class CountryPicker extends Component {
   handleFilterChange = value => {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
-    if(this._listView != null) {
-    this._listView.scrollTo({ y: 0 })}
 
-    console.log(filteredCountries+"In country picker filteredCountries "+filteredCountries.length);
+    if(this._listView != null) {
+      this._listView.scrollTo({ y: 0 })
+    }
+
     if(filteredCountries.length == 0 || filteredCountries.length < 0){
       this.setState({
         isResultFound : false 
       })
-    }else {
+    } else {
       this.setState({
         isResultFound : true 
       })
