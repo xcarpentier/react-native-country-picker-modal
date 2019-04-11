@@ -229,7 +229,7 @@ export default class CountryPicker extends Component {
 
   getCountryName(country, optionalTranslation) {
     const translation = optionalTranslation || this.props.translation || 'eng'
-    return country.name[translation] || country.name.common
+    return country.name[translation]
   }
 
   setVisibleListHeight(offset) {
@@ -286,6 +286,8 @@ export default class CountryPicker extends Component {
       value === '' ? this.state.cca2List : this.fuse.search(value)
 
     this._listView.scrollTo({ y: 0 })
+
+    console.log("In country picker filteredCountries "+filteredCountries);
 
     this.setState({
       filter: value,
