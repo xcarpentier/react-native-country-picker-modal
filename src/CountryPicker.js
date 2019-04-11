@@ -287,11 +287,11 @@ export default class CountryPicker extends Component {
 
     this._listView.scrollTo({ y: 0 })
 
-    console.log("In country picker filteredCountries "+filteredCountries);
+    console.log(filteredCountries+"In country picker filteredCountries "+filteredCountries.length);
 
     this.setState({
       filter: value,
-      dataSource: ds.cloneWithRows(filteredCountries)
+      dataSource:filteredCountries.length==0 ? ds.cloneWithRows(filteredCountries) : 'No result found'
     })
   }
 
