@@ -172,9 +172,9 @@ export default class CountryPicker extends Component {
 
     const options = Object.assign({
       shouldSort: true,
-      threshold: 0.6,
+      threshold: 0.8,
       location: 0,
-      distance: 100,
+      distance: 1000,
       maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: ['name'],
@@ -229,7 +229,7 @@ export default class CountryPicker extends Component {
 
   getCountryName(country, optionalTranslation) {
     const translation = optionalTranslation || this.props.translation || 'eng'
-    return  country.name.common
+    return country.name[translation] || country.name.common
   }
 
   setVisibleListHeight(offset) {
