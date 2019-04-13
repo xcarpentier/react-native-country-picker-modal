@@ -172,9 +172,9 @@ export default class CountryPicker extends Component {
 
     const options = Object.assign({
       shouldSort: true,
-      threshold: 0.8,
+      threshold: 0,
       location: 0,
-      distance: 1000,
+      distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: ['name'],
