@@ -84,7 +84,8 @@ export default class CountryPicker extends Component {
     hideCountryFlag: PropTypes.bool,
     renderFilter: PropTypes.func,
     showCallingCode: PropTypes.bool,
-    filterOptions: PropTypes.object
+    filterOptions: PropTypes.object,
+    showCountryNameWithFlag: PropTypes.bool
   }
 
   static defaultProps = {
@@ -123,6 +124,20 @@ export default class CountryPicker extends Component {
         {isEmojiable
           ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
           : CountryPicker.renderImageFlag(cca2, imageStyle)}
+      </View>
+    )
+  }
+
+  static renderFlagWithName(cca2,countryName, itemStyle, emojiStyle, imageStyle) {
+    return (
+      <View style={{flexDirection:'row', flexWrap:'wrap',alignItems: "center",}}>
+        <View style={[countryPickerStyles.itemCountryFlag, itemStyle]}>
+          {isEmojiable
+            ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+            : CountryPicker.renderImageFlag(cca2, imageStyle)}
+
+        </View>
+        <Text style={{marginLeft:15,fontSize:20}}>{countryName}</Text>
       </View>
     )
   }
@@ -380,7 +395,12 @@ export default class CountryPicker extends Component {
             <View
               style={[styles.touchFlag, { marginTop: isEmojiable ? 0 : 5 }]}
             >
-              {CountryPicker.renderFlag(this.props.cca2,
+              {this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithName(this.props.cca2,this.getCountryName(countries[this.props.cca2]),
+                styles.itemCountryFlag,
+                styles.emojiFlag,
+                styles.imgStyle)}
+
+              {!this.props.showCountryNameWithFlag && CountryPicker.renderFlag(this.props.cca2,
                 styles.itemCountryFlag,
                 styles.emojiFlag,
                 styles.imgStyle)}
