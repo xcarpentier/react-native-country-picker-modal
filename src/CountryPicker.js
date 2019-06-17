@@ -244,6 +244,9 @@ export default class CountryPicker extends Component {
   }
 
   getCountryName(country, optionalTranslation) {
+    if (!country) {
+      return ''
+    }
     const translation = optionalTranslation || this.props.translation || 'eng'
     return country.name[translation] || country.name.common
   }
