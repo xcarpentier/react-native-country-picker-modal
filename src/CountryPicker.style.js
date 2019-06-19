@@ -52,7 +52,7 @@ export default StyleSheet.create({
     height: getHeightPercent(7),
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingHorizontal: 5
+    paddingHorizontal: 7
   },
   itemCountryFlag: {
     justifyContent: 'center',
