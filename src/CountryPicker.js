@@ -51,7 +51,7 @@ const setCountries = flagType => {
   }
 };
 
-setCountries();
+setCountries()
 
 export const getAllCountries = () => cca2List.map(cca2 => ({ ...countries[cca2], cca2 }));
 
