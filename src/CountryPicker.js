@@ -4,6 +4,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SafeAreaView from 'react-native-safe-area-view'
+import {ListItem, SearchBar} from 'react-native-elements'
 
 import {
   StyleSheet,
@@ -82,7 +83,8 @@ export default class CountryPicker extends Component {
     renderFilter: PropTypes.func,
     showCallingCode: PropTypes.bool,
     filterOptions: PropTypes.object,
-    showCountryNameWithFlag: PropTypes.bool
+    showCountryNameWithFlag: PropTypes.bool,
+    nativeTheme: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -90,10 +92,11 @@ export default class CountryPicker extends Component {
     countryList: cca2List,
     hideCountryFlag: false,
     excludeCountries: [],
-    filterPlaceholder: 'Filter',
+    filterPlaceholder: 'Select a Country',
     autoFocusFilter: true,
     transparent: false,
-    animationType: 'none'
+    animationType: 'none',
+    nativeTheme: false,
   }
 
   static renderEmojiFlag(cca2, emojiStyle) {
@@ -118,6 +121,16 @@ export default class CountryPicker extends Component {
   static renderFlag(cca2, itemStyle, emojiStyle, imageStyle) {
     return (
       <View style={[countryPickerStyles.itemCountryFlag, itemStyle]}>
+        {isEmojiable
+          ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+          : CountryPicker.renderImageFlag(cca2, imageStyle)}
+      </View>
+    )
+  }
+
+  static renderNativeThemeFlag(cca2, itemStyle, emojiStyle, imageStyle) {
+    return (
+      <View style={[itemStyle]}>
         {isEmojiable
           ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
           : CountryPicker.renderImageFlag(cca2, imageStyle)}
@@ -300,7 +313,7 @@ export default class CountryPicker extends Component {
   handleFilterChange = value => {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
-    this._flatList.scrollToIndex({ index: 0 });
+  //  this._flatList.scrollToIndex({ index: 0 });
 
     this.setState({
       filter: value,
@@ -310,14 +323,37 @@ export default class CountryPicker extends Component {
   }
 
   renderCountry(country, index) {
+
+   const {nativeTheme} = this.props;
+   if (nativeTheme)
+   {
+     return this.renderCountryNative(country, index);
+   }   
     return (
       <TouchableOpacity
         key={index}
         onPress={() => this.onSelectCountry(country)}
         activeOpacity={0.99}
       >
-        {this.renderCountryDetail(country)}
+       {this.renderCountryDetail(country)}
       </TouchableOpacity>
+    )
+  }
+
+  renderCountryNative(cca2, index) {
+    const country = countries[cca2]
+    return (
+     <ListItem
+    containerStyle={styles.listItemCountry}
+     onPress={() => this.onSelectCountry(cca2)}
+     title={`${this.getCountryName(country)}`}
+     titleStyle={styles.listItemCountryNameStyle}
+     leftElement={!this.props.hideCountryFlag ? CountryPicker.renderNativeThemeFlag(cca2) : null}
+     rightElement={this.props.showCallingCode &&
+      country.callingCode ?  <Text style={styles.countryCode}>{`+${country.callingCode}`}</Text> : null}
+     >
+
+     </ListItem>
     )
   }
 
@@ -359,7 +395,8 @@ export default class CountryPicker extends Component {
       renderFilter,
       autoFocusFilter,
       filterPlaceholder,
-      filterPlaceholderTextColor
+      filterPlaceholderTextColor,
+      nativeTheme
     } = this.props
 
     const value = this.state.filter
@@ -369,15 +406,31 @@ export default class CountryPicker extends Component {
     return renderFilter ? (
       renderFilter({ value, onChange, onClose })
     ) : (
-      <TextInput
+        nativeTheme ?
+      <SearchBar
+        platform={Platform.OS === "ios" ? "ios" : "android" } 
+        icon={({ type: 'material' }, { color: '#86939e' }, { name: 'search' })}  
+        clearIcon={({ color: '#86939e' }, { name: 'close' })} 
+        round={true} 
         autoFocus={autoFocusFilter}
         autoCorrect={false}
         placeholder={filterPlaceholder}
         placeholderTextColor={filterPlaceholderTextColor}
-        style={[styles.input, !this.props.closeable && styles.inputOnly]}
+        containerStyle={styles.searchBarContainerStyle}
+        inputStyle={styles.searchBarInputStyle}
+        // style={[styles.input, !this.props.closeable && styles.inputOnly]}
         onChangeText={onChange}
         value={value}
       />
+      : <TextInput
+      autoFocus={autoFocusFilter}
+      autoCorrect={false}
+      placeholder={filterPlaceholder}
+      placeholderTextColor={filterPlaceholderTextColor}
+      style={[styles.input, !this.props.closeable && styles.inputOnly]}
+      onChangeText={onChange}
+      value={value}
+    />
     )
   }
 

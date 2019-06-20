@@ -383,6 +383,10 @@ export interface CountryPickerProps {
    */
   hideAlphabetFilter?: boolean
   /**
+   * If set to true, use react-native-elements components e.g ListItem and SearchBar
+   */
+  nativeTheme?: boolean
+  /**
    * If 'filterable={true}' and renderFilter function is provided, render custom filter component.*
    */
   renderFilter?: (args: {

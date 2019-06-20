@@ -39,3 +39,9 @@ examples/ios/swiper.xcodeproj/xcuserdata
 # VSCode
 .vscode
 jsconfig.json
+
+#Expo Example
+/example2
+
+#package
+react-native-country-picker-modal-v0.7.1.tgz

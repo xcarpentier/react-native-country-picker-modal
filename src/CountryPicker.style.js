@@ -1,4 +1,4 @@
-import { StyleSheet, PixelRatio } from 'react-native'
+import { StyleSheet, PixelRatio, Platform } from 'react-native'
 import { getHeightPercent } from './ratio'
 
 export default StyleSheet.create({
@@ -11,11 +11,10 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'white'
   },
   header: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   input: {
     height: 48,
@@ -52,7 +51,7 @@ export default StyleSheet.create({
     height: getHeightPercent(7),
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingHorizontal: 7
+    paddingHorizontal: 10
   },
   itemCountryFlag: {
     justifyContent: 'center',
@@ -104,5 +103,22 @@ export default StyleSheet.create({
     height: 24,
     width: 24,
     resizeMode: 'contain'
+  },
+  listItemCountry: {
+    backgroundColor: 'white',
+   },
+  searchBarContainerStyle: {
+    backgroundColor: 'white',
+    height: 48,
+    width: '100%'
+  },
+  searchBarInputStyle: {
+    backgroundColor: 'white',
+    fontFamily: Platform.OS == 'ios' ? '' : 'notoserif',
+  },
+  listItemCountryNameStyle:{
+    fontFamily: Platform.OS == 'ios' ? '' : 'notoserif',
+    fontSize: 18,
+    
   }
 })
