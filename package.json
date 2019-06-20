@@ -26,7 +26,8 @@
     "components",
     "country-picker",
     "country",
-    "flag"
+    "flag",
+    "country-list"
   ],
   "author": "Xavier Carpentier <contact@xaviercarpentier.com> (http://xaviercarpentier.com/)",
   "license": "MIT",
