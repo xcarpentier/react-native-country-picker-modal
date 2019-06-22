@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SafeAreaView from 'react-native-safe-area-view'
-import {ListItem, SearchBar} from 'react-native-elements'
+import {ListItem, SearchBar, Icon} from 'react-native-elements'
 
 import {
   StyleSheet,
@@ -128,13 +128,36 @@ export default class CountryPicker extends Component {
     )
   }
 
-  static renderNativeThemeFlag(cca2, itemStyle, emojiStyle, imageStyle) {
+  static renderNativeThemeFlag(cca2, isDisplay = false, itemStyle, emojiStyle, imageStyle) {
     return (
+     
+      !isDisplay ? 
       <View style={[itemStyle]}>
         {isEmojiable
           ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
           : CountryPicker.renderImageFlag(cca2, imageStyle)}
+      
       </View>
+      :
+      (
+        <View style={{flexDirection:'row', flexWrap:'wrap',alignItems: "center",}}>
+       
+        <View style={[countryPickerStyles.itemCountryFlag, itemStyle]}>
+          {isEmojiable
+            ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+            : CountryPicker.renderImageFlag(cca2, imageStyle)}
+
+        </View>
+        <Icon
+          name= {Platform.OS === "ios" ? "ios-arrow-down" : "ios-arrow-down"}
+                type='ionicon'
+                color='grey'
+                size={16}
+                containerStyle={{marginLeft: 15}}
+                  />
+           
+      </View>
+      )
     )
   }
 
@@ -148,6 +171,78 @@ export default class CountryPicker extends Component {
 
         </View>
         <Text style={{marginLeft:15,fontSize:16}}>{countryName}</Text>
+      </View>
+    )
+  }
+
+  static renderFlagWithNameNative(cca2, countryName, itemStyle, emojiStyle, imageStyle) {
+    const country = countries[cca2]
+    return (
+      <View style={{flexDirection:'row', flexWrap:'wrap',alignItems: "center",}}>
+       
+        <View style={[countryPickerStyles.itemCountryFlag, itemStyle]}>
+          {isEmojiable
+            ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+            : CountryPicker.renderImageFlag(cca2, imageStyle)}
+
+        </View>
+        <Icon
+          name= {Platform.OS === "ios" ? "ios-arrow-down" : "ios-arrow-down"}
+                type='ionicon'
+                color='grey'
+                size={16}
+                containerStyle={{marginLeft: 10, marginRight: 10}}
+                  />
+         <Text style={styles.countryNameTextStyle}>
+         {countryName}
+                    </Text>          
+      </View>
+    )
+  }
+
+  static renderFlagWithCallingCode(cca2, countryName, itemStyle, emojiStyle, imageStyle) {
+    const country = countries[cca2]
+    return (
+      <View style={{flexDirection:'row', flexWrap:'wrap',alignItems: "center",}}>
+       
+        <View style={[countryPickerStyles.itemCountryFlag, itemStyle]}>
+          {isEmojiable
+            ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+            : CountryPicker.renderImageFlag(cca2, imageStyle)}
+
+        </View>
+        <Icon
+          name= {Platform.OS === "ios" ? "ios-arrow-down" : "ios-arrow-down"}
+                type='ionicon'
+                color='grey'
+                size={16}
+                containerStyle={{marginLeft: 10, marginRight: 10}}
+                  />
+         <Text style={styles.callingCodeTextStyle}>
+                        +{country.callingCode}
+                    </Text>          
+      </View>
+    )
+  }
+
+  static renderFlagWithNameandCallingCode(cca2,countryName, itemStyle, emojiStyle, imageStyle) {
+    const country = countries[cca2]
+    return (
+      <View style={{flexDirection:'row', flexWrap:'wrap',alignItems: "center",}}>
+        <View style={[countryPickerStyles.itemCountryFlag, itemStyle]}>
+          {isEmojiable
+            ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
+            : CountryPicker.renderImageFlag(cca2, imageStyle)}
+
+        </View>
+        <Icon
+          name= {Platform.OS === "ios" ? "ios-arrow-down" : "ios-arrow-down"}
+                type='ionicon'
+                color='grey'
+                size={16}
+                containerStyle={{marginLeft: 10, marginRight: 10}}
+                  />
+        <Text style={styles.countryNameTextStyle}>{countryName}(+{country.callingCode})</Text>
       </View>
     )
   }
@@ -445,6 +540,40 @@ export default class CountryPicker extends Component {
           {this.props.children ? (
             this.props.children
           ) : (
+
+            this.props.nativeTheme && this.props.showCallingCode ? (
+            <View
+              style={[styles.touchFlag, { marginTop: isEmojiable ? 0 : 5 }]}
+            >
+              {this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithNameandCallingCode(this.props.cca2,this.getCountryName(countries[this.props.cca2]),
+                styles.itemCountryFlag,
+                styles.emojiFlag,
+                styles.imgStyle)}
+
+              {!this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithCallingCode(this.props.cca2,this.getCountryName(countries[this.props.cca2]),
+                styles.itemCountryFlag,
+                styles.emojiFlag,
+                styles.imgStyle)}
+               
+            </View>) : (
+
+              this.props.nativeTheme && !this.props.showCallingCode ? (
+                <View
+                style={[styles.touchFlag, { marginTop: isEmojiable ? 0 : 5 }]}
+              >
+                {this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithNameNative(this.props.cca2,this.getCountryName(countries[this.props.cca2]),
+                  styles.itemCountryFlag,
+                  styles.emojiFlag,
+                  styles.imgStyle)}
+  
+                {!this.props.showCountryNameWithFlag && CountryPicker.renderNativeThemeFlag(this.props.cca2, true,
+                  styles.itemCountryFlag,
+                  styles.emojiFlag,
+                  styles.imgStyle)}
+                 
+              </View>
+              ) :
+                  (
             <View
               style={[styles.touchFlag, { marginTop: isEmojiable ? 0 : 5 }]}
             >
@@ -457,8 +586,10 @@ export default class CountryPicker extends Component {
                 styles.itemCountryFlag,
                 styles.emojiFlag,
                 styles.imgStyle)}
-            </View>
-          )}
+                
+            </View>)
+
+          ))}
         </TouchableOpacity>
         <Modal
           transparent={this.props.transparent}

@@ -120,5 +120,15 @@ export default StyleSheet.create({
     fontFamily: Platform.OS == 'ios' ? '' : 'notoserif',
     fontSize: 18,
     
+  },
+  callingCodeTextStyle: {
+    fontSize: 26,
+    borderBottomWidth: 2,
+    borderBottomColor: 'gainsboro'
+  },
+  countryNameTextStyle: {
+    fontSize: 18,
+    borderBottomWidth: 2,
+    borderBottomColor: 'gainsboro'
   }
 })
