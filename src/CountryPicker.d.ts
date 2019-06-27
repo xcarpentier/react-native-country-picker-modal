@@ -383,6 +383,10 @@ export interface CountryPickerProps {
    */
   hideAlphabetFilter?: boolean
   /**
+   * If set, then country name will appear next to flag in the view
+   */
+  showCountryNameWithFlag?: boolean
+  /**
    * If 'filterable={true}' and renderFilter function is provided, render custom filter component.*
    */
   renderFilter?: (args: {
