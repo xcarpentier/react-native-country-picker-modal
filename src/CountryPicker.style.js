@@ -65,8 +65,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     borderBottomWidth: 2 / PixelRatio.get(),
-    borderBottomColor: '#ccc',
-    height: 22
+    borderBottomColor: '#ccc'
 
   },
   countryName: {
