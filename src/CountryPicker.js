@@ -309,14 +309,17 @@ export default class CountryPicker extends Component {
     })
   }
 
-  renderCountry(country, index) {
+  renderCountry(cca2, index) {
+    const country = countries[cca2];
+
     return (
       <TouchableOpacity
         key={index}
-        onPress={() => this.onSelectCountry(country)}
+        onPress={() => this.onSelectCountry(cca2)}
         activeOpacity={0.99}
+        testID={`country-selector-${country.name.common}`}
       >
-        {this.renderCountryDetail(country)}
+        {this.renderCountryDetail(cca2)}
       </TouchableOpacity>
     )
   }
@@ -324,6 +327,7 @@ export default class CountryPicker extends Component {
   renderLetters(letter, index) {
     return (
       <TouchableOpacity
+        testID={`letter-${letter}`}
         key={index}
         onPress={() => this.scrollTo(letter)}
         activeOpacity={0.6}
@@ -370,6 +374,7 @@ export default class CountryPicker extends Component {
       renderFilter({ value, onChange, onClose })
     ) : (
       <TextInput
+        testID="text-input-country-filter"
         autoFocus={autoFocusFilter}
         autoCorrect={false}
         placeholder={filterPlaceholder}
@@ -427,6 +432,7 @@ export default class CountryPicker extends Component {
             <KeyboardAvoidingView behavior="padding">
               <View style={styles.contentContainer}>
                 <FlatList
+                  testID="list-countries"
                   data={this.state.flatListMap}
                   ref={flatList => (this._flatList = flatList)}
                   initialNumToRender={30}
