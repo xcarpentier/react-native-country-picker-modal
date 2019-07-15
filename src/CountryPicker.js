@@ -433,6 +433,9 @@ export default class CountryPicker extends Component {
                   initialNumToRender={30}
                   renderItem={country => this.renderCountry(country.item.key)}
                   keyExtractor={(item) => item.key}
+                  onScrollToIndexFailed={()=> {
+                    console.log('onScrollToIndexFailed')
+                  }}
                 />
                 {!this.props.hideAlphabetFilter && (
                   <ScrollView
