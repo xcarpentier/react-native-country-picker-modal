@@ -221,7 +221,8 @@ export default class CountryPicker extends Component {
     this.setState({
       modalVisible: false,
       filter: '',
-      dataSource: this.state.cca2List
+      dataSource: this.state.cca2List,
+      flatListMap: this.state.cca2List.map(n => ({ key: n }))
     })
 
     this.props.onChange({
