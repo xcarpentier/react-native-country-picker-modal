@@ -58,7 +58,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // height: '7%',
-    width: '15%'
+    width: 30
   },
   itemCountryName: {
     justifyContent: 'space-between',
