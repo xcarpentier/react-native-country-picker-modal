@@ -434,6 +434,7 @@ componentDidUpdate (prevProps) {
               <View style={styles.contentContainer}>
                 <FlatList
                   testID="list-countries"
+                  keyboardShouldPersistTaps="handled"
                   data={this.state.flatListMap}
                   ref={flatList => (this._flatList = flatList)}
                   initialNumToRender={30}
