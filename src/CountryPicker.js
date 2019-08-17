@@ -438,6 +438,7 @@ componentDidUpdate (prevProps) {
                   data={this.state.flatListMap}
                   ref={flatList => (this._flatList = flatList)}
                   initialNumToRender={30}
+onScrollToIndexFailed={()=>{}}
                   renderItem={country => this.renderCountry(country.item.key)}
                   keyExtractor={(item) => item.key}
                   getItemLayout={(data, index) => (
