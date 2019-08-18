@@ -346,7 +346,11 @@ componentDidUpdate (prevProps) {
     const country = countries[cca2]
     return (
       <View style={styles.itemCountry}>
-        {!this.props.hideCountryFlag && CountryPicker.renderFlag(cca2)}
+        {!this.props.hideCountryFlag &&
+          CountryPicker.renderFlag(cca2,
+                styles.itemCountryFlag,
+                styles.emojiFlag,
+                styles.imgStyle)}
         <View style={styles.itemCountryName}>
           <Text style={styles.countryName} allowFontScaling>
             {this.getCountryName(country)}
