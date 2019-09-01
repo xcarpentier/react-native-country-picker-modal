@@ -286,6 +286,7 @@ export type TranslationLanguageCode =
   | 'hrv'
   | 'ita'
   | 'jpn'
+  | 'lang'
   | 'nld'
   | 'por'
   | 'rus'
