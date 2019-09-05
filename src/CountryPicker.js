@@ -359,10 +359,10 @@ componentDidUpdate (prevProps) {
         <View style={styles.itemCountryName}>
           <Text style={styles.countryName} allowFontScaling={false}>
             {this.getCountryName(country)}
+            {this.props.showCallingCode &&
+              country.callingCode &&
+              ` (+${country.callingCode})`}
           </Text>
-          {this.props.showCallingCode &&
-          country.callingCode &&
-          <Text style={styles.countryCode}>{` (+${country.callingCode})`}</Text>}
         </View>
       </View>
     )
