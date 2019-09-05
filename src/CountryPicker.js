@@ -193,14 +193,14 @@ export default class CountryPicker extends Component {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: ['name'],
+      keys: ['name', 'callingCode'],
       id: 'id'
     }, this.props.filterOptions);
     this.fuse = new Fuse(
       countryList.reduce(
         (acc, item) => [
           ...acc,
-          { id: item, name: this.getCountryName(countries[item]) }
+          { id: item, name: this.getCountryName(countries[item]), callingCode: this.getCallingCode(countries[item]) }
         ],
         []
       ),
@@ -250,6 +250,10 @@ componentDidUpdate (prevProps) {
     }
     const translation = optionalTranslation || this.props.translation || 'eng'
     return country.name[translation] || country.name.common
+  }
+  
+  getCallingCode(country) {
+    return country.callingCode
   }
 
   setVisibleListHeight(offset) {
