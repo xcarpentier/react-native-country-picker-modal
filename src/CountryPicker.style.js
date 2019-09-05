@@ -32,7 +32,7 @@ export default StyleSheet.create({
   imgStyle: {
     resizeMode: 'contain',
     width: 25,
-    // height: 19,
+    height: 19,
     borderWidth: 1 / PixelRatio.get(),
     borderColor: '#eee',
     opacity: 0.8
