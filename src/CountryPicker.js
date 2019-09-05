@@ -357,12 +357,12 @@ componentDidUpdate (prevProps) {
                 styles.emojiFlag,
                 styles.imgStyle)}
         <View style={styles.itemCountryName}>
-          <Text style={styles.countryName} allowFontScaling>
+          <Text style={styles.countryName} allowFontScaling={false}>
             {this.getCountryName(country)}
           </Text>
           {this.props.showCallingCode &&
           country.callingCode &&
-          <Text style={styles.countryCode}>{`+${country.callingCode}`}</Text>}
+          <Text style={styles.countryCode}>{` (+${country.callingCode})`}</Text>}
         </View>
       </View>
     )
