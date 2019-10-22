@@ -21,8 +21,8 @@ const renderFlagButton = (
   props.renderFlagButton ? (
     props.renderFlagButton(props)
   ) : (
-    <FlagButton {...props} />
-  )
+      <FlagButton {...props} />
+    )
 
 const renderFilter = (
   props: CountryFilter['props'] & CountryPickerProps['renderCountryFilter']
@@ -30,8 +30,8 @@ const renderFilter = (
   props.renderCountryFilter ? (
     props.renderCountryFilter(props)
   ) : (
-    <CountryFilter {...props} />
-  )
+      <CountryFilter {...props} />
+    )
 
 interface CountryPickerProps {
   countryCode: CountryCode
@@ -46,6 +46,7 @@ interface CountryPickerProps {
   withCurrencyButton?: boolean
   withCallingCodeButton?: boolean
   withFlagButton?: boolean
+  withCloseButton?: boolean
   withFilter?: boolean
   withAlphaFilter?: boolean
   withCallingCode?: boolean
@@ -75,6 +76,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     onSelect,
     withEmoji,
     withFilter,
+    withCloseButton,
     withCountryNameButton,
     withCallingCodeButton,
     withCurrencyButton,
@@ -148,7 +150,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
         onRequestClose={onClose}
       >
         <HeaderModal
-          {...{ withFilter, onClose }}
+          {...{ withFilter, withCloseButton, onClose }}
           renderFilter={(props: CountryFilter['props']) =>
             renderFilter({
               ...props,

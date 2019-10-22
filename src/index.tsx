@@ -30,6 +30,7 @@ interface Props {
   withCountryNameButton?: boolean
   withCurrencyButton?: boolean
   withCallingCodeButton?: boolean
+  withCloseButton?: boolean
   withFilter?: boolean
   withFlag?: boolean
   withModal?: boolean
@@ -52,7 +53,7 @@ export default function main({ theme, translation, ...props }: Props) {
 }
 
 main.defaultProps = {
-  onSelect: () => {},
+  onSelect: () => { },
   withEmoji: true
 }
 
