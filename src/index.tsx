@@ -43,7 +43,7 @@ interface Props {
   onClose?(): void
 }
 
-export default function main({ theme, translation, ...props }: Props) {
+const Main = ({ theme, translation, ...props }: Props) => {
   return (
     <ThemeProvider theme={{ ...DEFAULT_THEME, ...theme }}>
       <CountryProvider value={{ ...DEFAULT_COUNTRY_CONTEXT, translation }}>
@@ -53,11 +53,12 @@ export default function main({ theme, translation, ...props }: Props) {
   )
 }
 
-main.defaultProps = {
+Main.defaultProps = {
   onSelect: () => {},
   withEmoji: true,
 }
 
+export default Main
 export {
   getCountriesAsync as getAllCountries,
   getCountryCallingCodeAsync as getCallingCode,
