@@ -3,7 +3,7 @@
 </h3>
 
 <p>
-   <a href="https://reactnative.gallery/xcarpentier/country-picker"><img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
+   <a href="https://reactnative.gallery/xcarpentier/country-picker"><a href="https://opencollective.com/react-native-country-picker-modal" alt="Financial Contributors on Open Collective"><img src="https://opencollective.com/react-native-country-picker-modal/all/badge.svg?label=financial+contributors" /></a> <img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
   <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/v/react-native-country-picker-modal.svg?style=flat-square"></a>
   <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/dm/react-native-country-picker-modal.svg?style=flat-square"></a>
   <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen"/></a>
@@ -193,3 +193,33 @@ Feel free to [contact me](mailto:contact@xaviercarpentier.com) or [create an iss
 ## Hire an expert!
 
 Looking for a ReactNative freelance expert with more than 12 years experience? Contact me from my [website](https://xaviercarpentier.com)!
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/xcarpentier/react-native-country-picker-modal/graphs/contributors"><img src="https://opencollective.com/react-native-country-picker-modal/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/react-native-country-picker-modal/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/react-native-country-picker-modal"><img src="https://opencollective.com/react-native-country-picker-modal/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/react-native-country-picker-modal/contribute)]
+
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/0/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/1/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/2/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/3/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/4/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/5/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/6/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/7/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/8/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/react-native-country-picker-modal/organization/9/website"><img src="https://opencollective.com/react-native-country-picker-modal/organization/9/avatar.svg"></a>
