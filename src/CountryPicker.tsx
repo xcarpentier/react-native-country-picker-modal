@@ -115,13 +115,13 @@ export const CountryPicker = (props: CountryPickerProps) => {
   })
   const { translation, getCountriesAsync } = useContext()
   const { visible, filter, countries, filterFocus } = state
-  
+
   useEffect(() => {
     if (state.visible !== props.visible) {
-      setState({ ...state, visible: props.visible });
+      setState({ ...state, visible: props.visible || false });
     }
   }, [props.visible])
-  
+
   const onOpen = () => {
     setState({ ...state, visible: true })
     if (handleOpen) {
