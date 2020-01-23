@@ -35,6 +35,7 @@ interface Props {
   withFilter?: boolean
   withFlag?: boolean
   withModal?: boolean
+  disableNativeModal?: boolean
   visible?: boolean
   containerButtonStyle?: StyleProp<ViewStyle>
   renderFlagButton?(props: FlagButtonProps): ReactNode

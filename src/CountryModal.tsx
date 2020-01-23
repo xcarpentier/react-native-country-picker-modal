@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ModalProps, SafeAreaView, StyleSheet } from 'react-native'
-import { Modal } from './Modal'
+import { ModalProps, SafeAreaView, StyleSheet, Modal as NativeModal } from 'react-native'
+import Modal from './Modal'
 import { useTheme } from './CountryTheme'
 
 const styles = StyleSheet.create({
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
 export const CountryModal = ({
   children,
   withModal,
+  disableNativeModal,
   ...props
 }: ModalProps & { children: React.ReactNode; withModal?: boolean }) => {
   const { backgroundColor } = useTheme()
@@ -21,7 +22,7 @@ export const CountryModal = ({
     </SafeAreaView>
   )
   if (withModal) {
-    return <Modal {...props}>{content}</Modal>
+  return disableNativeModal ? <Modal {...props}>{content}</Modal> : <NativeModal {...props}>{content}</NativeModal>
   }
   return content
 }
