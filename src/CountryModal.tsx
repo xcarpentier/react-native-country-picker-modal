@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { ModalProps, SafeAreaView, StyleSheet, Modal as NativeModal } from 'react-native'
-import Modal from './Modal'
+import { ModalProps, SafeAreaView, StyleSheet, Platform } from 'react-native'
+import AnimatedModal from './AnimatedModal'
+import Modal from './Modal';
 import { useTheme } from './CountryTheme'
 
 const styles = StyleSheet.create({
@@ -22,7 +23,10 @@ export const CountryModal = ({
     </SafeAreaView>
   )
   if (withModal) {
-  return disableNativeModal ? <Modal {...props}>{content}</Modal> : <NativeModal {...props}>{content}</NativeModal>
+    if (Platform.OS === 'web') {
+      return <Modal {...props}>{content}</Modal>
+    }
+    return disableNativeModal ? <AnimatedModal {...props}>{content}</AnimatedModal> : <Modal {...props}>{content}</Modal>
   }
   return content
 }
