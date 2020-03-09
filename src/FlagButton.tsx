@@ -110,11 +110,11 @@ export interface FlagButtonProps {
   withFlagButton?: boolean
   containerButtonStyle?: StyleProp<ViewStyle>
   countryCode?: CountryCode
-  placeholder: string
+  placeholder?: string
   onOpen?(): void
 }
 
-export const FlagButton = ({
+export const FlagButton: React.FunctionComponent<FlagButtonProps> = ({
   withEmoji,
   withCountryNameButton,
   withCallingCodeButton,
@@ -124,7 +124,7 @@ export const FlagButton = ({
   containerButtonStyle,
   onOpen,
   placeholder,
-}: FlagButtonProps) => {
+}) => {
   const { flagSizeButton: flagSize } = useTheme()
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={onOpen}>

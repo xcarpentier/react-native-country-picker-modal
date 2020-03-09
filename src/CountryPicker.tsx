@@ -11,7 +11,7 @@ import { CountryModal } from './CountryModal'
 import { HeaderModal } from './HeaderModal'
 import { Country, CountryCode, FlagType, Region, Subregion } from './types'
 import { CountryFilter, CountryFilterProps } from './CountryFilter'
-import { FlagButton } from './FlagButton'
+import { FlagButton, FlagButtonProps } from './FlagButton'
 import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
 
@@ -23,7 +23,7 @@ interface State {
 }
 
 const renderFlagButton = (
-  props: FlagButton['props'] & CountryPickerProps['renderFlagButton'],
+  props: FlagButtonProps & Pick<CountryPickerProps, 'renderFlagButton'>,
 ): ReactNode =>
   props.renderFlagButton ? (
     props.renderFlagButton(props)
@@ -32,7 +32,7 @@ const renderFlagButton = (
   )
 
 const renderFilter = (
-  props: CountryFilter['props'] & CountryPickerProps['renderCountryFilter'],
+  props: CountryFilterProps & Pick<CountryPickerProps, 'renderCountryFilter'>,
 ): ReactNode =>
   props.renderCountryFilter ? (
     props.renderCountryFilter(props)
@@ -40,7 +40,7 @@ const renderFilter = (
     <CountryFilter {...props} />
   )
 
-interface CountryPickerProps {
+export interface CountryPickerProps {
   countryCode?: CountryCode
   region?: Region
   subregion?: Subregion
@@ -68,8 +68,8 @@ interface CountryPickerProps {
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
-  renderFlagButton?(props: FlagButton['props']): ReactNode
-  renderCountryFilter?(props: CountryFilter['props']): ReactNode
+  renderFlagButton?(props: FlagButtonProps): typeof FlagButton
+  renderCountryFilter?(props: CountryFilterProps): typeof CountryFilter
   onSelect(country: Country): void
   onOpen?(): void
   onClose?(): void
