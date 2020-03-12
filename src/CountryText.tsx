@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { TextProps, Text } from 'react-native'
+import { TextProps, Text, I18nManager } from 'react-native'
 import { useTheme } from './CountryTheme'
 
 export const CountryText = (props: TextProps & { children: ReactNode }) => {
@@ -13,6 +13,7 @@ export const CountryText = (props: TextProps & { children: ReactNode }) => {
           fontFamily,
           fontSize,
           color: primaryColor,
+          direction: I18nManager.isRTL ? 'rtl' : 'ltr',
         },
         style,
       ]}
