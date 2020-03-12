@@ -10,9 +10,6 @@ import {
 } from './types'
 import Fuse from 'fuse.js'
 
-const imageJsonUrl =
-  'https://xcarpentier.github.io/react-native-country-picker-modal/countries/'
-
 type CountryMap = { [key in CountryCode]: Country }
 
 interface DataCountry {
@@ -24,34 +21,28 @@ const localData: DataCountry = {
   imageCountries: undefined,
 }
 
-export const loadDataAsync = ((data: DataCountry) => (
+export const loadDataAsync = ((data: DataCountry) => async (
   dataType: FlagType = FlagType.EMOJI,
 ): Promise<CountryMap> => {
-  return new Promise((resolve, reject) => {
-    switch (dataType) {
-      case FlagType.FLAT:
-        if (!data.imageCountries) {
-          fetch(imageJsonUrl)
-            .then((response: Response) => response.json())
-            .then((remoteData: any) => {
-              data.imageCountries = remoteData
-              resolve(data.imageCountries)
-            })
-            .catch(reject)
-        } else {
-          resolve(data.imageCountries)
-        }
-        break
-      default:
-        if (!data.emojiCountries) {
-          data.emojiCountries = require('./assets/data/countries-emoji.json')
-          resolve(data.emojiCountries)
-        } else {
-          resolve(data.emojiCountries)
-        }
-        break
-    }
-  })
+  switch (dataType) {
+    case FlagType.FLAT:
+      if (!data.imageCountries) {
+        const imageCountries = require('./assets/data/countries.json')
+        data.imageCountries = imageCountries
+        return imageCountries
+      } else {
+        return data.imageCountries
+      }
+      break
+    default:
+      if (!data.emojiCountries) {
+        const emojiCountries = require('./assets/data/countries-emoji.json')
+        data.emojiCountries = emojiCountries
+        return emojiCountries
+      } else {
+        return data.emojiCountries
+      }
+  }
 })(localData)
 
 export const getEmojiFlagAsync = async (countryCode: CountryCode = 'FR') => {
