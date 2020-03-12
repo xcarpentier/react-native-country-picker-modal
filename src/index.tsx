@@ -9,7 +9,11 @@ export interface Props extends CountryPickerProps {
   translation?: TranslationLanguageCode
 }
 
-const Main = ({ theme, translation, ...props }: Props) => {
+const Main: React.FunctionComponent<Props> = ({
+  theme,
+  translation,
+  ...props
+}) => {
   return (
     <ThemeProvider theme={{ ...DEFAULT_THEME, ...theme }}>
       <CountryProvider value={{ ...DEFAULT_COUNTRY_CONTEXT, translation }}>

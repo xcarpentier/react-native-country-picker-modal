@@ -6,9 +6,9 @@ interface HeaderModalProps extends ViewProps {
     closeButtonImage?: ImageSourcePropType;
     closeButtonStyle?: StyleProp<ViewStyle>;
     closeButtonImageStyle?: StyleProp<ImageStyle>;
+    isRTL?: boolean;
     onClose(): void;
     renderFilter(props: HeaderModalProps): ReactNode;
-    isRTL?: boolean;
 }
 export declare const HeaderModal: {
     (props: HeaderModalProps): JSX.Element;

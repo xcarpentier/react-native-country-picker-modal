@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import { TranslationLanguageCode } from './types';
 import { Theme } from './CountryTheme';
 import { CountryPickerProps } from './CountryPicker';
@@ -6,13 +6,7 @@ export interface Props extends CountryPickerProps {
     theme?: Theme;
     translation?: TranslationLanguageCode;
 }
-declare const Main: {
-    ({ theme, translation, ...props }: Props): JSX.Element;
-    defaultProps: {
-        onSelect: () => void;
-        withEmoji: boolean;
-    };
-};
+declare const Main: React.FunctionComponent<Props>;
 export default Main;
 export { getCountriesAsync as getAllCountries, getCountryCallingCodeAsync as getCallingCode, } from './CountryService';
 export { CountryModal } from './CountryModal';
