@@ -25,10 +25,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   letters: {
-    marginRight: 10,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  lettersLTR: {
+    marginRight: 10,
+  },
+  lettersRTL: {
+    marginLeft: 10,
   },
   letter: {
     height: 23,
@@ -62,7 +67,7 @@ interface LetterProps {
   scrollTo(letter: string): void
 }
 const Letter = ({ letter, scrollTo }: LetterProps) => {
-  const { fontSize, activeOpacity } = useTheme()
+  const { alphaFontSize, activeOpacity } = useTheme()
   return (
     <TouchableOpacity
       testID={`letter-${letter}`}
@@ -72,7 +77,7 @@ const Letter = ({ letter, scrollTo }: LetterProps) => {
     >
       <View style={styles.letter}>
         <CountryText
-          style={[styles.letterText, { fontSize: fontSize! * 0.8 }]}
+          style={[styles.letterText, { fontSize: alphaFontSize }]}
           allowFontScaling={false}
         >
           {letter}
@@ -108,6 +113,7 @@ const CountryItem = (props: CountryItemProps) => {
   ) {
     extraContent.push(`+${country.callingCode}`)
   }
+  const { isRTL } = useTheme()
   if (withCurrency && country.currency && country.currency.length > 0) {
     extraContent.push(country.currency)
   }
@@ -129,6 +135,7 @@ const CountryItem = (props: CountryItemProps) => {
             allowFontScaling={false}
             numberOfLines={2}
             ellipsizeMode='tail'
+            style={{ textAlign: isRTL ? 'right' : 'left' }}
           >
             {country.name}
             {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
@@ -221,8 +228,15 @@ export const CountryList = (props: CountryListProps) => {
   }, [filterFocus])
 
   const initialNumToRender = Math.round(height / (itemHeight || 1))
+  const { isRTL } = useTheme()
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor },
+        { direction: isRTL ? 'rtl' : 'ltr' },
+      ]}
+    >
       <FlatList
         onScrollToIndexFailed
         ref={flatListRef}
@@ -253,7 +267,10 @@ export const CountryList = (props: CountryListProps) => {
       />
       {withAlphaFilter && (
         <ScrollView
-          contentContainerStyle={styles.letters}
+          contentContainerStyle={[
+            styles.letters,
+            isRTL ? styles.lettersRTL : styles.lettersLTR,
+          ]}
           keyboardShouldPersistTaps='always'
         >
           {letters.map(letter => (

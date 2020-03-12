@@ -3,11 +3,19 @@ import { TextProps, Text } from 'react-native'
 import { useTheme } from './CountryTheme'
 
 export const CountryText = (props: TextProps & { children: ReactNode }) => {
-  const { fontFamily, fontSize, onBackgroundTextColor } = useTheme()
+  const { fontFamily, fontSize, primaryColor } = useTheme()
+  const { style, ...rest } = props
   return (
     <Text
-      {...props}
-      style={{ fontFamily, fontSize, color: onBackgroundTextColor }}
+      {...rest}
+      style={[
+        {
+          fontFamily,
+          fontSize,
+          color: primaryColor,
+        },
+        style,
+      ]}
     />
   )
 }

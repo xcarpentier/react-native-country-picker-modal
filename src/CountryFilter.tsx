@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
 
 export type CountryFilterProps = TextInputProps
 
-export const CountryFilter: React.FunctionComponent<
-  CountryFilterProps
-> = props => {
+export const CountryFilter: React.FunctionComponent<CountryFilterProps> = ({
+  style,
+  ...props
+}) => {
   const {
     filterPlaceholderTextColor,
     fontFamily,
@@ -35,6 +36,7 @@ export const CountryFilter: React.FunctionComponent<
       style={[
         styles.input,
         { fontFamily, fontSize, color: onBackgroundTextColor },
+        style,
       ]}
       {...props}
     />
@@ -43,5 +45,5 @@ export const CountryFilter: React.FunctionComponent<
 
 CountryFilter.defaultProps = {
   autoFocus: false,
-  placeholder: 'Enter country name',
+  placeholder: 'Filter',
 }
