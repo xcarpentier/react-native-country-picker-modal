@@ -26,7 +26,7 @@
     "data:subregions": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --subregions > ./data/subregions.json",
     "cleaning": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*",
     "verify": "yarn lint && yarn build && yarn test",
-    "prepublishOnly": "yarn verify && yarn config:npm",
+    "prepublish": "yarn verify && yarn config:npm",
     "postpublish": "yarn config:dev",
     "deploy": "gh-pages -d web-build",
     "predeploy": "yarn verify && expo build:web && mkdir web-build/countries && cp ./data/countries.json web-build/countries/index.json"
