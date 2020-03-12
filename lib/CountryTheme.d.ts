@@ -6,7 +6,6 @@ export declare const DEFAULT_THEME: {
     onBackgroundTextColor: string;
     fontSize: number;
     alphaFontSize: number;
-    isRTL: boolean;
     fontFamily: string;
     filterPlaceholderTextColor: string;
     activeOpacity: number;
@@ -21,7 +20,6 @@ export declare const DARK_THEME: {
     onBackgroundTextColor: string;
     fontSize: number;
     alphaFontSize: number;
-    isRTL: boolean;
     fontFamily: string;
     filterPlaceholderTextColor: string;
     activeOpacity: number;
@@ -38,7 +36,6 @@ declare const ThemeProvider: import("react").ComponentType<{
         onBackgroundTextColor: string;
         fontSize: number;
         alphaFontSize: number;
-        isRTL: boolean;
         fontFamily: string;
         filterPlaceholderTextColor: string;
         activeOpacity: number;
@@ -53,7 +50,6 @@ declare const ThemeProvider: import("react").ComponentType<{
     onBackgroundTextColor: string;
     fontSize: number;
     alphaFontSize: number;
-    isRTL: boolean;
     fontFamily: string;
     filterPlaceholderTextColor: string;
     activeOpacity: number;
@@ -67,7 +63,6 @@ declare const ThemeProvider: import("react").ComponentType<{
     onBackgroundTextColor: string;
     fontSize: number;
     alphaFontSize: number;
-    isRTL: boolean;
     fontFamily: string;
     filterPlaceholderTextColor: string;
     activeOpacity: number;

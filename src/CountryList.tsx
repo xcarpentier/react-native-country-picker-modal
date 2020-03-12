@@ -28,12 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  lettersLTR: {
     marginRight: 10,
-  },
-  lettersRTL: {
-    marginLeft: 10,
   },
   letter: {
     height: 23,
@@ -50,12 +45,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
   },
+  itemCountryName: {
+    width: '90%',
+  },
   list: {
     flex: 1,
-  },
-  sep: {
-    borderBottomWidth,
-    width: '100%',
   },
 })
 
@@ -126,7 +120,7 @@ const CountryItem = (props: CountryItemProps) => {
             {...{ withEmoji, countryCode: country.cca2, flagSize: flagSize! }}
           />
         )}
-        <View>
+        <View style={styles.itemCountryName}>
           <CountryText
             allowFontScaling={false}
             numberOfLines={2}
@@ -166,13 +160,6 @@ interface CountryListProps {
 }
 
 const keyExtractor = (item: Country) => item.cca2
-
-const ItemSeparatorComponent = () => {
-  const { primaryColorVariant } = useTheme()
-  return (
-    <View style={[styles.sep, { borderBottomColor: primaryColorVariant }]} />
-  )
-}
 
 const { height } = Dimensions.get('window')
 
@@ -223,15 +210,8 @@ export const CountryList = (props: CountryListProps) => {
   }, [filterFocus])
 
   const initialNumToRender = Math.round(height / (itemHeight || 1))
-  const { isRTL } = useTheme()
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor },
-        { direction: isRTL ? 'rtl' : 'ltr' },
-      ]}
-    >
+    <View style={[styles.container, { backgroundColor }]}>
       <FlatList
         onScrollToIndexFailed
         ref={flatListRef}
@@ -255,17 +235,13 @@ export const CountryList = (props: CountryListProps) => {
           data: search(filter, data),
           keyExtractor,
           onScrollToIndexFailed,
-          ItemSeparatorComponent,
           initialNumToRender,
         }}
         {...flatListProps}
       />
       {withAlphaFilter && (
         <ScrollView
-          contentContainerStyle={[
-            styles.letters,
-            isRTL ? styles.lettersRTL : styles.lettersLTR,
-          ]}
+          contentContainerStyle={[styles.letters]}
           keyboardShouldPersistTaps='always'
         >
           {letters.map(letter => (

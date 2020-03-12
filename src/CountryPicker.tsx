@@ -14,7 +14,6 @@ import { CountryFilter, CountryFilterProps } from './CountryFilter'
 import { FlagButton, FlagButtonProps } from './FlagButton'
 import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
-import { useTheme } from './CountryTheme'
 
 interface State {
   visible: boolean
@@ -172,7 +171,6 @@ export const CountryPicker = (props: CountryPickerProps) => {
       .catch(console.warn)
   }, [translation, withEmoji])
 
-  const { isRTL } = useTheme()
   return (
     <>
       {withModal && renderFlagButton(flagProp)}
@@ -181,7 +179,6 @@ export const CountryPicker = (props: CountryPickerProps) => {
         onRequestClose={onClose}
       >
         <HeaderModal
-          isRTL={isRTL}
           {...{
             withFilter,
             onClose,

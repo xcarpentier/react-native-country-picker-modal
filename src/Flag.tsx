@@ -17,11 +17,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 30,
-  },
-  containerLTR: {
-    marginRight: 10,
-  },
-  containerRTL: {
     marginLeft: 10,
   },
   emojiFlag: {
@@ -45,7 +40,6 @@ interface FlagType {
   withEmoji?: boolean
   withFlagButton?: boolean
   flagSize: number
-  isRTL?: boolean
 }
 
 const ImageFlag = memo(({ countryCode, flagSize }: FlagType) => {
@@ -88,15 +82,9 @@ export const Flag = ({
   withEmoji,
   withFlagButton,
   flagSize,
-  isRTL,
 }: FlagType) =>
   withFlagButton ? (
-    <View
-      style={[
-        styles.container,
-        isRTL ? styles.containerRTL : styles.containerLTR,
-      ]}
-    >
+    <View style={styles.container}>
       {withEmoji ? (
         <EmojiFlag {...{ countryCode, flagSize }} />
       ) : (

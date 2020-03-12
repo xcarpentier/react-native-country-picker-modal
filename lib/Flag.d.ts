@@ -5,10 +5,9 @@ interface FlagType {
     withEmoji?: boolean;
     withFlagButton?: boolean;
     flagSize: number;
-    isRTL?: boolean;
 }
 export declare const Flag: {
-    ({ countryCode, withEmoji, withFlagButton, flagSize, isRTL, }: FlagType): JSX.Element | null;
+    ({ countryCode, withEmoji, withFlagButton, flagSize, }: FlagType): JSX.Element | null;
     defaultProps: {
         withEmoji: boolean;
         withFlagButton: boolean;

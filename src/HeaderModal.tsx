@@ -23,7 +23,6 @@ interface HeaderModalProps extends ViewProps {
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
-  isRTL?: boolean
   onClose(): void
   renderFilter(props: HeaderModalProps): ReactNode
 }
@@ -36,14 +35,10 @@ export const HeaderModal = (props: HeaderModalProps) => {
     closeButtonImageStyle,
     onClose,
     renderFilter,
-    isRTL,
     ...rest
   } = props
   return (
-    <View
-      style={[styles.container, { direction: isRTL ? 'rtl' : 'ltr' }]}
-      {...rest}
-    >
+    <View style={styles.container} {...rest}>
       {withCloseButton && (
         <CloseButton
           image={closeButtonImage}
