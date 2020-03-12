@@ -106,10 +106,10 @@ const CountryItem = (props: CountryItemProps) => {
     country.callingCode &&
     country.callingCode.length > 0
   ) {
-    extraContent.push(`+${country.callingCode.join('|')}`)
+    extraContent.push(`+${country.callingCode}`)
   }
   if (withCurrency && country.currency && country.currency.length > 0) {
-    extraContent.push(country.currency.join('|'))
+    extraContent.push(country.currency)
   }
   return (
     <TouchableOpacity
