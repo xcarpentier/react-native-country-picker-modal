@@ -50,9 +50,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
   },
-  itemCountryName: {
-    width: '90%',
-  },
   list: {
     flex: 1,
   },
@@ -113,7 +110,6 @@ const CountryItem = (props: CountryItemProps) => {
   ) {
     extraContent.push(`+${country.callingCode}`)
   }
-  const { isRTL } = useTheme()
   if (withCurrency && country.currency && country.currency.length > 0) {
     extraContent.push(country.currency)
   }
@@ -130,12 +126,11 @@ const CountryItem = (props: CountryItemProps) => {
             {...{ withEmoji, countryCode: country.cca2, flagSize: flagSize! }}
           />
         )}
-        <View style={styles.itemCountryName}>
+        <View>
           <CountryText
             allowFontScaling={false}
             numberOfLines={2}
             ellipsizeMode='tail'
-            style={{ textAlign: isRTL ? 'right' : 'left' }}
           >
             {country.name}
             {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
