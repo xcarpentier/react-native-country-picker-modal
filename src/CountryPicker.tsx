@@ -177,6 +177,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
       <CountryModal
         {...{ visible, withModal, disableNativeModal, ...modalProps }}
         onRequestClose={onClose}
+        onDismiss={onClose}
       >
         <HeaderModal
           {...{
