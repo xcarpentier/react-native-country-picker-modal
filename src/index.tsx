@@ -32,6 +32,7 @@ interface Props {
   withCurrencyButton?: boolean
   withCallingCodeButton?: boolean
   withCloseButton?: boolean
+  withFlagButton?: boolean
   withFilter?: boolean
   withFlag?: boolean
   withModal?: boolean
