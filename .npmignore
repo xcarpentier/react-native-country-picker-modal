@@ -33,3 +33,6 @@ __tests__/
 web-build/
 lib/assets/data/countries-image.json
 .prettierrc
+lib/assets/images/icon.png
+lib/assets/images/splash.png
+.expo-shared/assets.json

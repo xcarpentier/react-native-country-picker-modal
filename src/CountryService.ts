@@ -11,7 +11,7 @@ import {
 import Fuse from 'fuse.js'
 
 const imageJsonUrl =
-  'http://xcarpentier.github.io/react-native-country-picker-modal/countries/'
+  'https://xcarpentier.github.io/react-native-country-picker-modal/countries/'
 
 type CountryMap = { [key in CountryCode]: Country }
 
@@ -157,12 +157,12 @@ export const getCountriesAsync = async (
 
 const DEFAULT_FUSE_OPTION = {
   shouldSort: true,
-  threshold: 0.6,
+  threshold: 0.3,
   location: 0,
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  keys: ['name', 'callingCode'],
+  keys: ['name', 'cca2', 'callingCode'],
 }
 let fuse: Fuse<Country>
 export const search = (
@@ -193,4 +193,25 @@ export const getLetters = (countries: Country[]) => {
       )
       .sort((l1: string, l2: string) => l1.localeCompare(l2)),
   )
+}
+
+export interface CountryInfo {
+  countryName: string
+  currency: string
+  callingCode: string
+}
+export const getCountryInfoAsync = async ({
+  countryCode,
+  translation,
+}: {
+  countryCode: CountryCode
+  translation?: TranslationLanguageCode
+}): Promise<CountryInfo> => {
+  const countryName = await getCountryNameAsync(
+    countryCode,
+    translation || 'common',
+  )
+  const currency = await getCountryCurrencyAsync(countryCode)
+  const callingCode = await getCountryCallingCodeAsync(countryCode)
+  return { countryName, currency, callingCode }
 }
