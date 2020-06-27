@@ -127,12 +127,18 @@ export const getCountriesAsync = async (
   subregion?: Subregion,
   countryCodes?: CountryCode[],
   excludeCountries?: CountryCode[],
+  preferredCountries?: CountryCode[],
+  withAlphaFilter?: boolean
 ): Promise<Country[]> => {
   const countriesRaw = await loadDataAsync(flagType)
   if (!countriesRaw) {
     return []
   }
-  const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
+
+  if (preferredCountries && !withAlphaFilter) {
+    const newCountryCodeList = [...preferredCountries, ...CountryCodeList.filter(code => !preferredCountries.includes(code))]
+
+    const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
     .map((cca2: CountryCode) => ({
       cca2,
       ...{
@@ -148,11 +154,32 @@ export const getCountriesAsync = async (
     .filter(isSubregion(subregion))
     .filter(isIncluded(countryCodes))
     .filter(isExcluded(excludeCountries))
-    .sort((country1: Country, country2: Country) =>
-      (country1.name as string).localeCompare(country2.name as string),
-    )
+    
+    return countries
 
-  return countries
+  } else {
+    const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
+      .map((cca2: CountryCode) => ({
+        cca2,
+        ...{
+          ...countriesRaw[cca2],
+          name:
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
+              translation
+            ] ||
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
+        },
+      }))
+      .filter(isRegion(region))
+      .filter(isSubregion(subregion))
+      .filter(isIncluded(countryCodes))
+      .filter(isExcluded(excludeCountries))
+      .sort((country1: Country, country2: Country) =>
+        (country1.name as string).localeCompare(country2.name as string),
+      )
+
+    return countries
+  }
 }
 
 const DEFAULT_FUSE_OPTION = {

@@ -46,6 +46,7 @@ interface CountryPickerProps {
   subregion?: Subregion
   countryCodes?: CountryCode[]
   excludeCountries?: CountryCode[]
+  preferredCountries?: CountryCode[]
   modalProps?: ModalProps
   filterProps?: CountryFilterProps
   flatListProps?: FlatListProps<Country>
@@ -108,6 +109,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     closeButtonImageStyle,
     excludeCountries,
     placeholder,
+    preferredCountries
   } = props
   const [state, setState] = useState<State>({
     visible: props.visible || false,
@@ -166,6 +168,8 @@ export const CountryPicker = (props: CountryPickerProps) => {
       subregion,
       countryCodes,
       excludeCountries,
+      preferredCountries,
+      withAlphaFilter
     )
       .then(setCountries)
       .catch(console.warn)

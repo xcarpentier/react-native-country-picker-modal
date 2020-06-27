@@ -138,6 +138,7 @@ export default function App() {
 - `closeButtonStyle?`: StyleProp<ViewStyle>
 - `closeButtonImageStyle?`: StyleProp<ImageStyle>
 - `disableNativeModal?`: boolean (you have to wrap your all app with CountryModalProvider)
+- `preferredCountries`: [CountryCode](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L254) (`withAlphaFilter` must be false)
 
 ## Dark theme example
 
