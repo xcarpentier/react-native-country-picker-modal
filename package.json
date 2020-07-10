@@ -2,7 +2,7 @@
   "name": "react-native-country-picker-modal",
   "version": "1.11.0",
   "description": "react-native country picker",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
