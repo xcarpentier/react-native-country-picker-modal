@@ -88,13 +88,13 @@ const FlagWithSomething = memo(
           <FlagText>{placeholder}</FlagText>
         )}
 
-        {withCountryNameButton && countryName ? (
+        {withCountryNameButton && countryName && countryCode ? (
           <FlagText>{countryName + ' '}</FlagText>
         ) : null}
-        {withCurrencyButton && currency ? (
+        {withCurrencyButton && currency && countryCode? (
           <FlagText>{`(${currency}) `}</FlagText>
         ) : null}
-        {withCallingCodeButton && callingCode ? (
+        {withCallingCodeButton && callingCode && countryCode? (
           <FlagText>{`+${callingCode}`}</FlagText>
         ) : null}
       </View>
