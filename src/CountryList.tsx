@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   itemCountryName: {
-    width: '90%',
+    width: '88%',
   },
   list: {
     flex: 1,
