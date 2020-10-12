@@ -9,6 +9,7 @@ import {
   Subregion,
 } from './types'
 import Fuse from 'fuse.js'
+import isEqual from 'lodash.isequal'
 
 const imageJsonUrl =
   'https://xcarpentier.github.io/react-native-country-picker-modal/countries/'
@@ -200,7 +201,7 @@ export const search = (
   if (data.length === 0) {
     return []
   }
-  if (!fuse) {
+  if (!fuse || !isEqual(fuse.list, data)) {
     fuse = new Fuse<Country>(data, options)
   }
   if (filter && filter !== '') {
