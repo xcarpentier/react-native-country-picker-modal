@@ -248,7 +248,7 @@ export const CountryCodeList = [
   'ZW',
   'KI',
   'HK',
-  'AX'
+  'AX',
 ] as const
 
 export type CountryCode = typeof CountryCodeList[number]
@@ -275,7 +275,7 @@ export const RegionList = [
   'Antarctic',
   'Asia',
   'Europe',
-  'Oceania'
+  'Oceania',
 ] as const
 export type Region = typeof RegionList[number]
 
@@ -302,7 +302,7 @@ export const SubregionList = [
   'Melanesia',
   'Micronesia',
   'Central Asia',
-  'Central Europe'
+  'Central Europe',
 ] as const
 export type Subregion = typeof SubregionList[number]
 
@@ -321,18 +321,19 @@ export const TranslationLanguageCodeList = [
   'svk',
   'fin',
   'zho',
-  'isr'
+  'isr',
+  'ara',
 ] as const
 export type TranslationLanguageCode = typeof TranslationLanguageCodeList[number]
 
 export enum FlagType {
   FLAT = 'flat',
-  EMOJI = 'emoji'
+  EMOJI = 'emoji',
 }
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 // type guards
 export function isCountryCode(str: string): str is CountryCode {
-  return CountryCodeList.some((code) => code === str);
+  return CountryCodeList.some((code) => code === str)
 }
