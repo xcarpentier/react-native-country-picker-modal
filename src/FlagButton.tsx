@@ -64,13 +64,19 @@ const FlagWithSomething = memo(
       currency: '',
       callingCode: '',
     })
-    const { countryName, currency, callingCode } = state
+    const { countryName, currency, callingCode } = state;
+
     useEffect(() => {
-      if (countryCode) {
-        getCountryInfoAsync({ countryCode, translation })
-          .then(setState)
-          .catch(console.warn)
-      }
+      let didCancel = false;
+      const _getCountryInfoAsync = async (countryCode: any, translation: any) => {
+        if (countryCode) {
+          return getCountryInfoAsync({ countryCode, translation })
+            .then((state) => !didCancel && setState(state))
+            .catch(console.warn)
+        }
+      };
+      _getCountryInfoAsync(countryCode, translation);
+      return () => { didCancel = true; };
     }, [
       countryCode,
       withCountryNameButton,
