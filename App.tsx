@@ -61,13 +61,13 @@ export default function App() {
   const [withCurrencyButton, setWithCurrencyButton] = useState<boolean>(false)
   const [withFlagButton, setWithFlagButton] = useState<boolean>(true)
   const [withCallingCodeButton, setWithCallingCodeButton] = useState<boolean>(
-    true,
+    false,
   )
   const [withFlag, setWithFlag] = useState<boolean>(true)
   const [withEmoji, setWithEmoji] = useState<boolean>(true)
   const [withFilter, setWithFilter] = useState<boolean>(true)
   const [withAlphaFilter, setWithAlphaFilter] = useState<boolean>(false)
-  const [withCallingCode, setWithCallingCode] = useState<boolean>(true)
+  const [withCallingCode, setWithCallingCode] = useState<boolean>(false)
   const [withCurrency, setWithCurrency] = useState<boolean>(false)
   const [withModal, setWithModal] = useState<boolean>(true)
   const [visible, setVisible] = useState<boolean>(false)
