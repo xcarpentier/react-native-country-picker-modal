@@ -123,11 +123,7 @@ const CountryItem = (props: CountryItemProps) => {
           />
         )}
         <View style={styles.itemCountryName}>
-          <CountryText
-            allowFontScaling={false}
-            numberOfLines={2}
-            ellipsizeMode='tail'
-          >
+          <CountryText numberOfLines={2} ellipsizeMode='tail'>
             {country.name}
             {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
           </CountryText>
