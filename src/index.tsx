@@ -14,6 +14,7 @@ import { StyleProp, ViewStyle, ModalProps, FlatListProps } from 'react-native'
 import { CountryPicker } from './CountryPicker'
 
 interface Props {
+  allowFontScaling?: boolean
   countryCode: CountryCode
   region?: Region
   subregion?: Subregion

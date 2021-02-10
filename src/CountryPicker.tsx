@@ -41,6 +41,7 @@ const renderFilter = (
   )
 
 interface CountryPickerProps {
+  allowFontScaling?: boolean
   countryCode?: CountryCode
   region?: Region
   subregion?: Subregion
@@ -78,6 +79,7 @@ interface CountryPickerProps {
 
 export const CountryPicker = (props: CountryPickerProps) => {
   const {
+    allowFontScaling,
     countryCode,
     region,
     subregion,
@@ -109,7 +111,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     closeButtonImageStyle,
     excludeCountries,
     placeholder,
-    preferredCountries
+    preferredCountries,
   } = props
   const [state, setState] = useState<State>({
     visible: props.visible || false,
@@ -138,6 +140,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
       handleClose()
     }
   }
+
   const setFilter = (filter: string) => setState({ ...state, filter })
   const setCountries = (countries: Country[]) =>
     setState({ ...state, countries })
@@ -148,6 +151,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
   const onFocus = () => setState({ ...state, filterFocus: true })
   const onBlur = () => setState({ ...state, filterFocus: false })
   const flagProp = {
+    allowFontScaling,
     countryCode,
     withEmoji,
     withCountryNameButton,
@@ -169,7 +173,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
       countryCodes,
       excludeCountries,
       preferredCountries,
-      withAlphaFilter
+      withAlphaFilter,
     )
       .then(setCountries)
       .catch(console.warn)
@@ -195,6 +199,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
           renderFilter={(props: CountryFilter['props']) =>
             renderFilter({
               ...props,
+              allowFontScaling,
               renderCountryFilter,
               onChangeText: setFilter,
               value: filter,
@@ -206,6 +211,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
         />
         <CountryList
           {...{
+            allowFontScaling,
             onSelect: onSelectClose,
             data: countries,
             letters: [],
@@ -229,4 +235,5 @@ CountryPicker.defaultProps = {
   withAlphaFilter: false,
   withCallingCode: false,
   placeholder: 'Select Country',
+  allowFontScaling: true,
 }

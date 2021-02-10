@@ -61,23 +61,25 @@ export default function App() {
   const [withCurrencyButton, setWithCurrencyButton] = useState<boolean>(false)
   const [withFlagButton, setWithFlagButton] = useState<boolean>(true)
   const [withCallingCodeButton, setWithCallingCodeButton] = useState<boolean>(
-    false,
+    true,
   )
   const [withFlag, setWithFlag] = useState<boolean>(true)
   const [withEmoji, setWithEmoji] = useState<boolean>(true)
   const [withFilter, setWithFilter] = useState<boolean>(true)
   const [withAlphaFilter, setWithAlphaFilter] = useState<boolean>(false)
-  const [withCallingCode, setWithCallingCode] = useState<boolean>(false)
+  const [withCallingCode, setWithCallingCode] = useState<boolean>(true)
   const [withCurrency, setWithCurrency] = useState<boolean>(false)
   const [withModal, setWithModal] = useState<boolean>(true)
   const [visible, setVisible] = useState<boolean>(false)
   const [dark, setDark] = useState<boolean>(false)
+  const [fontScaling, setFontScaling] = useState<boolean>(true)
   const [disableNativeModal, setDisableNativeModal] = useState<boolean>(false)
   const onSelect = (country: Country) => {
     setCountryCode(country.cca2)
     setCountry(country)
   }
   const switchVisible = () => setVisible(!visible)
+
   return (
     <CountryModalProvider>
       <ScrollView contentContainerStyle={styles.container}>
@@ -101,6 +103,11 @@ export default function App() {
           title='With flag'
           value={withFlag}
           onValueChange={setWithFlag}
+        />
+        <Option
+          title='With font scaling'
+          value={fontScaling}
+          onValueChange={setFontScaling}
         />
         <Option
           title='With emoji'
@@ -146,6 +153,7 @@ export default function App() {
         <CountryPicker
           theme={dark ? DARK_THEME : {}}
           {...{
+            allowFontScaling: fontScaling,
             countryCode,
             withFilter,
             excludeCountries: ['FR'],
