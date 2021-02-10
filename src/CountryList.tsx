@@ -58,11 +58,10 @@ const styles = StyleSheet.create({
 })
 
 interface LetterProps {
-  allowFontScaling?: boolean
   letter: string
   scrollTo(letter: string): void
 }
-const Letter = ({ allowFontScaling, letter, scrollTo }: LetterProps) => {
+const Letter = ({ letter, scrollTo }: LetterProps) => {
   const { fontSize, activeOpacity } = useTheme()
 
   return (
@@ -73,10 +72,7 @@ const Letter = ({ allowFontScaling, letter, scrollTo }: LetterProps) => {
       {...{ activeOpacity }}
     >
       <View style={styles.letter}>
-        <CountryText
-          allowFontScaling={allowFontScaling}
-          style={[styles.letterText, { fontSize: fontSize! * 0.8 }]}
-        >
+        <CountryText style={[styles.letterText, { fontSize: fontSize! * 0.8 }]}>
           {letter}
         </CountryText>
       </View>
@@ -153,7 +149,6 @@ const renderItem = (props: Omit<CountryItemProps, 'country'>) => ({
 )
 
 interface CountryListProps {
-  allowFontScaling?: boolean
   data: Country[]
   filter?: string
   filterFocus?: boolean
@@ -179,7 +174,6 @@ const { height } = Dimensions.get('window')
 
 export const CountryList = (props: CountryListProps) => {
   const {
-    allowFontScaling,
     data,
     withAlphaFilter,
     withEmoji,
@@ -261,7 +255,7 @@ export const CountryList = (props: CountryListProps) => {
           keyboardShouldPersistTaps='always'
         >
           {letters.map((letter) => (
-            <Letter key={letter} {...{ allowFontScaling, letter, scrollTo }} />
+            <Letter key={letter} {...{ letter, scrollTo }} />
           ))}
         </ScrollView>
       )}

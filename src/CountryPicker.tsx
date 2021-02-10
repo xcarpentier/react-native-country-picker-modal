@@ -211,7 +211,6 @@ export const CountryPicker = (props: CountryPickerProps) => {
         />
         <CountryList
           {...{
-            allowFontScaling,
             onSelect: onSelectClose,
             data: countries,
             letters: [],
