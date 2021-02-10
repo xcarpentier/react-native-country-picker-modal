@@ -235,4 +235,5 @@ CountryPicker.defaultProps = {
   withAlphaFilter: false,
   withCallingCode: false,
   placeholder: 'Select Country',
+  allowFontScaling: true,
 }
