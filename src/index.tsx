@@ -13,7 +13,7 @@ import { CountryFilterProps } from './CountryFilter'
 import { StyleProp, ViewStyle, ModalProps, FlatListProps } from 'react-native'
 import { CountryPicker } from './CountryPicker'
 
-interface Props {
+export interface Props {
   allowFontScaling?: boolean
   countryCode: CountryCode
   region?: Region
