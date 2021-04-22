@@ -26,6 +26,7 @@ interface Props {
   modalProps?: ModalProps
   filterProps?: CountryFilterProps
   flatListProps?: FlatListProps<Country>
+  placeholder?: string
   withAlphaFilter?: boolean
   withCallingCode?: boolean
   withCurrency?: boolean
