@@ -164,7 +164,11 @@ export const CountryPicker = (props: CountryPickerProps) => {
     }
   }
   const onClose = () => {
-    setState({ ...state, filter: '', visible: false })
+    setState(prevState => ({
+      ...prevState,
+      filter: '',
+      visible: false,
+    }))
     if (handleClose) {
       handleClose()
     }
@@ -179,36 +183,37 @@ export const CountryPicker = (props: CountryPickerProps) => {
       onSelect(country)
       onClose()
       if (country.callingCode[0]) {
-        setState({
-          ...state,
+        setState(prevState => ({
+          ...prevState,
           callingCodePicker: {
-            ...state.callingCodePicker,
-            callingCode: country.callingCode[0],
+            ...prevState.callingCodePicker,
+            visible: false,
+            callingCode: country.callingCode[0] || '',
           },
-        })
+        }))
       }
       return
     }
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       callingCodePicker: {
-        ...state.callingCodePicker,
+        ...prevState.callingCodePicker,
         visible: true,
         country,
       },
-    })
+    }))
   }
   const handleCallingCodeSelect = (country: Country) => {
     onSelect(country)
     onClose()
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       callingCodePicker: {
-        ...state.callingCodePicker,
+        ...prevState.callingCodePicker,
         visible: false,
-        callingCode: country.callingCode[0],
+        callingCode: country.callingCode[0] || '',
       },
-    })
+    }))
   }
   const onFocus = () => setState({ ...state, filterFocus: true })
   const onBlur = () => setState({ ...state, filterFocus: false })
