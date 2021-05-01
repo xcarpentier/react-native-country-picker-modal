@@ -6,20 +6,34 @@ import {
   ViewStyle,
   ImageSourcePropType,
   ImageStyle,
+  TextStyle,
 } from 'react-native'
 import { CountryModal } from './CountryModal'
 import { HeaderModal } from './HeaderModal'
-import { Country, CountryCode, FlagType, Region, Subregion } from './types'
+import {
+  CallingCode,
+  Country,
+  CountryCode,
+  FlagType,
+  Region,
+  Subregion,
+} from './types'
 import { CountryFilter, CountryFilterProps } from './CountryFilter'
 import { FlagButton } from './FlagButton'
 import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
+import { CallingCodePicker } from './CallingCodePicker'
 
 interface State {
   visible: boolean
   countries: Country[]
   filter?: string
   filterFocus?: boolean
+  callingCodePicker: {
+    visible: boolean
+    country?: Country
+    callingCode: CallingCode
+  }
 }
 
 const renderFlagButton = (
@@ -70,6 +84,15 @@ interface CountryPickerProps {
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
+  callingCodePickerStyle?: {
+    container?: StyleProp<ViewStyle>
+    modal?: StyleProp<ViewStyle>
+    titleContainer?: StyleProp<ViewStyle>
+    titleText?: StyleProp<TextStyle>
+    codeContainer?: StyleProp<ViewStyle>
+    codeText?: StyleProp<TextStyle>
+  }
+  callingCodePickerTitle?: string
   renderFlagButton?(props: FlagButton['props']): ReactNode
   renderCountryFilter?(props: CountryFilter['props']): ReactNode
   onSelect(country: Country): void
@@ -112,12 +135,18 @@ export const CountryPicker = (props: CountryPickerProps) => {
     excludeCountries,
     placeholder,
     preferredCountries,
+    callingCodePickerStyle,
+    callingCodePickerTitle,
   } = props
   const [state, setState] = useState<State>({
     visible: props.visible || false,
     countries: [],
     filter: '',
     filterFocus: false,
+    callingCodePicker: {
+      visible: false,
+      callingCode: '',
+    },
   })
   const { translation, getCountriesAsync } = useContext()
   const { visible, filter, countries, filterFocus } = state
@@ -145,14 +174,48 @@ export const CountryPicker = (props: CountryPickerProps) => {
   const setCountries = (countries: Country[]) =>
     setState({ ...state, countries })
   const onSelectClose = (country: Country) => {
+    const callingCodes = country.callingCode
+    if (callingCodes.length <= 1) {
+      onSelect(country)
+      onClose()
+      if (country.callingCode[0]) {
+        setState({
+          ...state,
+          callingCodePicker: {
+            ...state.callingCodePicker,
+            callingCode: country.callingCode[0],
+          },
+        })
+      }
+      return
+    }
+    setState({
+      ...state,
+      callingCodePicker: {
+        ...state.callingCodePicker,
+        visible: true,
+        country,
+      },
+    })
+  }
+  const handleCallingCodeSelect = (country: Country) => {
     onSelect(country)
     onClose()
+    setState({
+      ...state,
+      callingCodePicker: {
+        ...state.callingCodePicker,
+        visible: false,
+        callingCode: country.callingCode[0],
+      },
+    })
   }
   const onFocus = () => setState({ ...state, filterFocus: true })
   const onBlur = () => setState({ ...state, filterFocus: false })
   const flagProp = {
     allowFontScaling,
     countryCode,
+    callingCode: state.callingCodePicker.callingCode,
     withEmoji,
     withCountryNameButton,
     withCallingCodeButton,
@@ -190,6 +253,15 @@ export const CountryPicker = (props: CountryPickerProps) => {
         onRequestClose={onClose}
         onDismiss={onClose}
       >
+        {state.callingCodePicker.visible && (
+          <CallingCodePicker
+            title={callingCodePickerTitle}
+            country={state.callingCodePicker.country}
+            translation={translation}
+            style={callingCodePickerStyle}
+            onSelect={handleCallingCodeSelect}
+          />
+        )}
         <HeaderModal
           {...{
             withFilter,
