@@ -63,6 +63,7 @@ interface LetterProps {
 }
 const Letter = ({ letter, scrollTo }: LetterProps) => {
   const { fontSize, activeOpacity } = useTheme()
+
   return (
     <TouchableOpacity
       testID={`letter-${letter}`}
@@ -71,10 +72,7 @@ const Letter = ({ letter, scrollTo }: LetterProps) => {
       {...{ activeOpacity }}
     >
       <View style={styles.letter}>
-        <CountryText
-          style={[styles.letterText, { fontSize: fontSize! * 0.8 }]}
-          allowFontScaling={false}
-        >
+        <CountryText style={[styles.letterText, { fontSize: fontSize! * 0.8 }]}>
           {letter}
         </CountryText>
       </View>
@@ -125,11 +123,7 @@ const CountryItem = (props: CountryItemProps) => {
           />
         )}
         <View style={styles.itemCountryName}>
-          <CountryText
-            allowFontScaling={false}
-            numberOfLines={2}
-            ellipsizeMode='tail'
-          >
+          <CountryText numberOfLines={2} ellipsizeMode='tail'>
             {country.name}
             {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
           </CountryText>
@@ -256,7 +250,7 @@ export const CountryList = (props: CountryListProps) => {
           contentContainerStyle={styles.letters}
           keyboardShouldPersistTaps='always'
         >
-          {letters.map(letter => (
+          {letters.map((letter) => (
             <Letter key={letter} {...{ letter, scrollTo }} />
           ))}
         </ScrollView>

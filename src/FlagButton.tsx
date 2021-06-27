@@ -41,7 +41,7 @@ type FlagWithSomethingProp = Pick<
   | 'withCallingCodeButton'
   | 'withFlagButton'
   | 'placeholder'
-> & { flagSize: number }
+> & { flagSize: number; allowFontScaling?: boolean }
 
 const FlagText = (props: TextProps & { children: ReactNode }) => (
   <CountryText {...props} style={styles.something} />
@@ -49,6 +49,7 @@ const FlagText = (props: TextProps & { children: ReactNode }) => (
 
 const FlagWithSomething = memo(
   ({
+    allowFontScaling,
     countryCode,
     withEmoji,
     withCountryNameButton,
@@ -85,17 +86,23 @@ const FlagWithSomething = memo(
             {...{ withEmoji, countryCode, withFlagButton, flagSize: flagSize! }}
           />
         ) : (
-          <FlagText>{placeholder}</FlagText>
+          <FlagText allowFontScaling={allowFontScaling}>{placeholder}</FlagText>
         )}
 
         {withCountryNameButton && countryName ? (
-          <FlagText>{countryName + ' '}</FlagText>
+          <FlagText allowFontScaling={allowFontScaling}>
+            {countryName + ' '}
+          </FlagText>
         ) : null}
         {withCurrencyButton && currency ? (
-          <FlagText>{`(${currency}) `}</FlagText>
+          <FlagText
+            allowFontScaling={allowFontScaling}
+          >{`(${currency}) `}</FlagText>
         ) : null}
         {withCallingCodeButton && callingCode ? (
-          <FlagText>{`+${callingCode}`}</FlagText>
+          <FlagText
+            allowFontScaling={allowFontScaling}
+          >{`+${callingCode}`}</FlagText>
         ) : null}
       </View>
     )
@@ -103,6 +110,7 @@ const FlagWithSomething = memo(
 )
 
 export interface FlagButtonProps {
+  allowFontScaling?: boolean
   withEmoji?: boolean
   withCountryNameButton?: boolean
   withCurrencyButton?: boolean
@@ -115,6 +123,7 @@ export interface FlagButtonProps {
 }
 
 export const FlagButton = ({
+  allowFontScaling,
   withEmoji,
   withCountryNameButton,
   withCallingCodeButton,
@@ -137,6 +146,7 @@ export const FlagButton = ({
       >
         <FlagWithSomething
           {...{
+            allowFontScaling,
             countryCode,
             withEmoji,
             withCountryNameButton,
