@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xcarpentier/react-native-country-picker-modal.git"
+    "url": "git+https://github.com/DanielKalmuratov/react-native-country-picker-modal.git"
   },
   "scripts": {
     "start": "yarn config:dev && expo start",
