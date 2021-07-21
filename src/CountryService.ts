@@ -1,13 +1,14 @@
 import {
-  CountryCode,
   Country,
-  TranslationLanguageCode,
-  TranslationLanguageCodeMap,
-  FlagType,
+  CountryCode,
   CountryCodeList,
+  FlagType,
   Region,
   Subregion,
+  TranslationLanguageCode,
+  TranslationLanguageCodeMap,
 } from './types'
+
 import Fuse from 'fuse.js'
 
 const imageJsonUrl =
@@ -197,6 +198,7 @@ export const search = (
   data: Country[] = [],
   options: Fuse.FuseOptions<any> = DEFAULT_FUSE_OPTION,
 ) => {
+  filter = filter.split('').map(x => x !== '+' ? x : null).join('') 
   if (data.length === 0) {
     return []
   }
