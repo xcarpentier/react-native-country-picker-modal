@@ -197,6 +197,7 @@ export const search = (
   data: Country[] = [],
   options: Fuse.FuseOptions<any> = DEFAULT_FUSE_OPTION,
 ) => {
+  filter = filter.split('').map(x => x !== '+' ? x : null).join('')
   if (data.length === 0) {
     return []
   }
