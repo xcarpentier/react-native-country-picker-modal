@@ -67,17 +67,26 @@ const FlagWithSomething = memo(
     })
     const { countryName, currency, callingCode } = state
     useEffect(() => {
+      let mounted = true;
       if (countryCode) {
         getCountryInfoAsync({ countryCode, translation })
-          .then(setState)
+          .then(countryInfo => {
+            if(mounted){
+            setState(countryInfo);
+            }
+          })
           .catch(console.warn)
+      }
+
+      return () => {
+        mounted = false;
       }
     }, [
       countryCode,
       withCountryNameButton,
       withCurrencyButton,
       withCallingCodeButton,
-    ])
+    ]);
 
     return (
       <View style={styles.flagWithSomethingContainer}>
