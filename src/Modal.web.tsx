@@ -1,2 +1,2 @@
-import Modal from 'modal-react-native-web'
+import Modal from 'react-native';
 export { Modal }
