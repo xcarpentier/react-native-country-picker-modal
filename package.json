@@ -50,7 +50,8 @@
     "modal-react-native-web": "0.2.0",
     "node-emoji": "1.10.0",
     "prop-types": "15.7.2",
-    "react-async-hook": "3.6.1"
+    "react-async-hook": "3.6.1",
+    "react-native-safe-area-context": "^3.3.2"
   },
   "devDependencies": {
     "@types/jest": "24.0.17",
