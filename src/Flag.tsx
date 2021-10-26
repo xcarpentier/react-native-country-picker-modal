@@ -86,9 +86,13 @@ export const Flag = ({
   withFlagButton ? (
     <View style={styles.container}>
       {withEmoji ? (
-        <EmojiFlag {...{ countryCode, flagSize }} />
+        <EmojiFlag
+          {...{ countryCode, flagSize, accessibilityIgnoresInvertColors: true }}
+        />
       ) : (
-        <ImageFlag {...{ countryCode, flagSize }} />
+        <ImageFlag
+          {...{ countryCode, flagSize, accessibilityIgnoresInvertColors: true }}
+        />
       )}
     </View>
   ) : null
