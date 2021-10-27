@@ -218,7 +218,7 @@ export const CountryList = (props: CountryListProps) => {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <FlatList
-        onScrollToIndexFailed
+        
         ref={flatListRef}
         testID='list-countries'
         keyboardShouldPersistTaps='handled'
