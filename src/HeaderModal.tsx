@@ -7,7 +7,7 @@ import {
   ViewStyle,
   ImageStyle,
   Platform,
-  StatusBar,
+  StatusBar
 } from 'react-native'
 import CloseButton from './CloseButton'
 
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   }
 })
 
