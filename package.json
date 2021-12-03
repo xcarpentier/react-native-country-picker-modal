@@ -1,5 +1,7 @@
 {
   "name": "react-native-country-picker-modal",
+  "version": "2.0.0",
+  "description": "react-native country picker",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
