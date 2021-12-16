@@ -10,6 +10,7 @@ import {
   Text,
   View,
   ActivityIndicator,
+  StyleProp
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -39,7 +40,8 @@ interface FlagType {
   countryCode: CountryCode
   withEmoji?: boolean
   withFlagButton?: boolean
-  flagSize: number
+  flagSize: number,
+  containerStyle: StyleProp<ViewStyle>
 }
 
 const ImageFlag = memo(({ countryCode, flagSize }: FlagType) => {
@@ -82,9 +84,10 @@ export const Flag = ({
   withEmoji,
   withFlagButton,
   flagSize,
+  containerStyle
 }: FlagType) =>
   withFlagButton ? (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       {withEmoji ? (
         <EmojiFlag {...{ countryCode, flagSize }} />
       ) : (
