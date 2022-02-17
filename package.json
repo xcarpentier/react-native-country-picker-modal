@@ -45,7 +45,7 @@
   },
   "homepage": "http://xcarpentier.github.io/react-native-country-picker-modal",
   "dependencies": {
-    "@callstack/react-theme-provider": "3.0.3",
+    "@callstack/react-theme-provider": "3.0.7",
     "fuse.js": "3.4.5",
     "modal-react-native-web": "0.2.0",
     "node-emoji": "1.10.0",
