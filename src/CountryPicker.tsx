@@ -40,7 +40,7 @@ const renderFilter = (
     <CountryFilter {...props} />
   )
 
-interface CountryPickerProps {
+export interface CountryPickerProps {
   allowFontScaling?: boolean
   countryCode?: CountryCode
   region?: Region
@@ -178,7 +178,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     )
       .then(countries => cancel ? null : setCountries(countries))
       .catch(console.warn)
-    
+
     return () => cancel = true
   }, [translation, withEmoji])
 

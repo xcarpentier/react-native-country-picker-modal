@@ -1,52 +1,14 @@
-import React, { ReactNode } from 'react'
-import { FlagButtonProps } from './FlagButton'
+import React from 'react'
 import {
   TranslationLanguageCode,
-  CountryCode,
-  Country,
-  Region,
-  Subregion,
 } from './types'
 import { CountryProvider, DEFAULT_COUNTRY_CONTEXT } from './CountryContext'
 import { ThemeProvider, DEFAULT_THEME, Theme } from './CountryTheme'
-import { CountryFilterProps } from './CountryFilter'
-import { StyleProp, ViewStyle, ModalProps, FlatListProps } from 'react-native'
-import { CountryPicker } from './CountryPicker'
+import { CountryPicker, CountryPickerProps } from './CountryPicker'
 
-interface Props {
-  allowFontScaling?: boolean
-  countryCode: CountryCode
-  region?: Region
-  subregion?: Subregion
-  countryCodes?: CountryCode[]
-  excludeCountries?: CountryCode[]
-  preferredCountries?: CountryCode[]
+interface Props extends CountryPickerProps {
   theme?: Theme
   translation?: TranslationLanguageCode
-  modalProps?: ModalProps
-  filterProps?: CountryFilterProps
-  flatListProps?: FlatListProps<Country>
-  placeholder?: string
-  withAlphaFilter?: boolean
-  withCallingCode?: boolean
-  withCurrency?: boolean
-  withEmoji?: boolean
-  withCountryNameButton?: boolean
-  withCurrencyButton?: boolean
-  withCallingCodeButton?: boolean
-  withCloseButton?: boolean
-  withFlagButton?: boolean
-  withFilter?: boolean
-  withFlag?: boolean
-  withModal?: boolean
-  disableNativeModal?: boolean
-  visible?: boolean
-  containerButtonStyle?: StyleProp<ViewStyle>
-  renderFlagButton?(props: FlagButtonProps): ReactNode
-  renderCountryFilter?(props: CountryFilterProps): ReactNode
-  onSelect(country: Country): void
-  onOpen?(): void
-  onClose?(): void
 }
 
 const Main = ({ theme, translation, ...props }: Props) => {
