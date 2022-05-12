@@ -55,6 +55,7 @@ interface CountryPickerProps {
   withCountryNameButton?: boolean
   withCurrencyButton?: boolean
   withCallingCodeButton?: boolean
+  withChevronDown?: boolean
   withFlagButton?: boolean
   withCloseButton?: boolean
   withFilter?: boolean
@@ -95,6 +96,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     withCloseButton,
     withCountryNameButton,
     withCallingCodeButton,
+    withChevronDown,
     withCurrencyButton,
     containerButtonStyle,
     withAlphaFilter,
@@ -156,6 +158,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     withEmoji,
     withCountryNameButton,
     withCallingCodeButton,
+    withChevronDown,
     withCurrencyButton,
     withFlagButton,
     renderFlagButton: renderButton,

@@ -6,6 +6,7 @@ import {
   StyleProp,
   ViewStyle,
   TextProps,
+  Text
 } from 'react-native'
 import { CountryCode } from './types'
 import { Flag } from './Flag'
@@ -39,6 +40,7 @@ type FlagWithSomethingProp = Pick<
   | 'withCountryNameButton'
   | 'withCurrencyButton'
   | 'withCallingCodeButton'
+  | 'withChevronDown'
   | 'withFlagButton'
   | 'placeholder'
 > & { flagSize: number; allowFontScaling?: boolean }
@@ -55,6 +57,7 @@ const FlagWithSomething = memo(
     withCountryNameButton,
     withCurrencyButton,
     withCallingCodeButton,
+    withChevronDown,
     withFlagButton,
     flagSize,
     placeholder,
@@ -104,6 +107,10 @@ const FlagWithSomething = memo(
             allowFontScaling={allowFontScaling}
           >{`+${callingCode}`}</FlagText>
         ) : null}
+        {withChevronDown ? (
+          <Text
+          >{`vvv`}</Text>
+        ) : null}
       </View>
     )
   },
@@ -115,6 +122,7 @@ export interface FlagButtonProps {
   withCountryNameButton?: boolean
   withCurrencyButton?: boolean
   withCallingCodeButton?: boolean
+  withChevronDown?: boolean
   withFlagButton?: boolean
   containerButtonStyle?: StyleProp<ViewStyle>
   countryCode?: CountryCode
@@ -127,6 +135,7 @@ export const FlagButton = ({
   withEmoji,
   withCountryNameButton,
   withCallingCodeButton,
+  withChevronDown,
   withCurrencyButton,
   withFlagButton,
   countryCode,
@@ -151,6 +160,7 @@ export const FlagButton = ({
             withEmoji,
             withCountryNameButton,
             withCallingCodeButton,
+            withChevronDown,
             withCurrencyButton,
             withFlagButton,
             flagSize: flagSize!,
@@ -166,6 +176,7 @@ FlagButton.defaultProps = {
   withEmoji: true,
   withCountryNameButton: false,
   withCallingCodeButton: false,
+  withChevronDown: false,
   withCurrencyButton: false,
   withFlagButton: true,
 }

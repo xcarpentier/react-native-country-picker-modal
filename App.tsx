@@ -63,6 +63,9 @@ export default function App() {
   const [withCallingCodeButton, setWithCallingCodeButton] = useState<boolean>(
     false,
   )
+  const [withChevronDown, setWithChevronDown] = useState<boolean>(
+    false,
+  )
   const [withFlag, setWithFlag] = useState<boolean>(true)
   const [withEmoji, setWithEmoji] = useState<boolean>(true)
   const [withFilter, setWithFilter] = useState<boolean>(true)
@@ -98,6 +101,11 @@ export default function App() {
           title='With calling code on button'
           value={withCallingCodeButton}
           onValueChange={setWithCallingCodeButton}
+        />
+        <Option
+          title='With chevron down on button'
+          value={withChevronDown}
+          onValueChange={setWithChevronDown}
         />
         <Option
           title='With flag'
@@ -160,6 +168,7 @@ export default function App() {
             withFlag,
             withCurrencyButton,
             withCallingCodeButton,
+            withChevronDown,
             withCountryNameButton,
             withAlphaFilter,
             withCallingCode,

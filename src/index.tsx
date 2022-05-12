@@ -34,6 +34,7 @@ interface Props {
   withCountryNameButton?: boolean
   withCurrencyButton?: boolean
   withCallingCodeButton?: boolean
+  withChevronDown?: boolean
   withCloseButton?: boolean
   withFlagButton?: boolean
   withFilter?: boolean
