@@ -69,7 +69,7 @@ const EmojiFlag = memo(({ countryCode, flagSize }: FlagType) => {
   }
   return (
     <Text
-      style={[styles.emojiFlag, { fontSize: flagSize }]}
+      style={[styles.emojiFlag, { width: flagSize }, { fontSize: flagSize }]}
       allowFontScaling={false}
     >
       <Emoji {...{ name: asyncResult.result! }} />
