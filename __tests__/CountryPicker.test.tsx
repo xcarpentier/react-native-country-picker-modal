@@ -9,4 +9,5 @@ it('CountryPicker can be created', () => {
     <CountryPicker countryCode={'US'} onSelect={() => {}} />,
   )
   expect(picker).toBeDefined()
+  expect(picker).toMatchSnapshot()
 })
