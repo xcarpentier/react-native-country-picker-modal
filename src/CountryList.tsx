@@ -215,10 +215,12 @@ export const CountryList = (props: CountryListProps) => {
   }, [filterFocus])
 
   const initialNumToRender = Math.round(height / (itemHeight || 1))
+
+  const searchResult = search(filter, data) as Country[]
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <FlatList
-        onScrollToIndexFailed
         ref={flatListRef}
         testID='list-countries'
         keyboardShouldPersistTaps='handled'
@@ -237,13 +239,13 @@ export const CountryList = (props: CountryListProps) => {
           onSelect,
         })}
         {...{
-          data: search(filter, data),
+          data: searchResult,
           keyExtractor,
           onScrollToIndexFailed,
           ItemSeparatorComponent,
           initialNumToRender,
         }}
-        {...flatListProps}
+      {...flatListProps}
       />
       {withAlphaFilter && (
         <ScrollView

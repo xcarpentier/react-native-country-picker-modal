@@ -35,19 +35,19 @@ export const loadDataAsync = ((data: DataCountry) => (
             .then((response: Response) => response.json())
             .then((remoteData: any) => {
               data.imageCountries = remoteData
-              resolve(data.imageCountries)
+              resolve(data.imageCountries!)
             })
             .catch(reject)
         } else {
-          resolve(data.imageCountries)
+          resolve(data.imageCountries!)
         }
         break
       default:
         if (!data.emojiCountries) {
           data.emojiCountries = require('./assets/data/countries-emoji.json')
-          resolve(data.emojiCountries)
+          resolve(data.emojiCountries!)
         } else {
-          resolve(data.emojiCountries)
+          resolve(data.emojiCountries!)
         }
         break
     }
@@ -140,26 +140,28 @@ export const getCountriesAsync = async (
 
     const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
     .map((cca2: CountryCode) => ({
+      // @ts-ignore
       cca2,
       ...{
         ...countriesRaw[cca2],
         name:
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
-            translation
-          ] ||
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
+              translation
+            ] ||
+              (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
       },
     }))
     .filter(isRegion(region))
     .filter(isSubregion(subregion))
     .filter(isIncluded(countryCodes))
     .filter(isExcluded(excludeCountries))
-    
+
     return countries
 
   } else {
     const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
+        // @ts-ignore
         cca2,
         ...{
           ...countriesRaw[cca2],
@@ -195,7 +197,7 @@ let fuse: Fuse<Country>
 export const search = (
   filter: string = '',
   data: Country[] = [],
-  options: Fuse.FuseOptions<any> = DEFAULT_FUSE_OPTION,
+  options: Fuse.IFuseOptions<any> = DEFAULT_FUSE_OPTION,
 ) => {
   if (data.length === 0) {
     return []

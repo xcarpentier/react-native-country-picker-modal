@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   }
 })
 
-interface HeaderModalProps {
+export interface HeaderModalProps {
   withFilter?: boolean
   withCloseButton?: boolean
   closeButtonImage?: ImageSourcePropType

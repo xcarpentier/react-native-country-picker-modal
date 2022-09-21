@@ -8,10 +8,10 @@ import {
   ImageStyle,
 } from 'react-native'
 import { CountryModal } from './CountryModal'
-import { HeaderModal } from './HeaderModal'
+import { HeaderModal, HeaderModalProps } from './HeaderModal'
 import { Country, CountryCode, FlagType, Region, Subregion } from './types'
 import { CountryFilter, CountryFilterProps } from './CountryFilter'
-import { FlagButton } from './FlagButton'
+import { FlagButton, FlagButtonProps } from './FlagButton'
 import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
 
@@ -22,8 +22,10 @@ interface State {
   filterFocus?: boolean
 }
 
+interface RenderFlagButtonProps extends FlagButtonProps { renderFlagButton?(props: FlagButtonProps): ReactNode }
+
 const renderFlagButton = (
-  props: FlagButton['props'] & CountryPickerProps['renderFlagButton'],
+  props: RenderFlagButtonProps,
 ): ReactNode =>
   props.renderFlagButton ? (
     props.renderFlagButton(props)
@@ -31,8 +33,10 @@ const renderFlagButton = (
     <FlagButton {...props} />
   )
 
+interface RenderFilterProps extends CountryFilterProps { renderCountryFilter?(props: CountryFilterProps): ReactNode }
+
 const renderFilter = (
-  props: CountryFilter['props'] & CountryPickerProps['renderCountryFilter'],
+  props: RenderFilterProps
 ): ReactNode =>
   props.renderCountryFilter ? (
     props.renderCountryFilter(props)
@@ -70,8 +74,8 @@ interface CountryPickerProps {
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
-  renderFlagButton?(props: FlagButton['props']): ReactNode
-  renderCountryFilter?(props: CountryFilter['props']): ReactNode
+  renderFlagButton?(props: FlagButtonProps): ReactNode
+  renderCountryFilter?(props: CountryFilterProps): ReactNode
   onSelect(country: Country): void
   onOpen?(): void
   onClose?(): void
@@ -161,7 +165,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     renderFlagButton: renderButton,
     onOpen,
     containerButtonStyle,
-    placeholder,
+    placeholder: placeholder || 'Select Country',
   }
 
   useEffect(() => {
@@ -199,7 +203,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
             closeButtonStyle,
             withCloseButton,
           }}
-          renderFilter={(props: CountryFilter['props']) =>
+          renderFilter={(props: HeaderModalProps) =>
             renderFilter({
               ...props,
               allowFontScaling,

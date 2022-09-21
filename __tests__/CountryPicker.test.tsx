@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { create } from 'react-test-renderer'
+import TestRenderer from 'react-test-renderer';
 
 import CountryPicker from '../src/'
 
 it('CountryPicker can be created', () => {
-  const picker = create(
+  const picker = TestRenderer.create(
     <CountryPicker countryCode={'US'} onSelect={() => {}} />,
   )
   expect(picker).toBeDefined()
