@@ -136,7 +136,9 @@ export const getCountriesAsync = async (
   }
 
   if (preferredCountries && !withAlphaFilter) {
-    const newCountryCodeList = [...preferredCountries, ...CountryCodeList.filter(code => !preferredCountries.includes(code))]
+    // sorting before filtering by preferred countries to avoid the list not being sorted alphabetically
+    const sortedCountryCodeList = [...CountryCodeList].sort()
+    const newCountryCodeList = [...preferredCountries, ...sortedCountryCodeList.filter(code => !preferredCountries.includes(code))]
 
     const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
     .map((cca2: CountryCode) => ({
