@@ -27,7 +27,8 @@ interface Props {
   filterProps?: CountryFilterProps
   flatListProps?: FlatListProps<Country>
   placeholder?: string
-  withAlphaFilter?: boolean
+  withAlphaFilter?: boolean     // removed, use withLetterScroller instead
+  withLetterScroller?: boolean
   withCallingCode?: boolean
   withCurrency?: boolean
   withEmoji?: boolean
@@ -38,6 +39,7 @@ interface Props {
   withFlagButton?: boolean
   withFilter?: boolean
   withFlag?: boolean
+  withDependents?: boolean
   withModal?: boolean
   disableNativeModal?: boolean
   visible?: boolean
@@ -49,7 +51,10 @@ interface Props {
   onClose?(): void
 }
 
-const Main = ({ theme, translation, ...props }: Props) => {
+const Main = ({ theme, translation:trIn, withAlphaFilter, ...props }: Props) => {
+  const translation: TranslationLanguageCode | undefined = (trIn && trIn.toLowerCase()) as TranslationLanguageCode
+  // backwards compatibility for removed withAlphaFilter flag
+  if (props.withLetterScroller === undefined) { props.withLetterScroller = withAlphaFilter }
   return (
     <ThemeProvider theme={{ ...DEFAULT_THEME, ...theme }}>
       <CountryProvider value={{ ...DEFAULT_COUNTRY_CONTEXT, translation }}>

@@ -22,10 +22,10 @@ interface State {
   filterFocus?: boolean
 }
 
-interface RenderFlagButtonProps extends FlagButtonProps { renderFlagButton?(props: FlagButtonProps): ReactNode }
+// interface RenderFlagButtonProps extends FlagButtonProps { renderFlagButton?(props: FlagButtonProps): ReactNode }
 
 const renderFlagButton = (
-  props: RenderFlagButtonProps,
+  props: any, // RenderFlagButtonProps,
 ): ReactNode =>
   props.renderFlagButton ? (
     props.renderFlagButton(props)
@@ -62,10 +62,11 @@ interface CountryPickerProps {
   withFlagButton?: boolean
   withCloseButton?: boolean
   withFilter?: boolean
-  withAlphaFilter?: boolean
+  withLetterScroller?: boolean
   withCallingCode?: boolean
   withCurrency?: boolean
   withFlag?: boolean
+  withDependents?: boolean
   withModal?: boolean
   disableNativeModal?: boolean
   visible?: boolean
@@ -101,10 +102,11 @@ export const CountryPicker = (props: CountryPickerProps) => {
     withCallingCodeButton,
     withCurrencyButton,
     containerButtonStyle,
-    withAlphaFilter,
+    withLetterScroller,
     withCallingCode,
     withCurrency,
     withFlag,
+    withDependents,
     withModal,
     disableNativeModal,
     withFlagButton,
@@ -123,7 +125,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     filter: '',
     filterFocus: false,
   })
-  const { translation, getCountriesAsync } = useContext()
+  const { search, translation, getCountriesAsync } = useContext()
   const { visible, filter, countries, filterFocus } = state
 
   useEffect(() => {
@@ -165,7 +167,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     renderFlagButton: renderButton,
     onOpen,
     containerButtonStyle,
-    placeholder: placeholder || 'Select Country',
+    placeholder,
   }
 
   useEffect(() => {
@@ -178,13 +180,17 @@ export const CountryPicker = (props: CountryPickerProps) => {
       countryCodes,
       excludeCountries,
       preferredCountries,
-      withAlphaFilter,
+      withDependents,
     )
       .then(countries => cancel ? null : setCountries(countries))
       .catch(console.warn)
 
     return (() => { cancel = true })
-  }, [translation, withEmoji])
+  }, [translation, withEmoji, countryCodes, excludeCountries, preferredCountries, withDependents])
+
+  const searchResult = search(filter, countries) as Country[]
+  const thwarted = (searchResult.length === 0)
+  const displayData = thwarted ? countries : searchResult
 
   return (
     <>
@@ -212,6 +218,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
               value: filter,
               onFocus,
               onBlur,
+              thwarted,
               ...filterProps,
             })
           }
@@ -219,9 +226,9 @@ export const CountryPicker = (props: CountryPickerProps) => {
         <CountryList
           {...{
             onSelect: onSelectClose,
-            data: countries,
+            data: displayData,
             letters: [],
-            withAlphaFilter: withAlphaFilter && filter === '',
+            withLetterScroller,
             withCallingCode,
             withCurrency,
             withFlag,
@@ -229,6 +236,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
             filter,
             filterFocus,
             flatListProps,
+            preferredCountries,
           }}
         />
       </CountryModal>
@@ -238,7 +246,6 @@ export const CountryPicker = (props: CountryPickerProps) => {
 
 CountryPicker.defaultProps = {
   withModal: true,
-  withAlphaFilter: false,
   withCallingCode: false,
   placeholder: 'Select Country',
   allowFontScaling: true,

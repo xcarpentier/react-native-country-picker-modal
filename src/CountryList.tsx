@@ -11,7 +11,7 @@ import {
   Dimensions,
 } from 'react-native'
 import { useTheme } from './CountryTheme'
-import { Country, Omit } from './types'
+import { Country, CountryCode, Omit } from './types'
 import { Flag } from './Flag'
 import { useContext } from './CountryContext'
 import { CountryText } from './CountryText'
@@ -150,11 +150,12 @@ interface CountryListProps {
   filterFocus?: boolean
   withFlag?: boolean
   withEmoji?: boolean
-  withAlphaFilter?: boolean
+  withLetterScroller?: boolean
   withCallingCode?: boolean
   withCurrency?: boolean
   flatListProps?: FlatListProps<Country>
   onSelect(country: Country): void
+  preferredCountries?: CountryCode[]
 }
 
 const keyExtractor = (item: Country) => item.cca2
@@ -171,7 +172,7 @@ const { height } = Dimensions.get('window')
 export const CountryList = (props: CountryListProps) => {
   const {
     data,
-    withAlphaFilter,
+    withLetterScroller,
     withEmoji,
     withFlag,
     withCallingCode,
@@ -180,19 +181,21 @@ export const CountryList = (props: CountryListProps) => {
     filter,
     flatListProps,
     filterFocus,
+    preferredCountries = [],
   } = props
 
   const flatListRef = useRef<FlatList<Country>>(null)
   const [letter, setLetter] = useState<string>('')
+  const { getLetters, getScrollerLetter } = useContext()
   const { itemHeight, backgroundColor } = useTheme()
   const indexLetter = data
-    .map((country: Country) => (country.name as string).substr(0, 1))
+    .map((country) => getScrollerLetter(country, preferredCountries))
     .join('')
 
   const scrollTo = (letter: string, animated: boolean = true) => {
-    const index = indexLetter.indexOf(letter)
+    const index = indexLetter.indexOf(letter) // , preferredCountries.length)
     setLetter(letter)
-    if (flatListRef.current) {
+    if (flatListRef.current && (index >= 0)) {
       flatListRef.current!.scrollToIndex({ animated, index })
     }
   }
@@ -206,8 +209,7 @@ export const CountryList = (props: CountryListProps) => {
       scrollTo(letter)
     }
   }
-  const { search, getLetters } = useContext()
-  const letters = getLetters(data)
+  const letters = getLetters(data, preferredCountries)
   useEffect(() => {
     if (data && data.length > 0 && filterFocus && !filter) {
       scrollTo(letters[0], false)
@@ -215,8 +217,6 @@ export const CountryList = (props: CountryListProps) => {
   }, [filterFocus])
 
   const initialNumToRender = Math.round(height / (itemHeight || 1))
-
-  const searchResult = search(filter, data) as Country[]
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
@@ -239,7 +239,7 @@ export const CountryList = (props: CountryListProps) => {
           onSelect,
         })}
         {...{
-          data: searchResult,
+          data,
           keyExtractor,
           onScrollToIndexFailed,
           ItemSeparatorComponent,
@@ -247,7 +247,7 @@ export const CountryList = (props: CountryListProps) => {
         }}
       {...flatListProps}
       />
-      {withAlphaFilter && (
+      {withLetterScroller && (
         <ScrollView
           contentContainerStyle={styles.letters}
           keyboardShouldPersistTaps='always'

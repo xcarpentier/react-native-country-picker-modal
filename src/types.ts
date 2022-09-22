@@ -42,6 +42,7 @@ export interface Country {
   name: TranslationLanguageCodeMap | string
   burrfree: string
   cca2: CountryCode
+  independent: boolean
 }
 export const RegionList = [
   'Africa',

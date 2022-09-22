@@ -6,6 +6,7 @@ import {
   getCountryNameAsync,
   getCountriesAsync,
   getLetters,
+  getScrollerLetter,
   getCountryCallingCodeAsync,
   getCountryCurrencyAsync,
   getCountryInfoAsync,
@@ -19,6 +20,7 @@ export interface CountryContextParam {
   getEmojiFlagAsync: typeof getEmojiFlagAsync
   getCountriesAsync: typeof getCountriesAsync
   getLetters: typeof getLetters
+  getScrollerLetter: typeof getScrollerLetter
   getCountryCallingCodeAsync: typeof getCountryCallingCodeAsync
   getCountryCurrencyAsync: typeof getCountryCurrencyAsync
   search: typeof search
@@ -34,6 +36,7 @@ export const DEFAULT_COUNTRY_CONTEXT = {
   getCountryCurrencyAsync,
   search,
   getLetters,
+  getScrollerLetter,
   getCountryInfoAsync,
 }
 export const CountryContext = React.createContext<CountryContextParam>(
