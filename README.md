@@ -140,11 +140,19 @@ export default function App() {
 - `disableNativeModal?`: boolean (you have to wrap your all app with CountryModalProvider)
 - `preferredCountries`: [CountryCode](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L254) preferred countries they appear first (`withAlphaFilter` must be false)
 
+### Caveats
+
+Dynamically changing the translation, excludeCountries, and some other
+props that affect the country list may give inconsistent results. In
+particular, the search index is only calculated on first use and so
+the changes to new language or different excluded countries will be
+inconsistent.
+
 ## Dark theme example
 
-<p align="center">
-    <img alt="react-native-country-picker-modal-dark" src="https://user-images.githubusercontent.com/2692166/40585272-094f817a-61b0-11e8-9668-abff0aeddb0e.png" width=150>
-</p>
+<p align="center"> <img alt="react-native-country-picker-modal-dark"
+    src="https://user-images.githubusercontent.com/2692166/40585272-094f817a-61b0-11e8-9668-abff0aeddb0e.png"
+    width=150> </p>
 
 A simple example to display a `CountryPicker` component with a dark theme.
 
@@ -181,6 +189,8 @@ YES : It used the world-countries package and image is stored into json and base
 ## Contribution
 
 - [@xcapentier](mailto:contact@xaviercarpentier.com) The main author.
+- [@kanimetov](https://github.com/kanimetov) -- Arabic and Hebrew translations.
+- [@mrflip](https://github.com/mrflip) -- updated to Expo 46 and minor fixes.
 
 ## Questions
 

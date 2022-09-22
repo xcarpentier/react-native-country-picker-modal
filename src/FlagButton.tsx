@@ -60,17 +60,21 @@ const FlagWithSomething = memo(
     placeholder,
   }: FlagWithSomethingProp) => {
     const { translation, getCountryInfoAsync } = useContext()
-    const [state, setState] = useState({
+    const defaultState = {
       countryName: '',
       currency: '',
       callingCode: '',
-    })
+    }
+    const [state, setState] = useState(defaultState)
+    const resetState = () =>  setState(defaultState)
     const { countryName, currency, callingCode } = state
+    // Force withFlagButton true if all visual elements are disabled
+    const derp = (! (withCountryNameButton || withCurrencyButton || withCallingCodeButton || withFlagButton))
     useEffect(() => {
       if (countryCode) {
         getCountryInfoAsync({ countryCode, translation })
-          .then(setState)
-          .catch(console.warn)
+          .then((val) => { console.log(val); setState(val)  })
+          .catch((err) => { console.warn(err); resetState() })
       }
     }, [
       countryCode,
@@ -83,23 +87,23 @@ const FlagWithSomething = memo(
       <View style={styles.flagWithSomethingContainer}>
         {countryCode ? (
           <Flag
-            {...{ withEmoji, countryCode, withFlagButton, flagSize: flagSize! }}
+            {...{ withEmoji, countryCode, withFlagButton: withFlagButton || derp, flagSize: flagSize! }}
           />
         ) : (
           <FlagText allowFontScaling={allowFontScaling}>{placeholder}</FlagText>
         )}
 
-        {withCountryNameButton && countryName ? (
+        {withCountryNameButton && countryCode && countryName ? (
           <FlagText allowFontScaling={allowFontScaling}>
             {countryName + ' '}
           </FlagText>
         ) : null}
-        {withCurrencyButton && currency ? (
+        {withCurrencyButton && countryCode && currency ? (
           <FlagText
             allowFontScaling={allowFontScaling}
           >{`(${currency}) `}</FlagText>
         ) : null}
-        {withCallingCodeButton && callingCode ? (
+        {withCallingCodeButton && countryCode && callingCode ? (
           <FlagText
             allowFontScaling={allowFontScaling}
           >{`+${callingCode}`}</FlagText>

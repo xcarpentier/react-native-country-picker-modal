@@ -48,6 +48,10 @@ const ImageFlag = memo(({ countryCode, flagSize }: FlagType) => {
   if (asyncResult.loading) {
     return <ActivityIndicator size={'small'} />
   }
+  if (asyncResult.error) {
+    console.warn(asyncResult.error)
+    return <Text>{ countryCode }?</Text>
+  }
   return (
     <Image
       resizeMode={'contain'}
@@ -66,6 +70,10 @@ const EmojiFlag = memo(({ countryCode, flagSize }: FlagType) => {
 
   if (asyncResult.loading) {
     return <ActivityIndicator size={'small'} />
+  }
+  if (asyncResult.error) {
+    console.warn(asyncResult.error)
+    return <Text>{ countryCode }?</Text>
   }
   return (
     <Text

@@ -14,11 +14,16 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  thwarted: {
+    color: 'red',
+  },
 })
 
-export type CountryFilterProps = TextInputProps
+export interface CountryFilterProps extends TextInputProps {
+  thwarted?: boolean
+}
 
-export const CountryFilter = (props: CountryFilterProps) => {
+export const CountryFilter = ({ thwarted, ...props }: CountryFilterProps) => {
   const {
     filterPlaceholderTextColor,
     fontFamily,
@@ -33,6 +38,7 @@ export const CountryFilter = (props: CountryFilterProps) => {
       style={[
         styles.input,
         { fontFamily, fontSize, color: onBackgroundTextColor },
+        thwarted && styles.thwarted,
       ]}
       {...props}
     />
