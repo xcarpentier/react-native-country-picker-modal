@@ -38,7 +38,7 @@ export const CountryFilter = (props: CountryFilterProps) => {
           fontFamily,
           fontSize,
           color: onBackgroundTextColor,
-          texAlign: filterTextAlign,
+          textAlign: filterTextAlign,
           textAlignVertical: filterTextAlignVertical,
         },
       ]}
