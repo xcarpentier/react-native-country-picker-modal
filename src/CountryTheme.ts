@@ -20,6 +20,8 @@ export const DEFAULT_THEME: Theme = {
   flagSizeButton: Platform.select({ android: 20, default: 30 }),
   itemTextAlign: 'auto',
   itemTextAlignVertical: 'auto',
+  filterTextAlign: 'auto',
+  filterTextAlignVertical: 'auto',
 }
 export const DARK_THEME: Theme  = {
   ...DEFAULT_THEME,
@@ -44,6 +46,8 @@ export type Theme = Partial<{
   flagSizeButton: number,
   itemTextAlign: TextAlignment,
   itemTextAlignVertical: TextAlignment,
+  filterTextAlign: TextAlignment,
+  filterTextAlignVertical: TextAlignment,
 }>
 
 const { ThemeProvider, useTheme } = createTheming<Theme>(DEFAULT_THEME)
