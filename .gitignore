@@ -40,5 +40,4 @@ examples/ios/swiper.xcodeproj/xcuserdata
 .vscode
 jsconfig.json
 .expo/
-lib/
 web-build/

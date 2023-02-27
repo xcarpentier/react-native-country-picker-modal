@@ -128,7 +128,7 @@ export const getCountriesAsync = async (
   countryCodes?: CountryCode[],
   excludeCountries?: CountryCode[],
   preferredCountries?: CountryCode[],
-  withAlphaFilter?: boolean
+  withAlphaFilter?: boolean,
 ): Promise<Country[]> => {
   const countriesRaw = await loadDataAsync(flagType)
   if (!countriesRaw) {
@@ -136,27 +136,30 @@ export const getCountriesAsync = async (
   }
 
   if (preferredCountries && !withAlphaFilter) {
-    const newCountryCodeList = [...preferredCountries, ...CountryCodeList.filter(code => !preferredCountries.includes(code))]
+    const newCountryCodeList = [
+      ...preferredCountries,
+      ...CountryCodeList.filter(code => !preferredCountries.includes(code)),
+    ]
 
-    const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
-    .map((cca2: CountryCode) => ({
-      cca2,
-      ...{
-        ...countriesRaw[cca2],
-        name:
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
-            translation
-          ] ||
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
-      },
-    }))
-    .filter(isRegion(region))
-    .filter(isSubregion(subregion))
-    .filter(isIncluded(countryCodes))
-    .filter(isExcluded(excludeCountries))
-    
+    const countries = newCountryCodeList
+      .filter(isCountryPresent(countriesRaw))
+      .map((cca2: CountryCode) => ({
+        cca2,
+        ...{
+          ...countriesRaw[cca2],
+          name:
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
+              translation
+            ] ||
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
+        },
+      }))
+      .filter(isRegion(region))
+      .filter(isSubregion(subregion))
+      .filter(isIncluded(countryCodes))
+      .filter(isExcluded(excludeCountries))
+
     return countries
-
   } else {
     const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
@@ -191,7 +194,7 @@ const DEFAULT_FUSE_OPTION = {
   minMatchCharLength: 1,
   keys: ['name', 'cca2', 'callingCode'],
 }
-let fuse: Fuse<Country>
+let fuse: Fuse<Country> | undefined
 export const search = (
   filter: string = '',
   data: Country[] = [],
@@ -241,4 +244,9 @@ export const getCountryInfoAsync = async ({
   const currency = await getCountryCurrencyAsync(countryCode)
   const callingCode = await getCountryCallingCodeAsync(countryCode)
   return { countryName, currency, callingCode }
+}
+
+// cz: add unmountAction
+export const unmountAction = () => {
+  fuse = undefined
 }

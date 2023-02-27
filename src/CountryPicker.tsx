@@ -14,6 +14,7 @@ import { CountryFilter, CountryFilterProps } from './CountryFilter'
 import { FlagButton } from './FlagButton'
 import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
+import { unmountAction } from './CountryService'
 
 interface State {
   visible: boolean
@@ -176,10 +177,14 @@ export const CountryPicker = (props: CountryPickerProps) => {
       preferredCountries,
       withAlphaFilter,
     )
-      .then(countries => cancel ? null : setCountries(countries))
+      .then(countries => (cancel ? null : setCountries(countries)))
       .catch(console.warn)
-    
-    return () => cancel = true
+
+    return () => {
+      cancel = true
+      // cz: add unmountAction
+      unmountAction()
+    }
   }, [translation, withEmoji])
 
   return (
