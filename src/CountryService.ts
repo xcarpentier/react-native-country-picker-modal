@@ -189,7 +189,7 @@ const DEFAULT_FUSE_OPTION = {
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  keys: ['name', 'cca2', 'callingCode'],
+  keys: ['name', 'cca2', 'callingCode', 'currency'],
 }
 let fuse: Fuse<Country>
 export const search = (
