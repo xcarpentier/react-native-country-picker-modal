@@ -248,7 +248,8 @@ export const CountryCodeList = [
   'ZW',
   'KI',
   'HK',
-  'AX'
+  'AX',
+  'UK'
 ] as const
 
 export type CountryCode = typeof CountryCodeList[number]
