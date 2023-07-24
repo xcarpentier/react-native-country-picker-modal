@@ -315,6 +315,7 @@ export const TranslationLanguageCodeList = [
   'ita',
   'jpn',
   'nld',
+  'pol',
   'por',
   'rus',
   'spa',
