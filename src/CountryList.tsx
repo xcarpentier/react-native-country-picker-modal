@@ -124,8 +124,7 @@ const CountryItem = (props: CountryItemProps) => {
         )}
         <View style={styles.itemCountryName}>
           <CountryText numberOfLines={2} ellipsizeMode='tail'>
-            {country.name}
-            {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
+            {`${country.name}${extraContent.length > 0 && ` (${extraContent.join(', ')})`}`}
           </CountryText>
         </View>
       </View>
@@ -218,7 +217,6 @@ export const CountryList = (props: CountryListProps) => {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <FlatList
-        onScrollToIndexFailed
         ref={flatListRef}
         testID='list-countries'
         keyboardShouldPersistTaps='handled'

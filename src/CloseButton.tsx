@@ -101,4 +101,4 @@ export default Platform.select({
   ios: CloseButtonIOS,
   android: CloseButtonAndroid,
   web: CloseButtonIOS
-})
+}) ?? CloseButtonIOS;

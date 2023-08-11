@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
   }
 })
 
-interface HeaderModalProps {
+export interface HeaderModalProps {
   withFilter?: boolean
   withCloseButton?: boolean
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
   onClose(): void
-  renderFilter(props: HeaderModalProps): ReactNode
+  renderFilter(props: any): ReactNode
 }
 export const HeaderModal = (props: HeaderModalProps) => {
   const {

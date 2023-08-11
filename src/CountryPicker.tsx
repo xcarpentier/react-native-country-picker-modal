@@ -11,7 +11,7 @@ import { CountryModal } from './CountryModal'
 import { HeaderModal } from './HeaderModal'
 import { Country, CountryCode, FlagType, Region, Subregion } from './types'
 import { CountryFilter, CountryFilterProps } from './CountryFilter'
-import { FlagButton } from './FlagButton'
+import { FlagButton, FlagButtonProps } from './FlagButton'
 import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
 
@@ -23,7 +23,7 @@ interface State {
 }
 
 const renderFlagButton = (
-  props: FlagButton['props'] & CountryPickerProps['renderFlagButton'],
+  props: FlagButtonProps,
 ): ReactNode =>
   props.renderFlagButton ? (
     props.renderFlagButton(props)
@@ -32,7 +32,7 @@ const renderFlagButton = (
   )
 
 const renderFilter = (
-  props: CountryFilter['props'] & CountryPickerProps['renderCountryFilter'],
+  props: CountryFilterProps,
 ): ReactNode =>
   props.renderCountryFilter ? (
     props.renderCountryFilter(props)
@@ -70,8 +70,8 @@ interface CountryPickerProps {
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
-  renderFlagButton?(props: FlagButton['props']): ReactNode
-  renderCountryFilter?(props: CountryFilter['props']): ReactNode
+  renderFlagButton?(props: FlagButtonProps): ReactNode
+  renderCountryFilter?(props: CountryFilterProps): ReactNode
   onSelect(country: Country): void
   onOpen?(): void
   onClose?(): void
@@ -161,7 +161,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
     renderFlagButton: renderButton,
     onOpen,
     containerButtonStyle,
-    placeholder,
+    placeholder: placeholder ?? 'Placeholder',
   }
 
   useEffect(() => {
@@ -178,8 +178,6 @@ export const CountryPicker = (props: CountryPickerProps) => {
     )
       .then(countries => cancel ? null : setCountries(countries))
       .catch(console.warn)
-    
-    return () => cancel = true
   }, [translation, withEmoji])
 
   return (
@@ -199,7 +197,7 @@ export const CountryPicker = (props: CountryPickerProps) => {
             closeButtonStyle,
             withCloseButton,
           }}
-          renderFilter={(props: CountryFilter['props']) =>
+          renderFilter={(props: any) =>
             renderFilter({
               ...props,
               allowFontScaling,

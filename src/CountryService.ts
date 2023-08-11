@@ -33,8 +33,8 @@ export const loadDataAsync = ((data: DataCountry) => (
         if (!data.imageCountries) {
           fetch(imageJsonUrl)
             .then((response: Response) => response.json())
-            .then((remoteData: any) => {
-              data.imageCountries = remoteData
+            .then((remoteData: CountryMap) => {
+              data.imageCountries = remoteData;
               resolve(data.imageCountries)
             })
             .catch(reject)
@@ -44,7 +44,7 @@ export const loadDataAsync = ((data: DataCountry) => (
         break
       default:
         if (!data.emojiCountries) {
-          data.emojiCountries = require('./assets/data/countries-emoji.json')
+          data.emojiCountries = require('./assets/data/countries-emoji.json') as CountryMap;
           resolve(data.emojiCountries)
         } else {
           resolve(data.emojiCountries)
@@ -140,7 +140,6 @@ export const getCountriesAsync = async (
 
     const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
     .map((cca2: CountryCode) => ({
-      cca2,
       ...{
         ...countriesRaw[cca2],
         name:
@@ -149,6 +148,7 @@ export const getCountriesAsync = async (
           ] ||
           (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
       },
+      cca2
     }))
     .filter(isRegion(region))
     .filter(isSubregion(subregion))
@@ -160,7 +160,6 @@ export const getCountriesAsync = async (
   } else {
     const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
-        cca2,
         ...{
           ...countriesRaw[cca2],
           name:
@@ -169,6 +168,7 @@ export const getCountriesAsync = async (
             ] ||
             (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
         },
+        cca2
       }))
       .filter(isRegion(region))
       .filter(isSubregion(subregion))

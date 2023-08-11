@@ -119,7 +119,8 @@ export interface FlagButtonProps {
   containerButtonStyle?: StyleProp<ViewStyle>
   countryCode?: CountryCode
   placeholder: string
-  onOpen?(): void
+  onOpen?(): void,
+  renderFlagButton?(props: FlagButtonProps): ReactNode
 }
 
 export const FlagButton = ({

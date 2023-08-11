@@ -1,109 +1,109 @@
 {
-  "name": "react-native-country-picker-modal",
-  "version": "2.0.0",
-  "description": "react-native country picker",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xcarpentier/react-native-country-picker-modal.git"
-  },
-  "scripts": {
-    "start": "yarn config:dev && expo start",
-    "start:web": "yarn config:dev && expo start -w --dev",
-    "tsc": "node_modules/.bin/tsc --noEmit",
-    "build": "rm -rf lib/ && node_modules/.bin/tsc && cp -rf ./src/assets ./lib && yarn minify",
-    "minify": "yarn minify:emoji",
-    "minify:emoji": "./scripts/minify.js ./lib/assets/data/countries-emoji.json",
-    "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
-    "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
-    "lint": "tslint --project .",
-    "test": "TZ=Europe/Paris jest",
-    "data:image": "rm -rf ./data/countries.json && ./scripts/transform-world-countries.js > ./data/countries.json",
-    "data:emoji": "rm -rf ./data/countries-emoji.json && ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
-    "data:cca2": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json",
-    "data:regions": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --regions > ./data/regions.json",
-    "data:subregions": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --subregions > ./data/subregions.json",
-    "cleaning": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*",
-    "verify": "yarn lint && yarn build && yarn test",
-    "prepublishOnly": "yarn verify && yarn config:npm",
-    "postpublish": "yarn config:dev",
-    "deploy": "gh-pages -d web-build",
-    "predeploy": "yarn verify && expo build:web && mkdir web-build/countries && cp ./data/countries.json web-build/countries/index.json"
-  },
-  "keywords": [
-    "react-native",
-    "components",
-    "country-picker",
-    "country",
-    "flag"
-  ],
-  "author": "Xavier Carpentier <xcapetir@gmail.com> (https://xaviercarpentier.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/xcarpentier/react-native-country-picker-modal/issues"
-  },
-  "homepage": "http://xcarpentier.github.io/react-native-country-picker-modal",
-  "dependencies": {
-    "@callstack/react-theme-provider": "3.0.9",
-    "fuse.js": "3.4.5",
-    "node-emoji": "1.10.0",
-    "prop-types": "15.7.2",
-    "react-async-hook": "3.6.1"
-  },
-  "devDependencies": {
-    "@types/jest": "24.0.17",
-    "@types/node-emoji": "1.8.1",
-    "@types/prop-types": "15.7.3",
-    "@types/react": "18.0.0",
-    "@types/react-native": "0.60.17",
-    "@types/react-test-renderer": "16.9.1",
-    "babel-cli": "6.14.0",
-    "babel-eslint": "6.1.2",
-    "babel-jest": "24.9.0",
-    "babel-preset-expo": "^7.0.0",
-    "expo": "^35.0.0",
-    "gh-pages": "2.1.1",
-    "husky": "^3.0.0",
-    "jest-expo": "^35.0.0",
-    "json": "^9.0.6",
-    "prettier": "1.18.0",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
-    "react-native-web": "^0.13.18",
-    "react-test-renderer": "16.8.3",
-    "tslint": "5.12.0",
-    "tslint-config-prettier": "1.17.0",
-    "typescript": "3.4.5",
-    "world-countries": "2.1.0"
-  },
-  "jest": {
-    "preset": "react-native",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    "name": "react-native-country-picker-modal",
+    "version": "2.0.0",
+    "description": "react-native country picker",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xcarpentier/react-native-country-picker-modal.git"
     },
-    "testMatch": [
-      "**/*.test.ts?(x)"
+    "scripts": {
+        "start": "yarn config:dev && expo start",
+        "start:web": "yarn config:dev && expo start -w --dev",
+        "tsc": "node_modules/.bin/tsc --noEmit",
+        "build": "rm -rf lib/ && node_modules/.bin/tsc && cp -rf ./src/assets ./lib && yarn minify",
+        "minify": "yarn minify:emoji",
+        "minify:emoji": "./scripts/minify.js ./lib/assets/data/countries-emoji.json",
+        "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
+        "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
+        "lint": "eslint --project .",
+        "test": "TZ=Europe/Paris jest",
+        "data:image": "rm -rf ./data/countries.json && ./scripts/transform-world-countries.js > ./data/countries.json",
+        "data:emoji": "rm -rf ./data/countries-emoji.json && ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
+        "data:cca2": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json",
+        "data:regions": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --regions > ./data/regions.json",
+        "data:subregions": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --subregions > ./data/subregions.json",
+        "cleaning": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*",
+        "verify": "yarn lint && yarn build && yarn test",
+        "prepublishOnly": "yarn verify && yarn config:npm",
+        "postpublish": "yarn config:dev",
+        "deploy": "gh-pages -d web-build",
+        "predeploy": "yarn verify && expo build:web && mkdir web-build/countries && cp ./data/countries.json web-build/countries/index.json"
+    },
+    "keywords": [
+        "react-native",
+        "components",
+        "country-picker",
+        "country",
+        "flag"
     ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example-expo",
-      "<rootDir>/example-slack-message"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint && yarn tsc"
+    "author": "Xavier Carpentier <xcapetir@gmail.com> (https://xaviercarpentier.com/)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/xcarpentier/react-native-country-picker-modal/issues"
+    },
+    "homepage": "http://xcarpentier.github.io/react-native-country-picker-modal",
+    "dependencies": {
+        "@callstack/react-theme-provider": "3.0.9",
+        "fuse.js": "3.4.5",
+        "node-emoji": "1.10.0",
+        "prop-types": "15.7.2",
+        "react-async-hook": "3.6.1"
+    },
+    "devDependencies": {
+        "@types/jest": "24.0.17",
+        "@types/node-emoji": "1.8.1",
+        "@types/prop-types": "15.7.3",
+        "@types/react": "18.0.0",
+        "@types/react-native": "0.69.9",
+        "@types/react-test-renderer": "16.9.1",
+        "babel-cli": "6.14.0",
+        "babel-eslint": "6.1.2",
+        "babel-jest": "24.9.0",
+        "babel-preset-expo": "^7.0.0",
+        "eslint": "~7.32.0",
+        "expo": "^35.0.0",
+        "gh-pages": "2.1.1",
+        "husky": "^3.0.0",
+        "jest-expo": "45.0.1",
+        "json": "^9.0.6",
+        "prettier": "1.18.0",
+        "react": "18.0.0",
+        "react-dom": "18.0.0",
+        "react-native": "0.69.9",
+        "react-native-web": "^0.13.18",
+        "react-test-renderer": "18.0.0",
+        "tslint-config-prettier": "1.17.0",
+        "typescript": "~4.9.5",
+        "world-countries": "2.1.0"
+    },
+    "jest": {
+        "preset": "react-native",
+        "moduleFileExtensions": [
+            "js",
+            "jsx",
+            "json",
+            "ts",
+            "tsx"
+        ],
+        "transform": {
+            "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+        },
+        "testMatch": [
+            "**/*.test.ts?(x)"
+        ],
+        "modulePathIgnorePatterns": [
+            "<rootDir>/example-expo",
+            "<rootDir>/example-slack-message"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "yarn lint && yarn tsc"
+        }
+    },
+    "resolutions": {
+        "mem": "^4.0.0"
     }
-  },
-  "resolutions": {
-    "mem": "^4.0.0"
-  }
 }

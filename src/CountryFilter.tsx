@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { TextInput, StyleSheet, TextInputProps, Platform } from 'react-native'
 import { useTheme } from './CountryTheme'
 
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 })
 
 export type CountryFilterProps = TextInputProps
+ & { renderCountryFilter?(props: CountryFilterProps): ReactNode }
 
 export const CountryFilter = (props: CountryFilterProps) => {
   const {
