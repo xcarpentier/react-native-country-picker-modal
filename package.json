@@ -98,11 +98,6 @@
             "<rootDir>/example-slack-message"
         ]
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "yarn lint && yarn tsc"
-        }
-    },
     "resolutions": {
         "mem": "^4.0.0"
     }
