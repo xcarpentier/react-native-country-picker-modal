@@ -87,6 +87,7 @@
   },
   "jest": {
     "preset": "react-native",
+    "testEnvironment": "jsdom",
     "moduleFileExtensions": [
       "js",
       "jsx",
