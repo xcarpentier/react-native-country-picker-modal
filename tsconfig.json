@@ -1,5 +1,9 @@
 {
-  "include": ["src", "./typings.d.ts"],
+  "include": [
+    "src",
+    "App.tsx",
+    "./typings.d.ts"
+  ],
   "compilerOptions": {
     "declaration": true,
     "outDir": "./lib",
@@ -28,8 +32,17 @@
     "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
     "strictPropertyInitialization": false,
-    "lib": ["dom", "esnext"],
-    "typeRoots": ["./node_modules/@types", "./@types"]
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ],
+  "extends": "expo/tsconfig.base"
 }

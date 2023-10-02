@@ -17,7 +17,7 @@
     "minify:emoji": "./scripts/minify.js ./lib/assets/data/countries-emoji.json",
     "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
-    "lint": "tslint --project .",
+    "lint": "eslint .",
     "test": "TZ=Europe/Paris jest",
     "data:image": "rm -rf ./data/countries.json && ./scripts/transform-world-countries.js > ./data/countries.json",
     "data:emoji": "rm -rf ./data/countries-emoji.json && ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
