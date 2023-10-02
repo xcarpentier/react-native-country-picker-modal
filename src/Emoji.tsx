@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Text } from 'react-native'
-import nodeEmoji from 'node-emoji'
+import * as nodeEmoji from 'node-emoji'
 
 const Emoji = memo(({ name }: { name: string }) => {
   const emoji = nodeEmoji.get(name)

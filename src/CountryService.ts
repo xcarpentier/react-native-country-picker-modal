@@ -24,35 +24,36 @@ const localData: DataCountry = {
   imageCountries: undefined,
 }
 
-export const loadDataAsync = ((data: DataCountry) => (
-  dataType: FlagType = FlagType.EMOJI,
-): Promise<CountryMap> => {
-  return new Promise((resolve, reject) => {
-    switch (dataType) {
-      case FlagType.FLAT:
-        if (!data.imageCountries) {
-          fetch(imageJsonUrl)
-            .then((response: Response) => response.json())
-            .then((remoteData: any) => {
-              data.imageCountries = remoteData
-              resolve(data.imageCountries)
-            })
-            .catch(reject)
-        } else {
-          resolve(data.imageCountries)
-        }
-        break
-      default:
-        if (!data.emojiCountries) {
-          data.emojiCountries = require('./assets/data/countries-emoji.json')
-          resolve(data.emojiCountries)
-        } else {
-          resolve(data.emojiCountries)
-        }
-        break
-    }
-  })
-})(localData)
+export const loadDataAsync = (
+  (data: DataCountry) =>
+  (dataType: FlagType = FlagType.EMOJI): Promise<CountryMap> => {
+    return new Promise((resolve, reject) => {
+      switch (dataType) {
+        case FlagType.FLAT:
+          if (!data.imageCountries) {
+            fetch(imageJsonUrl)
+              .then((response: Response) => response.json())
+              .then((remoteData: any) => {
+                data.imageCountries = remoteData
+                resolve(data.imageCountries!)
+              })
+              .catch(reject)
+          } else {
+            resolve(data.imageCountries)
+          }
+          break
+        default:
+          if (!data.emojiCountries) {
+            data.emojiCountries = require('./assets/data/countries-emoji.json')
+            resolve(data.emojiCountries!)
+          } else {
+            resolve(data.emojiCountries)
+          }
+          break
+      }
+    })
+  }
+)(localData)
 
 export const getEmojiFlagAsync = async (countryCode: CountryCode = 'FR') => {
   const countries = await loadDataAsync()
@@ -100,9 +101,10 @@ export const getCountryCurrencyAsync = async (countryCode: CountryCode) => {
   return countries[countryCode].currency[0]
 }
 
-const isCountryPresent = (countries: { [key in CountryCode]: Country }) => (
-  countryCode: CountryCode,
-) => !!countries[countryCode]
+const isCountryPresent =
+  (countries: { [key in CountryCode]: Country }) =>
+  (countryCode: CountryCode) =>
+    !!countries[countryCode]
 
 const isRegion = (region?: Region) => (country: Country) =>
   region ? country.region === region : true
@@ -128,7 +130,7 @@ export const getCountriesAsync = async (
   countryCodes?: CountryCode[],
   excludeCountries?: CountryCode[],
   preferredCountries?: CountryCode[],
-  withAlphaFilter?: boolean
+  withAlphaFilter?: boolean,
 ): Promise<Country[]> => {
   const countriesRaw = await loadDataAsync(flagType)
   if (!countriesRaw) {
@@ -136,31 +138,14 @@ export const getCountriesAsync = async (
   }
 
   if (preferredCountries && !withAlphaFilter) {
-    const newCountryCodeList = [...preferredCountries, ...CountryCodeList.filter(code => !preferredCountries.includes(code))]
+    const newCountryCodeList = [
+      ...preferredCountries,
+      ...CountryCodeList.filter((code) => !preferredCountries.includes(code)),
+    ]
 
-    const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
-    .map((cca2: CountryCode) => ({
-      cca2,
-      ...{
-        ...countriesRaw[cca2],
-        name:
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
-            translation
-          ] ||
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
-      },
-    }))
-    .filter(isRegion(region))
-    .filter(isSubregion(subregion))
-    .filter(isIncluded(countryCodes))
-    .filter(isExcluded(excludeCountries))
-    
-    return countries
-
-  } else {
-    const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
+    const countries = newCountryCodeList
+      .filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
-        cca2,
         ...{
           ...countriesRaw[cca2],
           name:
@@ -169,6 +154,26 @@ export const getCountriesAsync = async (
             ] ||
             (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
         },
+        cca2,
+      }))
+      .filter(isRegion(region))
+      .filter(isSubregion(subregion))
+      .filter(isIncluded(countryCodes))
+      .filter(isExcluded(excludeCountries))
+
+    return countries
+  } else {
+    const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
+      .map((cca2: CountryCode) => ({
+        ...{
+          ...countriesRaw[cca2],
+          name:
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
+              translation
+            ] ||
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
+        },
+        cca2,
       }))
       .filter(isRegion(region))
       .filter(isSubregion(subregion))
@@ -195,7 +200,7 @@ let fuse: Fuse<Country>
 export const search = (
   filter: string = '',
   data: Country[] = [],
-  options: Fuse.FuseOptions<any> = DEFAULT_FUSE_OPTION,
+  options: Fuse.FuseOptions<Country> = DEFAULT_FUSE_OPTION,
 ) => {
   if (data.length === 0) {
     return []
@@ -210,7 +215,7 @@ export const search = (
     return data
   }
 }
-const uniq = (arr: any[]) => Array.from(new Set(arr))
+const uniq = (arr: string[]) => Array.from(new Set(arr))
 
 export const getLetters = (countries: Country[]) => {
   return uniq(

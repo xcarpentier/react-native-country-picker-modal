@@ -52,17 +52,15 @@ const Option = ({ value, onValueChange, title }: OptionProps) => (
   </Row>
 )
 
-export default function App() {
-  const [countryCode, setCountryCode] = useState<CountryCode | undefined>()
-  const [country, setCountry] = useState<Country>(null)
-  const [withCountryNameButton, setWithCountryNameButton] = useState<boolean>(
-    false,
-  )
+const App = () => {
+  const [countryCode, setCountryCode] = useState<CountryCode>('US')
+  const [country, setCountry] = useState<Country>()
+  const [withCountryNameButton, setWithCountryNameButton] =
+    useState<boolean>(false)
   const [withCurrencyButton, setWithCurrencyButton] = useState<boolean>(false)
   const [withFlagButton, setWithFlagButton] = useState<boolean>(true)
-  const [withCallingCodeButton, setWithCallingCodeButton] = useState<boolean>(
-    false,
-  )
+  const [withCallingCodeButton, setWithCallingCodeButton] =
+    useState<boolean>(false)
   const [withFlag, setWithFlag] = useState<boolean>(true)
   const [withEmoji, setWithEmoji] = useState<boolean>(true)
   const [withFilter, setWithFilter] = useState<boolean>(true)
@@ -72,7 +70,7 @@ export default function App() {
   const [withModal, setWithModal] = useState<boolean>(true)
   const [visible, setVisible] = useState<boolean>(false)
   const [dark, setDark] = useState<boolean>(false)
-  const [fontScaling, setFontScaling] = useState<boolean>(true)
+  const [allowFontScaling, setFontScaling] = useState<boolean>(true)
   const [disableNativeModal, setDisableNativeModal] = useState<boolean>(false)
   const onSelect = (country: Country) => {
     setCountryCode(country.cca2)
@@ -106,7 +104,7 @@ export default function App() {
         />
         <Option
           title='With font scaling'
-          value={fontScaling}
+          value={allowFontScaling}
           onValueChange={setFontScaling}
         />
         <Option
@@ -153,7 +151,7 @@ export default function App() {
         <CountryPicker
           theme={dark ? DARK_THEME : {}}
           {...{
-            allowFontScaling: fontScaling,
+            allowFontScaling,
             countryCode,
             withFilter,
             excludeCountries: ['FR'],
@@ -170,9 +168,7 @@ export default function App() {
             onSelect,
             disableNativeModal,
             preferredCountries: ['US', 'GB'],
-            modalProps: {
-              visible,
-            },
+            modalProps: { visible },
             onClose: () => setVisible(false),
             onOpen: () => setVisible(true),
           }}
@@ -189,3 +185,5 @@ export default function App() {
     </CountryModalProvider>
   )
 }
+
+export default App

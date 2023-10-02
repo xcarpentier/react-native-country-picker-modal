@@ -83,7 +83,7 @@ const FlagWithSomething = memo(
       <View style={styles.flagWithSomethingContainer}>
         {countryCode ? (
           <Flag
-            {...{ withEmoji, countryCode, withFlagButton, flagSize: flagSize! }}
+            {...{ withEmoji, countryCode, withFlagButton, flagSize }}
           />
         ) : (
           <FlagText allowFontScaling={allowFontScaling}>{placeholder}</FlagText>

@@ -5,15 +5,15 @@ import {
   ImageSourcePropType,
   StyleProp,
   ViewStyle,
-  ImageStyle
+  ImageStyle,
 } from 'react-native'
 import CloseButton from './CloseButton'
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 })
 
 interface HeaderModalProps {
@@ -33,21 +33,23 @@ export const HeaderModal = (props: HeaderModalProps) => {
     closeButtonStyle,
     closeButtonImageStyle,
     onClose,
-    renderFilter
+    renderFilter,
   } = props
   return (
     <View style={styles.container}>
-      {withCloseButton && <CloseButton
-        image={closeButtonImage}
-        style={closeButtonStyle}
-        imageStyle={closeButtonImageStyle}
-        onPress={onClose}
-      />}
+      {withCloseButton && (
+        <CloseButton
+          image={closeButtonImage}
+          style={closeButtonStyle}
+          imageStyle={closeButtonImageStyle}
+          onPress={() => onClose()}
+        />
+      )}
       {withFilter && renderFilter(props)}
     </View>
   )
 }
 
 HeaderModal.defaultProps = {
-  withCloseButton: true
+  withCloseButton: true,
 }
