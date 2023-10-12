@@ -308,6 +308,7 @@ export type Subregion = (typeof SubregionList)[number]
 
 export const TranslationLanguageCodeList = [
   'common',
+  'ara',
   'cym',
   'deu',
   'fra',

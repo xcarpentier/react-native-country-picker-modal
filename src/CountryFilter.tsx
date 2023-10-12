@@ -24,6 +24,8 @@ export const CountryFilter = (props: CountryFilterProps) => {
     fontFamily,
     fontSize,
     onBackgroundTextColor,
+    filterTextAlign,
+    filterTextAlignVertical,
   } = useTheme()
   return (
     <TextInput
@@ -32,7 +34,13 @@ export const CountryFilter = (props: CountryFilterProps) => {
       placeholderTextColor={filterPlaceholderTextColor}
       style={[
         styles.input,
-        { fontFamily, fontSize, color: onBackgroundTextColor },
+        { 
+          fontFamily,
+          fontSize,
+          color: onBackgroundTextColor,
+          textAlign: filterTextAlign,
+          textAlignVertical: filterTextAlignVertical,
+        },
       ]}
       {...props}
     />
