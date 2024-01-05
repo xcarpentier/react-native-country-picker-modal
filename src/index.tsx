@@ -78,3 +78,5 @@ export { Flag } from './Flag'
 export { HeaderModal } from './HeaderModal'
 export { CountryModalProvider } from './CountryModalProvider'
 export * from './types'
+export { CountryProvider, DEFAULT_COUNTRY_CONTEXT }
+export { CountryPicker }
