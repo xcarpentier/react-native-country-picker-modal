@@ -23,7 +23,8 @@ config.resolver.nodeModulesPaths = [
 // "invalid hook call". Blocking forces resolution to fall through to the
 // example's single copy, which is the one Expo pins for this SDK.
 config.resolver.blockList = peerDependencies.map(
-  (name) => new RegExp(`^${escape(path.join(root, 'node_modules', name))}\\/.*$`),
+  (name) =>
+    new RegExp(`^${escape(path.join(root, 'node_modules', name))}\\/.*$`),
 )
 
 config.resolver.extraNodeModules = Object.fromEntries(

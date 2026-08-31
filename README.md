@@ -1,205 +1,322 @@
-<h3>
-  Country Picker for React Native.
-</h3>
+<h1 align="center">react-native-country-picker-modal</h1>
 
-<p>
-   <a href="https://reactnative.gallery/xcarpentier/country-picker"><img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
-  <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/v/react-native-country-picker-modal.svg?style=flat-square"></a>
-  <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/dm/react-native-country-picker-modal.svg?style=flat-square"></a>
-  <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen"/></a>
-</p>
-
-| iOS                                                                                               | Android                                                                                           | Web                                                                                               |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| <img  src="https://media.giphy.com/media/cKmlP4Ue5pUrH0DQLi/giphy.gif" width="200" height="400"/> | <img  src="https://media.giphy.com/media/Q7SDti4eARGx2CQIGE/giphy.gif" width="200" height="400"/> | <img  src="https://media.giphy.com/media/gKl3z3c7sVVL7KSSh8/giphy.gif" width="250" height="400"/> |
-
-## Sponsor
-
-<br>
 <p align="center">
- <a href="https://amzn.to/3ZmTyb2" target="_blank">React Key Concepts: Consolidate your knowledge of React’s core features (2nd ed. Edition)</a>
+  A searchable, themeable country picker for React Native — iOS, Android and Web.
 </p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/v/react-native-country-picker-modal.svg?style=flat-square" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/dm/react-native-country-picker-modal.svg?style=flat-square" alt="npm downloads"></a>
+  <a href="./LICENSE.md"><img src="https://img.shields.io/npm/l/react-native-country-picker-modal.svg?style=flat-square" alt="license"></a>
+  <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen?style=flat-square" alt="hire an expert"></a>
+</p>
 
-## Demo
+| iOS                                                                                              | Android                                                                                          | Web                                                                                              |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| <img src="https://media.giphy.com/media/cKmlP4Ue5pUrH0DQLi/giphy.gif" width="200" height="400"/> | <img src="https://media.giphy.com/media/Q7SDti4eARGx2CQIGE/giphy.gif" width="200" height="400"/> | <img src="https://media.giphy.com/media/gKl3z3c7sVVL7KSSh8/giphy.gif" width="250" height="400"/> |
 
-- 🎉[ GO TO WEB DEMO ](http://xcarpentier.github.io/react-native-country-picker-modal/) 🎉
-- [snack example](https://snack.expo.io/@xcarpentier/bossy-marshmallows)
+## Features
+
+- 250 countries with names, flags, calling codes, currencies, regions and subregions.
+- Emoji flags with **no runtime dependency** — derived from the country code, nothing to download.
+- Fuzzy search across name, country code and calling code, plus an A–Z jump index.
+- 18 name translations bundled, with automatic fallback to English.
+- Fully themeable, with a built-in dark theme.
+- Written in TypeScript; country codes, regions and translations are literal union types.
+- Works on iOS, Android and Web.
+
+## Requirements
+
+| Package        | Version   |
+| -------------- | --------- |
+| `react`        | `>= 19.0` |
+| `react-native` | `>= 0.78` |
+
+> **Using React 18 or React Native 0.72?** Stay on `v2`. See [Migrating from v2](#migrating-from-v2).
 
 ## Installation
 
 ```bash
-$ yarn add react-native-country-picker-modal
+npm  install react-native-country-picker-modal
+yarn add     react-native-country-picker-modal
+pnpm add     react-native-country-picker-modal
+bun  add     react-native-country-picker-modal
 ```
 
-## Basic Usage
+There is no native code and no linking step, so it works in Expo Go as well as bare React Native.
 
-For more complete example open [App.tsx](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/App.tsx)
+## Quick start
 
 ```tsx
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, PixelRatio, Switch } from 'react-native'
-import CountryPicker from 'react-native-country-picker-modal'
-import { CountryCode, Country } from './src/types'
-
-const styles = StyleSheet.create({
-  // ...
-})
+import { useState } from 'react'
+import { SafeAreaView, Text } from 'react-native'
+import CountryPicker, {
+  type Country,
+  type CountryCode,
+} from 'react-native-country-picker-modal'
 
 export default function App() {
-  const [countryCode, setCountryCode] = useState<CountryCode>('FR')
-  const [country, setCountry] = useState<Country>(null)
-  const [withCountryNameButton, setWithCountryNameButton] = useState<boolean>(
-    false,
-  )
-  const [withFlag, setWithFlag] = useState<boolean>(true)
-  const [withEmoji, setWithEmoji] = useState<boolean>(true)
-  const [withFilter, setWithFilter] = useState<boolean>(true)
-  const [withAlphaFilter, setWithAlphaFilter] = useState<boolean>(false)
-  const [withCallingCode, setWithCallingCode] = useState<boolean>(false)
-  const onSelect = (country: Country) => {
-    setCountryCode(country.cca2)
-    setCountry(country)
-  }
+  const [countryCode, setCountryCode] = useState<CountryCode>('US')
+  const [country, setCountry] = useState<Country>()
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to Country Picker !</Text>
-      <Option
-        title='With country name on button'
-        value={withCountryNameButton}
-        onValueChange={setWithCountryNameButton}
-      />
-      <Option title='With flag' value={withFlag} onValueChange={setWithFlag} />
-      <Option
-        title='With emoji'
-        value={withEmoji}
-        onValueChange={setWithEmoji}
-      />
-      <Option
-        title='With filter'
-        value={withFilter}
-        onValueChange={setWithFilter}
-      />
-      <Option
-        title='With calling code'
-        value={withCallingCode}
-        onValueChange={setWithCallingCode}
-      />
-      <Option
-        title='With alpha filter code'
-        value={withAlphaFilter}
-        onValueChange={setWithAlphaFilter}
-      />
+    <SafeAreaView>
       <CountryPicker
-        {...{
-          countryCode,
-          withFilter,
-          withFlag,
-          withCountryNameButton,
-          withAlphaFilter,
-          withCallingCode,
-          withEmoji,
-          onSelect,
+        countryCode={countryCode}
+        withFilter
+        withFlag
+        withCallingCode
+        onSelect={(selected) => {
+          setCountryCode(selected.cca2)
+          setCountry(selected)
         }}
-        visible
       />
-      <Text style={styles.instructions}>Press on the flag to open modal</Text>
-      {country !== null && (
-        <Text style={styles.data}>{JSON.stringify(country, null, 2)}</Text>
-      )}
-    </View>
+      {country ? <Text>You picked {country.name as string}</Text> : null}
+    </SafeAreaView>
   )
 }
 ```
 
+Tapping the flag opens the modal. To drive it yourself, pass `visible` and handle `onOpen` / `onClose`.
+
+A runnable version exercising every option lives in [`example/App.tsx`](./example/App.tsx).
+
 ## Props
 
-- `countryCode`: [CountryCode](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L252)
-- `region?`:[Region](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L272)
-- `subregion?`: [Subregion](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L282)
-- `countryCodes?`: [CountryCode](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L254)
-- `theme?`: [Theme](https://github.com/xcarpentier/react-native-country-picker-modal/blob/7611d34fa35744dbec3fbcdd9b4401494b1ba8c4/src/CountryTheme.ts#L5)
-- `translation?`: [TranslationLanguageCode](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L309)
-- `modalProps?`: [ModalProps](https://facebook.github.io/react-native/docs/modal#props)
-- `filterProps?`: [CountryFilterProps](https://facebook.github.io/react-native/docs/textinput#props)
-- `flatListProps?`: [FlatListProps<Country>](https://facebook.github.io/react-native/docs/flatlist#props)
-- `withAlphaFilter?`: boolean
-- `withCallingCode?`: boolean
-- `withCurrency?`: boolean
-- `withEmoji?`: boolean
-- `withCountryNameButton?`: boolean
-- `withCurrencyButton?`: boolean
-- `withCallingCodeButton?`: boolean
-- `withFlagButton?`: boolean
-- `withCloseButton?`: boolean
-- `withFilter?`: boolean
-- `withFlag?`: boolean
-- `withModal?`: boolean
-- `visible?`: boolean
-- `containerButtonStyle?`: `StyleProp<ViewStyle>`
-- `renderFlagButton?`(props: (FlagButton['props'])): ReactNode ([FlagButton props](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/FlagButton.tsx#L73))
-- `renderCountryFilter?`(props: CountryFilter['props']): ReactNode ([CountryFilter props is TextInputProps](https://facebook.github.io/react-native/docs/textinput#props))
-- `onSelect`(country: Country): void ([Country](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L263))
-- `onOpen`(): void
-- `onClose`(): void
-- `closeButtonImage?`: [ImageSourcePropType](https://facebook.github.io/react-native/docs/image#props)
-- `closeButtonStyle?`: StyleProp<ViewStyle>
-- `closeButtonImageStyle?`: StyleProp<ImageStyle>
-- `disableNativeModal?`: boolean (you have to wrap your all app with CountryModalProvider)
-- `preferredCountries`: [CountryCode](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/src/types.ts#L254) preferred countries they appear first (`withAlphaFilter` must be false)
+### Selection
 
-## Dark theme example
+| Prop                 | Type                         | Default    | Description                                                 |
+| -------------------- | ---------------------------- | ---------- | ----------------------------------------------------------- |
+| `countryCode`        | `CountryCode`                | —          | The currently selected country, e.g. `'US'`.                |
+| `onSelect`           | `(country: Country) => void` | no-op      | Called with the full country object when one is chosen.     |
+| `countryCodes`       | `CountryCode[]`              | —          | Restrict the list to these countries.                       |
+| `excludeCountries`   | `CountryCode[]`              | —          | Remove these countries from the list.                       |
+| `preferredCountries` | `CountryCode[]`              | —          | Show these first. Ignored when `withAlphaFilter` is `true`. |
+| `region`             | `Region`                     | —          | Restrict to a region, e.g. `'Europe'`.                      |
+| `subregion`          | `Subregion`                  | —          | Restrict to a subregion, e.g. `'Western Europe'`.           |
+| `translation`        | `TranslationLanguageCode`    | `'common'` | Language for names. Falls back to English per country.      |
 
-<p align="center">
-    <img alt="react-native-country-picker-modal-dark" src="https://user-images.githubusercontent.com/2692166/40585272-094f817a-61b0-11e8-9668-abff0aeddb0e.png" width=150>
-</p>
+### What the list shows
 
-A simple example to display a `CountryPicker` component with a dark theme.
+| Prop              | Type      | Default | Description                                                                          |
+| ----------------- | --------- | ------- | ------------------------------------------------------------------------------------ |
+| `withFlag`        | `boolean` | `true`  | Show a flag on each row.                                                             |
+| `withEmoji`       | `boolean` | `true`  | Use emoji flags. When `false`, images are fetched — see [Image flags](#image-flags). |
+| `withCallingCode` | `boolean` | `false` | Append the calling code to each row.                                                 |
+| `withCurrency`    | `boolean` | `false` | Append the currency to each row.                                                     |
+| `withFilter`      | `boolean` | `false` | Show the search field.                                                               |
+| `withAlphaFilter` | `boolean` | `false` | Show the A–Z jump index.                                                             |
+
+### What the button shows
+
+| Prop                    | Type                   | Default            | Description                          |
+| ----------------------- | ---------------------- | ------------------ | ------------------------------------ |
+| `withFlagButton`        | `boolean`              | `true`             | Show the flag on the button.         |
+| `withCountryNameButton` | `boolean`              | `false`            | Show the country name on the button. |
+| `withCallingCodeButton` | `boolean`              | `false`            | Show the calling code on the button. |
+| `withCurrencyButton`    | `boolean`              | `false`            | Show the currency on the button.     |
+| `placeholder`           | `string`               | `'Select Country'` | Shown when no `countryCode` is set.  |
+| `containerButtonStyle`  | `StyleProp<ViewStyle>` | —                  | Style for the button container.      |
+| `allowFontScaling`      | `boolean`              | `true`             | Respect the OS font-size setting.    |
+
+### Modal
+
+| Prop                 | Type         | Default | Description                                                                                                          |
+| -------------------- | ------------ | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| `withModal`          | `boolean`    | `true`  | When `false`, the list renders inline and no button is shown.                                                        |
+| `visible`            | `boolean`    | `false` | Open the modal from outside.                                                                                         |
+| `onOpen` / `onClose` | `() => void` | —       | Called when the modal opens or closes.                                                                               |
+| `withCloseButton`    | `boolean`    | `true`  | Show the close button in the header.                                                                                 |
+| `disableNativeModal` | `boolean`    | `false` | Render an animated view instead of a native modal. Requires [`CountryModalProvider`](#nesting-inside-another-modal). |
+
+### Escape hatches
+
+| Prop                                                            | Type                                                                    | Description                                             |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------- |
+| `theme`                                                         | `Theme`                                                                 | Merged over the default theme. See [Theming](#theming). |
+| `modalProps`                                                    | [`ModalProps`](https://reactnative.dev/docs/modal#props)                | Forwarded to the underlying `Modal`.                    |
+| `filterProps`                                                   | [`TextInputProps`](https://reactnative.dev/docs/textinput#props)        | Forwarded to the search field.                          |
+| `flatListProps`                                                 | [`FlatListProps<Country>`](https://reactnative.dev/docs/flatlist#props) | Forwarded to the list.                                  |
+| `renderFlagButton`                                              | `(props: FlagButtonProps) => ReactNode`                                 | Replace the button entirely.                            |
+| `renderCountryFilter`                                           | `(props: CountryFilterProps) => ReactNode`                              | Replace the search field entirely.                      |
+| `closeButtonImage`, `closeButtonStyle`, `closeButtonImageStyle` | —                                                                       | Customise the close button.                             |
+
+## Theming
+
+`theme` is merged over the defaults, so you specify only what you want to change.
 
 ```tsx
 import CountryPicker, { DARK_THEME } from 'react-native-country-picker-modal'
 
-const MyDarkView = () => <CountryPicker theme={DARK_THEME} />
+// Built-in dark theme
+<CountryPicker theme={DARK_THEME} countryCode='US' onSelect={onSelect} />
+
+// Or override individual values
+<CountryPicker
+  theme={{ primaryColor: '#6C5CE7', fontSize: 18, itemHeight: 56 }}
+  countryCode='US'
+  onSelect={onSelect}
+/>
 ```
 
-## Dependencies
+| Key                          | Default (light)                     |
+| ---------------------------- | ----------------------------------- |
+| `primaryColor`               | `'#ccc'`                            |
+| `primaryColorVariant`        | `'#eee'`                            |
+| `backgroundColor`            | `'#ffffff'`                         |
+| `onBackgroundTextColor`      | `'#000000'`                         |
+| `fontSize`                   | `16`                                |
+| `fontFamily`                 | `'System'` / `'Roboto'` / `'Arial'` |
+| `filterPlaceholderTextColor` | `'#aaa'`                            |
+| `activeOpacity`              | `0.5`                               |
+| `itemHeight`                 | 7% of screen height                 |
+| `flagSize`                   | `20` on Android, `30` elsewhere     |
+| `flagSizeButton`             | `20` on Android, `30` elsewhere     |
 
-- world-countries : https://www.npmjs.com/package/world-countries
+`useTheme()` returns the fully resolved theme if you are building your own row or button.
+
+## Helper functions
+
+Everything the picker uses internally is exported, so you can query the country data without rendering anything.
+
+```tsx
+import {
+  getEmojiFlag,
+  getCountryName,
+  getCallingCode,
+  getCurrency,
+  getCountryInfo,
+  getAllCountries,
+  FlagType,
+} from 'react-native-country-picker-modal'
+
+getEmojiFlag('JP') // '🇯🇵' — synchronous, no I/O
+
+await getCountryName('JP', 'fra') // 'Japon'
+await getCallingCode('JP') // '81'
+await getCurrency('JP') // 'JPY'
+await getCountryInfo({ countryCode: 'JP' })
+// { countryName: 'Japan', currency: 'JPY', callingCode: '81' }
+
+await getAllCountries(FlagType.EMOJI, 'common')
+```
+
+## Recipes
+
+### Opening the modal from your own button
+
+```tsx
+const [visible, setVisible] = useState(false)
+
+<Button title='Choose a country' onPress={() => setVisible(true)} />
+<CountryPicker
+  countryCode={countryCode}
+  visible={visible}
+  withFlagButton={false}
+  onSelect={onSelect}
+  onClose={() => setVisible(false)}
+/>
+```
+
+### Rendering the list inline, without a modal
+
+```tsx
+<CountryPicker
+  withModal={false}
+  withFilter
+  countryCode='US'
+  onSelect={onSelect}
+/>
+```
+
+### Nesting inside another modal
+
+iOS will not stack two native modals. Wrap your app in `CountryModalProvider` and set `disableNativeModal`, which renders an animated view into a portal instead.
+
+```tsx
+import CountryPicker, {
+  CountryModalProvider,
+} from 'react-native-country-picker-modal'
+
+export default function App() {
+  return (
+    <CountryModalProvider>
+      {/* ... */}
+      <CountryPicker disableNativeModal countryCode='US' onSelect={onSelect} />
+    </CountryModalProvider>
+  )
+}
+```
+
+### Image flags
+
+Emoji flags are the default and need no network access. Setting `withEmoji={false}` switches to bitmap flags, which are **not** bundled — they are roughly 500 KB and are fetched on first use from a GitHub Pages URL.
+
+To avoid depending on a third-party origin at runtime, host [`data/countries.json`](./data/countries.json) yourself:
+
+```tsx
+import { setImageFlagsUrl } from 'react-native-country-picker-modal'
+
+setImageFlagsUrl('https://cdn.example.com/countries/')
+```
+
+## Migrating from v2
+
+v3 requires React 19 and React Native 0.78+. Most apps need no code changes; the list below is exhaustive.
+
+| v2                            | v3                            | Why                                                                                                      |
+| ----------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `getEmojiFlagAsync(code)`     | `getEmojiFlag(code)`          | The emoji is derived from the country code, so it is no longer asynchronous.                             |
+| `translation='svk'` / `'isr'` | `translation='slk'` / removed | Neither existed in the data and both silently fell back to English. `svk` was a typo for `slk` (Slovak). |
+| `useTheme(): Partial<Theme>`  | `useTheme(): ResolvedTheme`   | Values are always present, so `theme.fontSize!` becomes `theme.fontSize`.                                |
+| `import { Omit } from '...'`  | TypeScript's built-in `Omit`  | The custom alias shadowed the built-in.                                                                  |
+
+The default export and every prop are unchanged.
+
+Newly available in v3: the `ces`, `est`, `kor`, `pol`, `slk` and `urd` translations, which were present in the bundled data but rejected by the v2 types.
+
+Also fixed in v3: the web modal, which never rendered because the shim imported the wrong module; flags disappearing from list rows; search returning stale results after changing the translation or country list; and the modal slide animation restarting on every parent re-render.
+
+## Contributing
+
+```bash
+git clone https://github.com/xcarpentier/react-native-country-picker-modal.git
+cd react-native-country-picker-modal
+yarn install
+
+yarn lint        # ESLint 9, flat config
+yarn typecheck   # tsc --noEmit
+yarn test        # Jest + @testing-library/react-native
+yarn build       # react-native-builder-bob -> lib/
+yarn verify      # all of the above
+
+# Run the Expo demo
+yarn example install
+yarn example start
+```
+
+The repository is the library at the root plus a standalone Expo app in `example/` that consumes it through a `link:` dependency.
 
 ## FAQ
 
-### Is it supported and tested both on android and iOS?
+**Does it work on both iOS and Android?** Yes, and on Web.
 
-YES
+**Is the country data available offline?** Yes. Names, calling codes, currencies and emoji flags are bundled. Only bitmap flags (`withEmoji={false}`) are fetched at runtime.
 
-### Is the data that is populated inside the list saved offline once I install your package?
+**Does it need native linking?** No. It is pure JavaScript and works in Expo Go.
 
-YES : It used the world-countries package and image is stored into json and base64.
+## Credits
 
-## Tiers lib using this lib
-
-- [react-native-phone-verification](https://github.com/joinspontaneous/react-native-phone-verification)
-
-[> Your project?](https://github.com/xcarpentier/react-native-linkedin/issues/new)
-
-## See also
-
-- [react-native-linkedin](https://github.com/xcarpentier/react-native-linkedin)
-
-## Contribution
-
-- [@xcapentier](mailto:contact@xaviercarpentier.com) The main author.
+Country data from [world-countries](https://www.npmjs.com/package/world-countries).
 
 ## Questions
 
-Feel free to [contact me](mailto:contact@xaviercarpentier.com) or [create an issue](https://github.com/xcarpentier/react-native-country-picker/issues/new)
+[Open an issue](https://github.com/xcarpentier/react-native-country-picker-modal/issues/new) or [get in touch](mailto:contact@xaviercarpentier.com).
 
-> made with ♥
+## Hire an expert
+
+Looking for a React Native freelance expert with more than 12 years of experience? Get in touch from [my website](https://xaviercarpentier.com).
 
 ## Licence
 
-[MIT](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/LICENSE.md)
-
-## Hire an expert!
-
-Looking for a ReactNative freelance expert with more than 12 years experience? Contact me from my [website](https://xaviercarpentier.com)!
+[MIT](./LICENSE.md)

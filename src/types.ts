@@ -257,9 +257,14 @@ export type CallingCode = string
 
 export type CurrencyCode = string
 
-export type TranslationLanguageCodeMap = {
-  [key in TranslationLanguageCode]: string
-}
+/**
+ * `common` is present for every country; the other translations are not, so
+ * they are optional. Consumers should fall back to `common`, which is what
+ * `getCountryName` does internally.
+ */
+export type TranslationLanguageCodeMap = { common: string } & Partial<
+  Record<TranslationLanguageCode, string>
+>
 export interface Country {
   region: Region
   subregion: Subregion
@@ -306,22 +311,37 @@ export const SubregionList = [
 ] as const
 export type Subregion = (typeof SubregionList)[number]
 
+/**
+ * Translations actually present in the bundled country data.
+ *
+ * v2 declared `svk` and `isr`, neither of which exists in the data, so
+ * selecting them silently fell back to English. It also omitted six
+ * translations that are present, making them unreachable from TypeScript.
+ * `svk` was a typo for `slk`, the ISO 639-3 code for Slovak.
+ *
+ * Coverage is per country and falls back to `common` where a translation is
+ * missing; `cym` (Welsh) in particular only covers 62 of 250 countries.
+ */
 export const TranslationLanguageCodeList = [
   'common',
+  'ces',
   'cym',
   'deu',
+  'est',
+  'fin',
   'fra',
   'hrv',
   'ita',
   'jpn',
+  'kor',
   'nld',
+  'pol',
   'por',
   'rus',
+  'slk',
   'spa',
-  'svk',
-  'fin',
+  'urd',
   'zho',
-  'isr',
 ] as const
 export type TranslationLanguageCode =
   (typeof TranslationLanguageCodeList)[number]

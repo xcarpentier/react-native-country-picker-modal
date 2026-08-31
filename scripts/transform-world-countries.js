@@ -10,14 +10,14 @@ const isSubRegion = process.argv.includes('--subregions')
 
 const getCountryNameAsyncs = (common, translations) =>
   Object.keys(translations)
-    .filter(k => k !== 'common')
-    .map(key => ({ [key]: translations[key].common }))
+    .filter((k) => k !== 'common')
+    .map((key) => ({ [key]: translations[key].common }))
     .reduce(
       (prev, cur) => ({
         ...prev,
-        [Object.keys(cur)[0]]: cur[Object.keys(cur)[0]]
+        [Object.keys(cur)[0]]: cur[Object.keys(cur)[0]],
       }),
-      {}
+      {},
     )
 
 const newcountries = countries
@@ -29,7 +29,7 @@ const newcountries = countries
       region,
       subregion,
       name: { common },
-      translations
+      translations,
     }) => ({
       [cca2]: {
         currency,
@@ -37,9 +37,9 @@ const newcountries = countries
         region,
         subregion,
         flag: isEmoji ? `flag-${cca2.toLowerCase()}` : flags[cca2],
-        name: { common, ...getCountryNameAsyncs(common, translations) }
-      }
-    })
+        name: { common, ...getCountryNameAsyncs(common, translations) },
+      },
+    }),
   )
   .sort((a, b) => {
     if (a[Object.keys(a)[0]].name.common === b[Object.keys(b)[0]].name.common) {
@@ -54,9 +54,9 @@ const newcountries = countries
   .reduce(
     (prev, cur) => ({
       ...prev,
-      [Object.keys(cur)[0]]: cur[Object.keys(cur)[0]]
+      [Object.keys(cur)[0]]: cur[Object.keys(cur)[0]],
     }),
-    {}
+    {},
   )
 
 if (isCca2) {
@@ -65,29 +65,29 @@ if (isCca2) {
   console.log(
     JSON.stringify(
       Object.values(newcountries)
-        .map(country => country.region)
+        .map((country) => country.region)
         .reduce(
           (previousValue, currentValue) =>
             previousValue.includes(currentValue)
               ? previousValue
               : previousValue.concat(currentValue),
-          []
-        )
-    )
+          [],
+        ),
+    ),
   )
 } else if (isSubRegion) {
   console.log(
     JSON.stringify(
       Object.values(newcountries)
-        .map(country => country.subregion)
+        .map((country) => country.subregion)
         .reduce(
           (previousValue, currentValue) =>
             previousValue.includes(currentValue)
               ? previousValue
               : previousValue.concat(currentValue),
-          []
-        )
-    )
+          [],
+        ),
+    ),
   )
 } else {
   console.log(JSON.stringify(newcountries))

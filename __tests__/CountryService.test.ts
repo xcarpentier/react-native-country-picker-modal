@@ -8,7 +8,13 @@ import {
   getLetters,
   search,
 } from '../src/CountryService'
-import { CountryCodeList, FlagType, type Country } from '../src/types'
+import {
+  CountryCodeList,
+  FlagType,
+  TranslationLanguageCodeList,
+  type Country,
+} from '../src/types'
+import countriesEmoji from '../src/assets/data/countries-emoji.json'
 
 const countriesFor = (codes: string[]) =>
   getCountriesAsync(
@@ -113,5 +119,34 @@ describe('search', () => {
 
   it('returns an empty array for an empty dataset', () => {
     expect(search('anything', [] as Country[])).toEqual([])
+  })
+})
+
+describe('type lists match the bundled data', () => {
+  const data = countriesEmoji as Record<
+    string,
+    { name: Record<string, string> }
+  >
+
+  it('declares every country present in the data', () => {
+    expect([...CountryCodeList].sort()).toEqual(Object.keys(data).sort())
+  })
+
+  // v2 declared `svk` and `isr`, which are absent from the data, and omitted
+  // ces/est/kor/pol/slk/urd, which are present. Selecting a declared-but-
+  // absent translation silently fell back to English.
+  it('declares exactly the translations the data provides', () => {
+    const inData = new Set<string>()
+    for (const country of Object.values(data)) {
+      for (const key of Object.keys(country.name)) inData.add(key)
+    }
+    expect([...TranslationLanguageCodeList].sort()).toEqual([...inData].sort())
+  })
+
+  it('provides the common name for every country', () => {
+    const missing = Object.entries(data)
+      .filter(([, country]) => !country.name.common)
+      .map(([code]) => code)
+    expect(missing).toEqual([])
   })
 })

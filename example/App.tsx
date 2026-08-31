@@ -115,7 +115,11 @@ export default function App() {
           value={withCallingCodeButton}
           onValueChange={setWithCallingCodeButton}
         />
-        <Option title='With flag' value={withFlag} onValueChange={setWithFlag} />
+        <Option
+          title='With flag'
+          value={withFlag}
+          onValueChange={setWithFlag}
+        />
         <Option
           title='With font scaling'
           value={allowFontScaling}
