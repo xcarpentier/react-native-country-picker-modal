@@ -51,7 +51,8 @@
     "data:emoji": "rm -rf ./data/countries-emoji.json && ./scripts/transform-world-countries.js --emoji > ./data/countries-emoji.json",
     "data:cca2": "rm -rf ./data/cca2.json && ./scripts/transform-world-countries.js --cca2 > ./data/cca2.json",
     "data:regions": "rm -rf ./data/regions.json && ./scripts/transform-world-countries.js --regions > ./data/regions.json",
-    "data:subregions": "rm -rf ./data/subregions.json && ./scripts/transform-world-countries.js --subregions > ./data/subregions.json"
+    "data:subregions": "rm -rf ./data/subregions.json && ./scripts/transform-world-countries.js --subregions > ./data/subregions.json",
+    "data:minify": "node ./scripts/minify.js ./src/assets/data/countries-emoji.json"
   },
   "keywords": [
     "react-native",
