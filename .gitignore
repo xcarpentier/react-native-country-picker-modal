@@ -42,3 +42,7 @@ jsconfig.json
 .expo/
 lib/
 web-build/
+# Local agent/editor tooling
+.claude/
+.cursor/
+*.local.md

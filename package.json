@@ -54,6 +54,7 @@
     "@babel/core": "^7.23.0",
     "@babel/eslint-parser": "^7.22.15",
     "@babel/preset-env": "^7.22.20",
+    "@testing-library/react-native": "^12.4.5",
     "@types/jest": "29.5.5",
     "@types/node-emoji": "1.8.2",
     "@types/react": "18.2.24",
@@ -87,7 +88,7 @@
   },
   "jest": {
     "preset": "react-native",
-    "testEnvironment": "jsdom",
+    "testEnvironment": "node",
     "moduleFileExtensions": [
       "js",
       "jsx",
