@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import {
-  Text,
-  StyleSheet,
-  PixelRatio,
-  Switch,
   Button,
+  PixelRatio,
   ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+  type ViewProps,
 } from 'react-native'
-import CountryPicker, { CountryModalProvider } from './src/'
-import { CountryCode, Country } from './src/types'
-import { Row } from './src/Row'
-import { DARK_THEME } from './src/CountryTheme'
+import { StatusBar } from 'expo-status-bar'
+import CountryPicker, {
+  CountryModalProvider,
+  DARK_THEME,
+  type Country,
+  type CountryCode,
+} from 'react-native-country-picker-modal'
 
 const styles = StyleSheet.create({
   container: {
@@ -38,50 +43,63 @@ const styles = StyleSheet.create({
     borderWidth: 1 / PixelRatio.get(),
     color: '#777',
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
+    padding: 10,
+    paddingHorizontal: 50,
+  },
 })
+
+const Row = (props: ViewProps & { children?: ReactNode }) => (
+  <View {...props} style={[styles.row, props.style]} />
+)
 
 interface OptionProps {
   title: string
   value: boolean
   onValueChange(value: boolean): void
 }
+
 const Option = ({ value, onValueChange, title }: OptionProps) => (
-  <Row fullWidth>
+  <Row>
     <Text style={styles.instructions}>{title}</Text>
-    <Switch {...{ value, onValueChange }} />
+    <Switch value={value} onValueChange={onValueChange} />
   </Row>
 )
 
-const App = () => {
+export default function App() {
   const [countryCode, setCountryCode] = useState<CountryCode>('US')
-  const [country, setCountry] = useState<Country>()
-  const [withCountryNameButton, setWithCountryNameButton] =
-    useState<boolean>(false)
-  const [withCurrencyButton, setWithCurrencyButton] = useState<boolean>(false)
-  const [withFlagButton, setWithFlagButton] = useState<boolean>(true)
-  const [withCallingCodeButton, setWithCallingCodeButton] =
-    useState<boolean>(false)
-  const [withFlag, setWithFlag] = useState<boolean>(true)
-  const [withEmoji, setWithEmoji] = useState<boolean>(true)
-  const [withFilter, setWithFilter] = useState<boolean>(true)
-  const [withAlphaFilter, setWithAlphaFilter] = useState<boolean>(false)
-  const [withCallingCode, setWithCallingCode] = useState<boolean>(false)
-  const [withCurrency, setWithCurrency] = useState<boolean>(false)
-  const [withModal, setWithModal] = useState<boolean>(true)
-  const [visible, setVisible] = useState<boolean>(false)
-  const [dark, setDark] = useState<boolean>(false)
-  const [allowFontScaling, setFontScaling] = useState<boolean>(true)
-  const [disableNativeModal, setDisableNativeModal] = useState<boolean>(false)
-  const onSelect = (country: Country) => {
-    setCountryCode(country.cca2)
-    setCountry(country)
+  const [country, setCountry] = useState<Country | undefined>()
+  const [withCountryNameButton, setWithCountryNameButton] = useState(false)
+  const [withCurrencyButton, setWithCurrencyButton] = useState(false)
+  const [withFlagButton, setWithFlagButton] = useState(true)
+  const [withCallingCodeButton, setWithCallingCodeButton] = useState(false)
+  const [withFlag, setWithFlag] = useState(true)
+  const [withEmoji, setWithEmoji] = useState(true)
+  const [withFilter, setWithFilter] = useState(true)
+  const [withAlphaFilter, setWithAlphaFilter] = useState(false)
+  const [withCallingCode, setWithCallingCode] = useState(false)
+  const [withCurrency, setWithCurrency] = useState(false)
+  const [withModal, setWithModal] = useState(true)
+  const [visible, setVisible] = useState(false)
+  const [dark, setDark] = useState(false)
+  const [allowFontScaling, setAllowFontScaling] = useState(true)
+  const [disableNativeModal, setDisableNativeModal] = useState(false)
+
+  const onSelect = (selected: Country) => {
+    setCountryCode(selected.cca2)
+    setCountry(selected)
   }
-  const switchVisible = () => setVisible(!visible)
 
   return (
     <CountryModalProvider>
+      <StatusBar style={dark ? 'light' : 'dark'} />
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.welcome}>Welcome to Country Picker !</Text>
+        <Text style={styles.welcome}>Welcome to Country Picker!</Text>
+
         <Option
           title='With country name on button'
           value={withCountryNameButton}
@@ -97,15 +115,11 @@ const App = () => {
           value={withCallingCodeButton}
           onValueChange={setWithCallingCodeButton}
         />
-        <Option
-          title='With flag'
-          value={withFlag}
-          onValueChange={setWithFlag}
-        />
+        <Option title='With flag' value={withFlag} onValueChange={setWithFlag} />
         <Option
           title='With font scaling'
           value={allowFontScaling}
-          onValueChange={setFontScaling}
+          onValueChange={setAllowFontScaling}
         />
         <Option
           title='With emoji'
@@ -128,7 +142,7 @@ const App = () => {
           onValueChange={setWithCurrency}
         />
         <Option
-          title='With alpha filter code'
+          title='With alpha filter'
           value={withAlphaFilter}
           onValueChange={setWithAlphaFilter}
         />
@@ -148,42 +162,40 @@ const App = () => {
           value={withFlagButton}
           onValueChange={setWithFlagButton}
         />
+
         <CountryPicker
-          theme={dark ? DARK_THEME : {}}
-          {...{
-            allowFontScaling,
-            countryCode,
-            withFilter,
-            excludeCountries: ['FR'],
-            withFlag,
-            withCurrencyButton,
-            withCallingCodeButton,
-            withCountryNameButton,
-            withAlphaFilter,
-            withCallingCode,
-            withCurrency,
-            withEmoji,
-            withModal,
-            withFlagButton,
-            onSelect,
-            disableNativeModal,
-            preferredCountries: ['US', 'GB'],
-            modalProps: { visible },
-            onClose: () => setVisible(false),
-            onOpen: () => setVisible(true),
-          }}
+          theme={dark ? DARK_THEME : undefined}
+          countryCode={countryCode}
+          allowFontScaling={allowFontScaling}
+          withFilter={withFilter}
+          withFlag={withFlag}
+          withCurrencyButton={withCurrencyButton}
+          withCallingCodeButton={withCallingCodeButton}
+          withCountryNameButton={withCountryNameButton}
+          withAlphaFilter={withAlphaFilter}
+          withCallingCode={withCallingCode}
+          withCurrency={withCurrency}
+          withEmoji={withEmoji}
+          withModal={withModal}
+          withFlagButton={withFlagButton}
+          disableNativeModal={disableNativeModal}
+          excludeCountries={['FR']}
+          preferredCountries={['US', 'GB']}
+          visible={visible}
+          onSelect={onSelect}
+          onClose={() => setVisible(false)}
+          onOpen={() => setVisible(true)}
         />
+
         <Text style={styles.instructions}>Press on the flag to open modal</Text>
         <Button
-          title={'Open modal from outside using visible props'}
-          onPress={switchVisible}
+          title='Open modal from outside using visible prop'
+          onPress={() => setVisible((v) => !v)}
         />
-        {country !== null && (
-          <Text style={styles.data}>{JSON.stringify(country, null, 0)}</Text>
-        )}
+        {country ? (
+          <Text style={styles.data}>{JSON.stringify(country, null, 2)}</Text>
+        ) : null}
       </ScrollView>
     </CountryModalProvider>
   )
 }
-
-export default App
