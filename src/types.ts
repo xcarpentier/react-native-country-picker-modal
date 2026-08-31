@@ -331,8 +331,6 @@ export enum FlagType {
   EMOJI = 'emoji',
 }
 
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
-
 // type guards
 export const isCountryCode = (str: string): str is CountryCode => {
   return CountryCodeList.some((code) => code === str)

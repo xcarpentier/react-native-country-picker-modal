@@ -1,48 +1,29 @@
 {
-  "include": [
-    "src",
-    "App.tsx",
-    "./typings.d.ts"
-  ],
+  "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "declaration": true,
-    "outDir": "./lib",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["esnext", "dom"],
+    "jsx": "react-jsx",
     "strict": true,
-    "removeComments": true,
-    "jsx": "react",
-    "target": "es2019",
-    "module": "es6",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
     "strictNullChecks": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "importHelpers": false,
-    "alwaysStrict": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictFunctionTypes": true,
-    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "strictPropertyInitialization": false,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./@types"
-    ]
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmit": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "extends": "expo/tsconfig.base"
+  "include": ["src", "__tests__"],
+  "exclude": ["node_modules", "lib", "example", "scripts"]
 }

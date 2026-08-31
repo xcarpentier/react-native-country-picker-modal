@@ -1,52 +1,42 @@
-import * as React from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Animated, Dimensions, StyleSheet } from 'react-native'
 
-const { height } = Dimensions.get('window')
+const DURATION = 300
+const USE_NATIVE_DRIVER = true
 
-const duration = 300
-const useNativeDriver = true
-
-interface Props {
+export interface AnimatedModalProps {
   visible?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export const AnimatedModal = ({ children, visible }: Props) => {
-  const translateY = new Animated.Value(height)
+export const AnimatedModal = ({
+  children,
+  visible = false,
+}: AnimatedModalProps) => {
+  const { height } = Dimensions.get('window')
+  // v2 created a fresh Animated.Value on every render, so any parent re-render
+  // restarted the slide from off-screen. Lazy state keeps one value for the
+  // lifetime of the component without reading a ref during render.
+  const [translateY] = useState(() => new Animated.Value(height))
 
-  const showModal = Animated.timing(translateY, {
-    toValue: 0,
-    duration,
-    useNativeDriver,
-  }).start
-
-  const hideModal = Animated.timing(translateY, {
-    toValue: height,
-    duration,
-    useNativeDriver,
-  }).start
-
-  React.useEffect(() => {
-    if (visible) {
-      showModal()
-    } else {
-      hideModal()
-    }
-  }, [visible])
+  useEffect(() => {
+    const animation = Animated.timing(translateY, {
+      toValue: visible ? 0 : height,
+      duration: DURATION,
+      useNativeDriver: USE_NATIVE_DRIVER,
+    })
+    animation.start()
+    return () => animation.stop()
+  }, [visible, height, translateY])
 
   return (
     <Animated.View
-      style={{
-        ...StyleSheet.absoluteFillObject,
-        transform: [{ translateY }],
-        zIndex: 99,
-      }}
+      style={[
+        StyleSheet.absoluteFill,
+        { transform: [{ translateY }], zIndex: 99 },
+      ]}
     >
       {children}
     </Animated.View>
   )
-}
-
-AnimatedModal.defaultProps = {
-  visible: false,
 }

@@ -1,16 +1,15 @@
-import React, { memo } from 'react'
-import { Emoji } from './Emoji'
-import { CountryCode } from './types'
-import { useContext } from './CountryContext'
-import { useAsync } from 'react-async-hook'
+import { memo, useCallback } from 'react'
 import {
+  ActivityIndicator,
   Image,
-  StyleSheet,
   PixelRatio,
+  StyleSheet,
   Text,
   View,
-  ActivityIndicator,
 } from 'react-native'
+import { useCountryContext } from './CountryContext'
+import { type CountryCode } from './types'
+import { useAsync } from './useAsync'
 
 const styles = StyleSheet.create({
   container: {
@@ -35,55 +34,67 @@ const styles = StyleSheet.create({
   },
 })
 
-interface FlagType {
+export interface FlagProps {
   countryCode: CountryCode
   withEmoji?: boolean
   withFlagButton?: boolean
   flagSize: number
 }
 
-const ImageFlag = memo(({ countryCode, flagSize }: FlagType) => {
-  const { getImageFlagAsync } = useContext()
-  const asyncResult = useAsync(getImageFlagAsync, [countryCode])
-  if (asyncResult.loading) {
-    return <ActivityIndicator size={'small'} />
-  }
-  return (
-    <Image
-      resizeMode={'contain'}
-      style={[
-        styles.imageFlag,
-        { borderColor: 'transparent', height: flagSize },
-      ]}
-      source={{ uri: asyncResult.result }}
-    />
-  )
-})
+const ImageFlag = memo(
+  ({ countryCode, flagSize }: Pick<FlagProps, 'countryCode' | 'flagSize'>) => {
+    const { getImageFlagAsync } = useCountryContext()
+    const load = useCallback(
+      () => getImageFlagAsync(countryCode),
+      [getImageFlagAsync, countryCode],
+    )
+    const { loading, result } = useAsync(load, [load])
 
-const EmojiFlag = memo(({ countryCode, flagSize }: FlagType) => {
-  const { getEmojiFlagAsync } = useContext()
-  const asyncResult = useAsync(getEmojiFlagAsync, [countryCode])
+    if (loading || !result) {
+      return <ActivityIndicator size='small' />
+    }
+    return (
+      <Image
+        testID={`flag-image-${countryCode}`}
+        resizeMode='contain'
+        style={[
+          styles.imageFlag,
+          { borderColor: 'transparent', height: flagSize },
+        ]}
+        source={{ uri: result }}
+      />
+    )
+  },
+)
+ImageFlag.displayName = 'ImageFlag'
 
-  if (asyncResult.loading) {
-    return <ActivityIndicator size={'small'} />
-  }
-  return (
-    <Text
-      style={[styles.emojiFlag, { fontSize: flagSize }]}
-      allowFontScaling={false}
-    >
-      <Emoji {...{ name: asyncResult.result! }} />
-    </Text>
-  )
-})
+const EmojiFlag = memo(
+  ({ countryCode, flagSize }: Pick<FlagProps, 'countryCode' | 'flagSize'>) => {
+    const { getEmojiFlag } = useCountryContext()
+    // Derived synchronously since v3, so emoji flags no longer flash a spinner.
+    return (
+      <Text
+        testID={`flag-emoji-${countryCode}`}
+        style={[styles.emojiFlag, { fontSize: flagSize }]}
+        allowFontScaling={false}
+      >
+        {getEmojiFlag(countryCode)}
+      </Text>
+    )
+  },
+)
+EmojiFlag.displayName = 'EmojiFlag'
 
 export const Flag = ({
   countryCode,
-  withEmoji,
-  withFlagButton,
+  withEmoji = true,
+  withFlagButton = true,
   flagSize,
-}: FlagType) =>
-  withFlagButton ? (
+}: FlagProps) => {
+  if (!withFlagButton) {
+    return null
+  }
+  return (
     <View style={styles.container}>
       {withEmoji ? (
         <EmojiFlag {...{ countryCode, flagSize }} />
@@ -91,9 +102,5 @@ export const Flag = ({
         <ImageFlag {...{ countryCode, flagSize }} />
       )}
     </View>
-  ) : null
-
-Flag.defaultProps = {
-  withEmoji: true,
-  withFlagButton: true,
+  )
 }

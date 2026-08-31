@@ -1,13 +1,13 @@
-import React, { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import {
-  View,
   StyleSheet,
-  ImageSourcePropType,
-  StyleProp,
-  ViewStyle,
-  ImageStyle,
+  View,
+  type ImageSourcePropType,
+  type ImageStyle,
+  type StyleProp,
+  type ViewStyle,
 } from 'react-native'
-import CloseButton from './CloseButton'
+import { CloseButton } from './CloseButton'
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 })
 
-interface HeaderModalProps {
+export interface HeaderModalProps {
   withFilter?: boolean
   withCloseButton?: boolean
   closeButtonImage?: ImageSourcePropType
@@ -25,10 +25,13 @@ interface HeaderModalProps {
   onClose(): void
   renderFilter(props: HeaderModalProps): ReactNode
 }
-export const HeaderModal = (props: HeaderModalProps) => {
+
+export const HeaderModal = ({
+  withCloseButton = true,
+  ...props
+}: HeaderModalProps) => {
   const {
     withFilter,
-    withCloseButton,
     closeButtonImage,
     closeButtonStyle,
     closeButtonImageStyle,
@@ -42,14 +45,10 @@ export const HeaderModal = (props: HeaderModalProps) => {
           image={closeButtonImage}
           style={closeButtonStyle}
           imageStyle={closeButtonImageStyle}
-          onPress={() => onClose()}
+          onPress={onClose}
         />
       )}
-      {withFilter && renderFilter(props)}
+      {withFilter && renderFilter({ withCloseButton, ...props })}
     </View>
   )
-}
-
-HeaderModal.defaultProps = {
-  withCloseButton: true,
 }

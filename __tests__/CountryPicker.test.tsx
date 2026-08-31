@@ -1,7 +1,11 @@
-import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react-native'
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react-native'
 import CountryPicker from '../src/'
-import { Country } from '../src/types'
+import { type Country } from '../src/types'
 
 // These tests characterise the behaviour of the component as shipped in v2.
 // They must stay green across the v3 modernisation; a failure here means the
@@ -10,6 +14,7 @@ import { Country } from '../src/types'
 const THREE = ['US', 'FR', 'GB'] as const
 
 const renderListOnly = (props: Record<string, unknown> = {}) =>
+  // RNTL 14 made render/fireEvent async to support React 19's async act().
   render(
     <CountryPicker
       countryCode={'US'}
@@ -27,7 +32,7 @@ const rowOrder = () =>
 
 describe('country list', () => {
   it('renders a row per country', async () => {
-    renderListOnly()
+    await renderListOnly()
     await screen.findByTestId('country-selector-US')
     expect(rowOrder().sort()).toEqual(['FR', 'GB', 'US'])
   })
@@ -36,32 +41,32 @@ describe('country list', () => {
   // withModal={false} there is no FlagButton, so an emoji here can only come
   // from a list row. Under React 19 without a real default this renders null.
   it('renders a flag inside each list row', async () => {
-    renderListOnly({ withFlag: true })
+    await renderListOnly({ withFlag: true })
     expect(await screen.findByText('🇺🇸')).toBeTruthy()
     expect(screen.getByText('🇫🇷')).toBeTruthy()
     expect(screen.getByText('🇬🇧')).toBeTruthy()
   })
 
   it('sorts alphabetically by translated name', async () => {
-    renderListOnly()
+    await renderListOnly()
     await screen.findByTestId('country-selector-US')
     expect(rowOrder()).toEqual(['FR', 'GB', 'US'])
   })
 
   it('puts preferred countries first when alpha filter is off', async () => {
-    renderListOnly({ preferredCountries: ['GB'], withAlphaFilter: false })
+    await renderListOnly({ preferredCountries: ['GB'], withAlphaFilter: false })
     await screen.findByTestId('country-selector-GB')
     expect(rowOrder()[0]).toBe('GB')
   })
 
   it('honours excludeCountries', async () => {
-    renderListOnly({ excludeCountries: ['FR'] })
+    await renderListOnly({ excludeCountries: ['FR'] })
     await screen.findByTestId('country-selector-US')
     expect(rowOrder()).not.toContain('FR')
   })
 
   it('shows calling code and currency when asked', async () => {
-    renderListOnly({ withCallingCode: true, withCurrency: true })
+    await renderListOnly({ withCallingCode: true, withCurrency: true })
     await screen.findByTestId('country-selector-US')
     expect(screen.getByText(/\+1/)).toBeTruthy()
     expect(screen.getByText(/USD/)).toBeTruthy()
@@ -69,8 +74,8 @@ describe('country list', () => {
 
   it('passes the selected country to onSelect', async () => {
     const onSelect = jest.fn()
-    renderListOnly({ onSelect })
-    fireEvent.press(await screen.findByTestId('country-selector-FR'))
+    await renderListOnly({ onSelect })
+    await fireEvent.press(await screen.findByTestId('country-selector-FR'))
     await waitFor(() => expect(onSelect).toHaveBeenCalledTimes(1))
     const country = onSelect.mock.calls[0][0] as Country
     expect(country.cca2).toBe('FR')
@@ -81,14 +86,14 @@ describe('country list', () => {
 
 describe('translation', () => {
   it('renders localised country names', async () => {
-    renderListOnly({ translation: 'fra' })
+    await renderListOnly({ translation: 'fra' })
     expect(await screen.findByText(/Royaume-Uni|United Kingdom/)).toBeTruthy()
   })
 })
 
 describe('flag button', () => {
   it('renders the placeholder when no country is selected', async () => {
-    render(
+    await render(
       <CountryPicker
         countryCode={undefined as never}
         placeholder='Pick one'
@@ -99,30 +104,35 @@ describe('flag button', () => {
   })
 
   it('renders the flag for the selected country', async () => {
-    render(<CountryPicker countryCode={'FR'} onSelect={() => {}} />)
+    await render(<CountryPicker countryCode={'FR'} onSelect={() => {}} />)
     expect(await screen.findByText('🇫🇷')).toBeTruthy()
   })
 
   it('opens the modal when pressed', async () => {
     const onOpen = jest.fn()
-    render(<CountryPicker countryCode={'FR'} onOpen={onOpen} onSelect={() => {}} />)
-    fireEvent.press(await screen.findByText('🇫🇷'))
+    await render(
+      <CountryPicker countryCode={'FR'} onOpen={onOpen} onSelect={() => {}} />,
+    )
+    await fireEvent.press(await screen.findByText('🇫🇷'))
     await waitFor(() => expect(onOpen).toHaveBeenCalled())
   })
 })
 
 describe('filter', () => {
   it('narrows the list to matching countries', async () => {
-    renderListOnly({ withFilter: true })
+    await renderListOnly({ withFilter: true })
     await screen.findByTestId('country-selector-US')
-    fireEvent.changeText(screen.getByTestId('text-input-country-filter'), 'Fran')
+    await fireEvent.changeText(
+      screen.getByTestId('text-input-country-filter'),
+      'Fran',
+    )
     await waitFor(() => expect(rowOrder()).toEqual(['FR']))
   })
 })
 
 describe('alpha filter', () => {
   it('renders a letter index', async () => {
-    renderListOnly({ withAlphaFilter: true })
+    await renderListOnly({ withAlphaFilter: true })
     await screen.findByTestId('country-selector-US')
     expect(screen.getByTestId('letter-F')).toBeTruthy()
     expect(screen.getByTestId('letter-U')).toBeTruthy()

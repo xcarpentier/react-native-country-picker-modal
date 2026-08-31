@@ -1,0 +1,6 @@
+lib/
+node_modules/
+data/
+src/assets/data/
+coverage/
+yarn.lock

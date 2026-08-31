@@ -1,14 +1,14 @@
-import * as React from 'react'
-import { TranslationLanguageCode } from './types'
+import { createContext, useContext } from 'react'
+import { type TranslationLanguageCode } from './types'
 import {
-  getEmojiFlagAsync,
-  getImageFlagAsync,
-  getCountryNameAsync,
   getCountriesAsync,
-  getLetters,
   getCountryCallingCodeAsync,
   getCountryCurrencyAsync,
   getCountryInfoAsync,
+  getCountryNameAsync,
+  getEmojiFlag,
+  getImageFlagAsync,
+  getLetters,
   search,
 } from './CountryService'
 
@@ -16,7 +16,8 @@ export interface CountryContextParam {
   translation?: TranslationLanguageCode
   getCountryNameAsync: typeof getCountryNameAsync
   getImageFlagAsync: typeof getImageFlagAsync
-  getEmojiFlagAsync: typeof getEmojiFlagAsync
+  /** Synchronous since v3: the emoji is derived from the country code. */
+  getEmojiFlag: typeof getEmojiFlag
   getCountriesAsync: typeof getCountriesAsync
   getLetters: typeof getLetters
   getCountryCallingCodeAsync: typeof getCountryCallingCodeAsync
@@ -24,11 +25,12 @@ export interface CountryContextParam {
   search: typeof search
   getCountryInfoAsync: typeof getCountryInfoAsync
 }
-export const DEFAULT_COUNTRY_CONTEXT = {
-  translation: 'common' as TranslationLanguageCode,
+
+export const DEFAULT_COUNTRY_CONTEXT: CountryContextParam = {
+  translation: 'common',
   getCountryNameAsync,
   getImageFlagAsync,
-  getEmojiFlagAsync,
+  getEmojiFlag,
   getCountriesAsync,
   getCountryCallingCodeAsync,
   getCountryCurrencyAsync,
@@ -36,13 +38,16 @@ export const DEFAULT_COUNTRY_CONTEXT = {
   getLetters,
   getCountryInfoAsync,
 }
-export const CountryContext = React.createContext<CountryContextParam>(
+
+export const CountryContext = createContext<CountryContextParam>(
   DEFAULT_COUNTRY_CONTEXT,
 )
 
-export const useContext = () => React.useContext(CountryContext)
+/**
+ * Renamed from `useContext` in v2, which shadowed React's own export at every
+ * call site and made the imports genuinely confusing to read.
+ */
+export const useCountryContext = () => useContext(CountryContext)
 
-export const {
-  Provider: CountryProvider,
-  Consumer: CountryConsumer,
-} = CountryContext
+export const { Provider: CountryProvider, Consumer: CountryConsumer } =
+  CountryContext

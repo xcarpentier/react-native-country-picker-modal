@@ -1,9 +1,14 @@
-import * as React from 'react'
-import { ModalProps, SafeAreaView, StyleSheet, Platform } from 'react-native'
+import { useContext, useEffect, type ReactNode } from 'react'
+import {
+  Modal,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  type ModalProps,
+} from 'react-native'
 import { AnimatedModal } from './AnimatedModal'
-import { Modal } from './Modal'
-import { useTheme } from './CountryTheme'
 import { CountryModalContext } from './CountryModalProvider'
+import { useTheme } from './CountryTheme'
 
 const styles = StyleSheet.create({
   container: {
@@ -11,43 +16,49 @@ const styles = StyleSheet.create({
   },
 })
 
-export const CountryModal = ({
-  children,
-  withModal,
-  disableNativeModal,
-  ...props
-}: ModalProps & {
-  children: React.ReactNode
+export type CountryModalProps = ModalProps & {
+  children: ReactNode
   withModal?: boolean
   disableNativeModal?: boolean
-}) => {
+}
+
+export const CountryModal = ({
+  children,
+  withModal = true,
+  disableNativeModal = false,
+  animationType = 'slide',
+  visible,
+  ...props
+}: CountryModalProps) => {
   const { backgroundColor } = useTheme()
-  const { teleport } = React.useContext(CountryModalContext)
+  const { teleport } = useContext(CountryModalContext)
+
   const content = (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
       {children}
     </SafeAreaView>
   )
-  React.useEffect(() => {
-    if (disableNativeModal) {
-      teleport!(<AnimatedModal {...props}>{content}</AnimatedModal>)
-    }
-  }, [disableNativeModal])
-  if (withModal) {
-    if (Platform.OS === 'web') {
-      return <Modal {...props}>{content}</Modal>
-    }
-    if (disableNativeModal) {
-      return null
-    }
-    return <Modal {...props}>{content}</Modal>
-  }
-  return content
-}
 
-CountryModal.defaultProps = {
-  animationType: 'slide',
-  animated: true,
-  withModal: true,
-  disableNativeModal: false,
+  useEffect(() => {
+    // v2 only teleported once, keyed on disableNativeModal, so the portalled
+    // modal never learned about visibility changes and could not slide away.
+    if (disableNativeModal && teleport) {
+      teleport(<AnimatedModal visible={visible}>{content}</AnimatedModal>)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disableNativeModal, visible])
+
+  if (!withModal) {
+    return content
+  }
+  // react-native-web supports Modal natively now, so the old Modal.web.tsx
+  // shim (which imported the whole react-native module by mistake) is gone.
+  if (disableNativeModal && Platform.OS !== 'web') {
+    return null
+  }
+  return (
+    <Modal animationType={animationType} visible={visible} {...props}>
+      {content}
+    </Modal>
+  )
 }
