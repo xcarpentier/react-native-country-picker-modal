@@ -49,5 +49,4 @@ export const CountryContext = createContext<CountryContextParam>(
  */
 export const useCountryContext = () => useContext(CountryContext)
 
-export const { Provider: CountryProvider, Consumer: CountryConsumer } =
-  CountryContext
+export const { Provider: CountryProvider } = CountryContext

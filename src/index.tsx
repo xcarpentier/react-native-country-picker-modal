@@ -84,6 +84,7 @@ export {
   getEmojiFlag,
   getImageFlagAsync as getImageFlag,
   setImageFlagsUrl,
+  type CountryInfo,
 } from './CountryService'
 
 export { CountryFilter, type CountryFilterProps } from './CountryFilter'
@@ -101,6 +102,7 @@ export {
   useTheme,
   type ResolvedTheme,
   type Theme,
+  type ThemeProviderProps,
 } from './CountryTheme'
 export { Flag, type FlagProps } from './Flag'
 export { FlagButton, type FlagButtonProps } from './FlagButton'

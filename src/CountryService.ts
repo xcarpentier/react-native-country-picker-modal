@@ -33,7 +33,7 @@ let emojiCountries: CountryMap | undefined
 let imageCountries: CountryMap | undefined
 let imageCountriesRequest: Promise<CountryMap> | undefined
 
-export const loadDataAsync = async (
+const loadDataAsync = async (
   dataType: FlagType = FlagType.EMOJI,
 ): Promise<CountryMap> => {
   if (dataType === FlagType.FLAT) {
