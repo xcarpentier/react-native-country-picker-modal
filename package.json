@@ -1,6 +1,6 @@
 {
   "name": "react-native-country-picker-modal",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "react-native country picker",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -84,6 +84,7 @@
     "eslint-plugin-react": "^7.37.0",
     "expo": "^55.0.0-preview.5",
     "gh-pages": "^6.2.0",
+    "globals": "^14.0.0",
     "husky": "^9.1.0",
     "jest": "~29.7.0",
     "jest-expo": "~55.0.3",

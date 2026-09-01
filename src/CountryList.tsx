@@ -186,7 +186,8 @@ export const CountryList = (props: CountryListProps) => {
     const index = indexLetter.indexOf(letter)
     setLetter(letter)
     if (listRef.current) {
-      listRef.current.scrollToIndex({ animated, index })
+      // v3 made scrollToIndex async; nothing awaits this UI scroll.
+      void listRef.current.scrollToIndex({ animated, index })
     }
   }
 
