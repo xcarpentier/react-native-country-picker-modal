@@ -1,4 +1,4 @@
-import { useContext, useEffect, type ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import {
   Modal,
   Platform,
@@ -10,10 +10,7 @@ import {
   View,
   type ModalProps,
 } from 'react-native'
-import { AnimatedModal } from './AnimatedModal'
-import { CountryProvider, useCountryContext } from './CountryContext'
-import { CountryModalContext } from './CountryModalProvider'
-import { ThemeProvider, useTheme } from './CountryTheme'
+import { useTheme } from './CountryTheme'
 
 const styles = StyleSheet.create({
   container: {
@@ -39,22 +36,18 @@ export interface ModalInsets {
 export type CountryModalProps = ModalProps & {
   children: ReactNode
   withModal?: boolean
-  disableNativeModal?: boolean
   modalInsets?: ModalInsets
 }
 
 export const CountryModal = ({
   children,
   withModal = true,
-  disableNativeModal = false,
   animationType = 'slide',
   visible,
   onRequestClose,
   modalInsets,
   ...props
 }: CountryModalProps) => {
-  const theme = useTheme()
-  const countryContext = useCountryContext()
   const {
     backdropColor,
     backgroundColor,
@@ -62,8 +55,7 @@ export const CountryModal = ({
     dialogBorderRadius,
     dialogMaxHeight,
     dialogMaxWidth,
-  } = theme
-  const { teleport } = useContext(CountryModalContext)
+  } = useTheme()
   const { width } = useWindowDimensions()
 
   // Only web gets the dialog treatment: a native modal is already the right
@@ -124,54 +116,8 @@ export const CountryModal = ({
       </SafeAreaView>
     )
 
-  // react-native-web supports Modal natively now, so the old Modal.web.tsx
-  // shim (which imported the whole react-native module by mistake) is gone,
-  // and on web the native Modal is used even when disableNativeModal is set.
-  // Teleporting is therefore only correct in the cases that render nothing
-  // here; otherwise the modal was rendered twice, once live and once stale.
-  const usesTeleport = withModal && disableNativeModal && Platform.OS !== 'web'
-
-  // No dependency array on purpose: the gate has to receive the current
-  // element after every render, or it keeps showing a stale copy and the
-  // filter input appears dead. This cannot loop, because the gate store only
-  // re-renders the gate, never this component.
-  useEffect(() => {
-    if (usesTeleport && teleport) {
-      // The gate renders inside CountryModalProvider, which sits *above* the
-      // ThemeProvider and CountryProvider that wrap the picker. React resolves
-      // context at the render position, so without re-providing them here the
-      // teleported modal falls back to DEFAULT_THEME and the default country
-      // context -- a dark theme lost its text and list colours, and a custom
-      // `translation` was ignored.
-      teleport(
-        <ThemeProvider theme={theme}>
-          <CountryProvider value={countryContext}>
-            <AnimatedModal visible={visible}>{content}</AnimatedModal>
-          </CountryProvider>
-        </ThemeProvider>,
-      )
-    }
-  })
-
-  // Clearing is keyed separately so it never runs between two content pushes;
-  // emptying the gate on every render would unmount the modal and cost the
-  // filter input its focus on each keystroke.
-  useEffect(() => {
-    if (!teleport) {
-      return
-    }
-    if (!usesTeleport) {
-      teleport(null)
-      return
-    }
-    return () => teleport(null)
-  }, [usesTeleport, teleport])
-
   if (!withModal) {
     return content
-  }
-  if (usesTeleport) {
-    return null
   }
 
   if (isDesktopWeb) {

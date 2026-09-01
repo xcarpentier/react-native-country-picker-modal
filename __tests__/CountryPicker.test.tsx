@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 import CountryPicker, {
   CountryFilter,
-  CountryModalProvider,
   DARK_THEME,
   type CountryFilterProps,
 } from '../src/'
@@ -235,33 +234,6 @@ describe('dark theme', () => {
     expect(themedColors().row).toBe(DARK_THEME.onBackgroundTextColor)
   })
 
-  // Regression: the teleported modal renders inside CountryModalProvider,
-  // which sits above the picker's ThemeProvider. Without re-providing the
-  // theme at the gate, every useTheme() call there fell back to DEFAULT_THEME
-  // and the modal came out light even though DARK_THEME was passed.
-  it('applies the dark theme inside the teleported modal', async () => {
-    // The modal is teleported on the false -> true transition, matching how a
-    // user opens it, so the list has finished loading by then.
-    const picker = (visible: boolean) => (
-      <CountryModalProvider>
-        <CountryPicker
-          countryCode={'US'}
-          countryCodes={[...THREE]}
-          visible={visible}
-          withFilter
-          disableNativeModal
-          theme={DARK_THEME}
-          onSelect={() => {}}
-        />
-      </CountryModalProvider>
-    )
-    const view = await render(picker(false))
-    await view.rerender(picker(true))
-    await screen.findByTestId('country-selector-US')
-    expect(themedColors().filter).toBe(DARK_THEME.onBackgroundTextColor)
-    expect(themedColors().row).toBe(DARK_THEME.onBackgroundTextColor)
-  })
-
   // iOS renders a light keyboard over a dark modal unless it is told
   // otherwise, so keyboardAppearance rides along with the theme.
   it('asks for a dark keyboard under the dark theme', async () => {
@@ -294,21 +266,18 @@ describe('dark theme', () => {
 })
 
 describe('filter inside a modal', () => {
-  const openTeleported = async (extra: Record<string, unknown> = {}) => {
+  const openModal = async (extra: Record<string, unknown> = {}) => {
     const picker = (visible: boolean) => (
-      <CountryModalProvider>
-        <CountryPicker
-          countryCode={'US'}
-          countryCodes={[...THREE]}
-          visible={visible}
-          withFilter
-          disableNativeModal
-          onSelect={() => {}}
-          {...extra}
-        />
-      </CountryModalProvider>
+      <CountryPicker
+        countryCode={'US'}
+        countryCodes={[...THREE]}
+        visible={visible}
+        withFilter
+        onSelect={() => {}}
+        {...extra}
+      />
     )
-    // Teleport on the false -> true transition, as pressing the flag does.
+    // Open on the false -> true transition, as pressing the flag does.
     const view = await render(picker(false))
     await view.rerender(picker(true))
     await screen.findByTestId('country-selector-US')
@@ -332,29 +301,16 @@ describe('filter inside a modal', () => {
     await waitFor(() => expect(rowOrder()).toEqual(['FR']))
   })
 
-  // Regression: the teleported element used to be pushed to the gate only on
-  // a visibility change, so the gate rendered a snapshot taken when the modal
-  // opened. Typing updated the picker's state but never the visible modal, so
-  // the search box looked completely dead.
-  it('narrows the list inside the teleported modal', async () => {
-    await openTeleported()
-    await type('Fran')
-    await waitFor(() => expect(rowOrder()).toEqual(['FR']))
-    expect(screen.getByTestId('text-input-country-filter').props.value).toBe(
-      'Fran',
-    )
-  })
-
-  // The gate must reconcile the pushed element rather than remount it. A
-  // remount would drop the keyboard on every keystroke on a real device,
-  // which no assertion on the rendered value would catch.
+  // The modal must reconcile across renders rather than remount. A remount
+  // would drop the keyboard on every keystroke on a real device, which no
+  // assertion on the rendered value would catch.
   it('does not remount the filter input while typing', async () => {
     const onMount = jest.fn()
     const CountingFilter = (props: CountryFilterProps) => {
       useEffect(() => onMount(), [])
       return <CountryFilter {...props} />
     }
-    await openTeleported({
+    await openModal({
       renderCountryFilter: (props: CountryFilterProps) => (
         <CountingFilter {...props} />
       ),

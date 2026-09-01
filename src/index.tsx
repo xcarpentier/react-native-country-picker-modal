@@ -48,7 +48,6 @@ export interface CountryPickerModalProps {
   withFilter?: boolean
   withFlag?: boolean
   withModal?: boolean
-  disableNativeModal?: boolean
   visible?: boolean
   containerButtonStyle?: StyleProp<ViewStyle>
   closeButtonImage?: ImageSourcePropType
@@ -96,10 +95,6 @@ export {
   type CountryModalProps,
   type ModalInsets,
 } from './CountryModal'
-export {
-  CountryModalProvider,
-  type CountryModalProviderProps,
-} from './CountryModalProvider'
 export { CountryPicker, type CountryPickerProps } from './CountryPicker'
 export {
   DARK_THEME,

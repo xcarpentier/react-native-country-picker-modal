@@ -121,13 +121,12 @@ A runnable version exercising every option lives in [`example/App.tsx`](./exampl
 
 ### Modal
 
-| Prop                 | Type         | Default | Description                                                                                                          |
-| -------------------- | ------------ | ------- | -------------------------------------------------------------------------------------------------------------------- |
-| `withModal`          | `boolean`    | `true`  | When `false`, the list renders inline and no button is shown.                                                        |
-| `visible`            | `boolean`    | `false` | Open the modal from outside.                                                                                         |
-| `onOpen` / `onClose` | `() => void` | —       | Called when the modal opens or closes.                                                                               |
-| `withCloseButton`    | `boolean`    | `true`  | Show the close button in the header.                                                                                 |
-| `disableNativeModal` | `boolean`    | `false` | Render an animated view instead of a native modal. Requires [`CountryModalProvider`](#nesting-inside-another-modal). |
+| Prop                 | Type         | Default | Description                                                   |
+| -------------------- | ------------ | ------- | ------------------------------------------------------------- |
+| `withModal`          | `boolean`    | `true`  | When `false`, the list renders inline and no button is shown. |
+| `visible`            | `boolean`    | `false` | Open the modal from outside.                                  |
+| `onOpen` / `onClose` | `() => void` | —       | Called when the modal opens or closes.                        |
+| `withCloseButton`    | `boolean`    | `true`  | Show the close button in the header.                          |
 
 ### Escape hatches
 
@@ -272,25 +271,6 @@ const [visible, setVisible] = useState(false)
   countryCode='US'
   onSelect={onSelect}
 />
-```
-
-### Nesting inside another modal
-
-iOS will not stack two native modals. Wrap your app in `CountryModalProvider` and set `disableNativeModal`, which renders an animated view into a portal instead.
-
-```tsx
-import CountryPicker, {
-  CountryModalProvider,
-} from 'react-native-country-picker-modal'
-
-export default function App() {
-  return (
-    <CountryModalProvider>
-      {/* ... */}
-      <CountryPicker disableNativeModal countryCode='US' onSelect={onSelect} />
-    </CountryModalProvider>
-  )
-}
 ```
 
 ### Image flags

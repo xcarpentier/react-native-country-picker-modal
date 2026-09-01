@@ -14,7 +14,6 @@ import {
 } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import CountryPicker, {
-  CountryModalProvider,
   DARK_THEME,
   DEFAULT_THEME,
   type Country,
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
       Platform.OS === 'android' ? (RNStatusBar.currentHeight ?? 0) : 0,
   },
   screenDark: {
-    backgroundColor: "#181818",
+    backgroundColor: '#181818',
   },
   container: {
     paddingVertical: 10,
@@ -85,7 +84,12 @@ interface OptionProps {
 const Option = ({ value, onValueChange, title }: OptionProps) => (
   <Row>
     <Text style={styles.instructions}>{title}</Text>
-    <Switch value={value} onValueChange={onValueChange} trackColor={{ true: "teal", }} thumbColor={"white"} />
+    <Switch
+      value={value}
+      onValueChange={onValueChange}
+      trackColor={{ true: 'teal' }}
+      thumbColor={'white'}
+    />
   </Row>
 )
 
@@ -106,7 +110,6 @@ export default function App() {
   const [visible, setVisible] = useState(false)
   const [dark, setDark] = useState(false)
   const [allowFontScaling, setAllowFontScaling] = useState(true)
-  const [disableNativeModal, setDisableNativeModal] = useState(false)
 
   const onSelect = (selected: Country) => {
     setCountryCode(selected.cca2)
@@ -115,108 +118,98 @@ export default function App() {
 
   return (
     <SafeAreaView style={[styles.screen, dark && styles.screenDark]}>
-      <CountryModalProvider>
-        <StatusBar style={dark ? 'light' : 'dark'} />
-        <ScrollView contentContainerStyle={styles.container}>
-          <Text style={[styles.welcome, dark && styles.welcomeDark]}>
-            Welcome to Country Picker!
-          </Text>
+      <StatusBar style={dark ? 'light' : 'dark'} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={[styles.welcome, dark && styles.welcomeDark]}>
+          Welcome to Country Picker!
+        </Text>
 
-          <Option
-            title='With country name on button'
-            value={withCountryNameButton}
-            onValueChange={setWithCountryNameButton}
-          />
-          <Option
-            title='With currency on button'
-            value={withCurrencyButton}
-            onValueChange={setWithCurrencyButton}
-          />
-          <Option
-            title='With calling code on button'
-            value={withCallingCodeButton}
-            onValueChange={setWithCallingCodeButton}
-          />
-          <Option
-            title='With flag'
-            value={withFlag}
-            onValueChange={setWithFlag}
-          />
-          <Option
-            title='With font scaling'
-            value={allowFontScaling}
-            onValueChange={setAllowFontScaling}
-          />
-          <Option
-            title='With emoji'
-            value={withEmoji}
-            onValueChange={setWithEmoji}
-          />
-          <Option
-            title='With filter'
-            value={withFilter}
-            onValueChange={setWithFilter}
-          />
-          <Option
-            title='With calling code'
-            value={withCallingCode}
-            onValueChange={setWithCallingCode}
-          />
-          <Option
-            title='With currency'
-            value={withCurrency}
-            onValueChange={setWithCurrency}
-          />
-          <Option
-            title='With alpha filter'
-            value={withAlphaFilter}
-            onValueChange={setWithAlphaFilter}
-          />
-          <Option
-            title='Without native modal'
-            value={disableNativeModal}
-            onValueChange={setDisableNativeModal}
-          />
-          <Option
-            title='With modal'
-            value={withModal}
-            onValueChange={setWithModal}
-          />
-          <Option
-            title='With dark theme'
-            value={dark}
-            onValueChange={setDark}
-          />
-          <Option
-            title='With flag button'
-            value={withFlagButton}
-            onValueChange={setWithFlagButton}
-          />
+        <Option
+          title='With country name on button'
+          value={withCountryNameButton}
+          onValueChange={setWithCountryNameButton}
+        />
+        <Option
+          title='With currency on button'
+          value={withCurrencyButton}
+          onValueChange={setWithCurrencyButton}
+        />
+        <Option
+          title='With calling code on button'
+          value={withCallingCodeButton}
+          onValueChange={setWithCallingCodeButton}
+        />
+        <Option
+          title='With flag'
+          value={withFlag}
+          onValueChange={setWithFlag}
+        />
+        <Option
+          title='With font scaling'
+          value={allowFontScaling}
+          onValueChange={setAllowFontScaling}
+        />
+        <Option
+          title='With emoji'
+          value={withEmoji}
+          onValueChange={setWithEmoji}
+        />
+        <Option
+          title='With filter'
+          value={withFilter}
+          onValueChange={setWithFilter}
+        />
+        <Option
+          title='With calling code'
+          value={withCallingCode}
+          onValueChange={setWithCallingCode}
+        />
+        <Option
+          title='With currency'
+          value={withCurrency}
+          onValueChange={setWithCurrency}
+        />
+        <Option
+          title='With alpha filter'
+          value={withAlphaFilter}
+          onValueChange={setWithAlphaFilter}
+        />
+        <Option
+          title='With modal'
+          value={withModal}
+          onValueChange={setWithModal}
+        />
+        <Option title='With dark theme' value={dark} onValueChange={setDark} />
+        <Option
+          title='With flag button'
+          value={withFlagButton}
+          onValueChange={setWithFlagButton}
+        />
 
-          <CountryPicker
-            theme={dark ? DARK_THEME : undefined}
-            countryCode={countryCode}
-            allowFontScaling={allowFontScaling}
-            withFilter={withFilter}
-            withFlag={withFlag}
-            withCurrencyButton={withCurrencyButton}
-            withCallingCodeButton={withCallingCodeButton}
-            withCountryNameButton={withCountryNameButton}
-            withAlphaFilter={withAlphaFilter}
-            withCallingCode={withCallingCode}
-            withCurrency={withCurrency}
-            withEmoji={withEmoji}
-            withModal={withModal}
-            withFlagButton={withFlagButton}
-            disableNativeModal={disableNativeModal}
-            excludeCountries={['FR']}
-            preferredCountries={['US', 'GB']}
-            visible={visible}
-            onSelect={onSelect}
-            onClose={() => setVisible(false)}
-            onOpen={() => setVisible(true)}
-          />
+        <CountryPicker
+          theme={dark ? DARK_THEME : undefined}
+          countryCode={countryCode}
+          allowFontScaling={allowFontScaling}
+          withFilter={withFilter}
+          withFlag={withFlag}
+          withCurrencyButton={withCurrencyButton}
+          withCallingCodeButton={withCallingCodeButton}
+          withCountryNameButton={withCountryNameButton}
+          withAlphaFilter={withAlphaFilter}
+          withCallingCode={withCallingCode}
+          withCurrency={withCurrency}
+          withEmoji={withEmoji}
+          withModal={withModal}
+          withFlagButton={withFlagButton}
+          excludeCountries={['FR']}
+          preferredCountries={['US', 'GB']}
+          visible={visible}
+          onSelect={onSelect}
+          onClose={() => setVisible(false)}
+          onOpen={() => setVisible(true)}
+        />
 
+        <View style={{ paddingVertical: 20, rowGap: 10 }}>
           <Text style={styles.instructions}>
             Press on the flag to open modal
           </Text>
@@ -227,8 +220,8 @@ export default function App() {
           {country ? (
             <Text style={styles.data}>{JSON.stringify(country, null, 2)}</Text>
           ) : null}
-        </ScrollView>
-      </CountryModalProvider>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

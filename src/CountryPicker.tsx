@@ -46,7 +46,6 @@ export interface CountryPickerProps {
   withCurrency?: boolean
   withFlag?: boolean
   withModal?: boolean
-  disableNativeModal?: boolean
   visible?: boolean
   placeholder?: string
   containerButtonStyle?: StyleProp<ViewStyle>
@@ -85,7 +84,6 @@ export const CountryPicker = ({
   withCurrency,
   withFlag,
   withModal = true,
-  disableNativeModal,
   withFlagButton,
   onClose: handleClose,
   onOpen: handleOpen,
@@ -195,7 +193,6 @@ export const CountryPicker = ({
       <CountryModal
         visible={visible}
         withModal={withModal}
-        disableNativeModal={disableNativeModal}
         modalInsets={modalInsets}
         {...modalProps}
         onRequestClose={onClose}
