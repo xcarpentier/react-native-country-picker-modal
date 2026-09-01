@@ -1,5 +1,5 @@
 import Fuse, { type IFuseOptions } from 'fuse.js'
-import countriesEmoji from './assets/data/countries-emoji.json'
+import { getEmojiCountries, type CountryMap } from './countryData'
 import {
   CountryCodeList,
   FlagType,
@@ -14,8 +14,6 @@ import {
 const DEFAULT_IMAGE_JSON_URL =
   'https://xcarpentier.github.io/react-native-country-picker-modal/countries/'
 
-type CountryMap = Record<CountryCode, Country>
-
 let imageJsonUrl = DEFAULT_IMAGE_JSON_URL
 
 /**
@@ -29,7 +27,6 @@ export const setImageFlagsUrl = (url: string) => {
   imageCountries = undefined
 }
 
-let emojiCountries: CountryMap | undefined
 let imageCountries: CountryMap | undefined
 let imageCountriesRequest: Promise<CountryMap> | undefined
 
@@ -63,8 +60,7 @@ const loadDataAsync = async (
   // Statically imported rather than require()d: the ESM build would otherwise
   // ship a bare require() that is undefined outside a CommonJS scope. Emoji is
   // the default flag type, so this data is needed in almost every usage anyway.
-  emojiCountries ??= countriesEmoji as unknown as CountryMap
-  return emojiCountries
+  return getEmojiCountries()
 }
 
 const CCA2_FIRST_LETTER = 'A'.charCodeAt(0)

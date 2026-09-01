@@ -5,11 +5,8 @@
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
   "types": "./lib/typescript/commonjs/index.d.ts",
-  "react-native": "./src/index.tsx",
-  "source": "./src/index.tsx",
   "exports": {
     ".": {
-      "react-native": "./src/index.tsx",
       "import": {
         "types": "./lib/typescript/module/index.d.ts",
         "default": "./lib/module/index.js"
@@ -22,11 +19,11 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "src",
     "lib",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
+    "!**/*.map",
     "!**/.*"
   ],
   "sideEffects": false,
@@ -47,7 +44,8 @@
     "verify": "yarn lint && yarn typecheck && yarn test && yarn build",
     "prepare": "bob build",
     "example": "yarn --cwd example",
-    "data:minify": "node ./scripts/minify.js ./src/assets/data/countries-emoji.json"
+    "data:encode": "node ./scripts/encode-countries.js",
+    "data:minify": "node ./scripts/minify.js ./data/countries-emoji.json"
   },
   "keywords": [
     "react-native",

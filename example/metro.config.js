@@ -34,4 +34,22 @@ config.resolver.extraNodeModules = Object.fromEntries(
   ]),
 )
 
+// The published package no longer ships `src`, so its `exports` map points only
+// at the compiled output in `lib`. That is what consumers should get, but it
+// would mean rebuilding the library after every edit to see a change here, so
+// the example resolves the package to its TypeScript source directly.
+const librarySource = path.resolve(root, 'src', 'index.tsx')
+const { resolveRequest } = config.resolver
+
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === pkg.name) {
+    return { type: 'sourceFile', filePath: librarySource }
+  }
+  return (resolveRequest ?? context.resolveRequest)(
+    context,
+    moduleName,
+    platform,
+  )
+}
+
 module.exports = config

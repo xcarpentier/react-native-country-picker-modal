@@ -14,7 +14,8 @@ import {
   TranslationLanguageCodeList,
   type Country,
 } from '../src/types'
-import countriesEmoji from '../src/assets/data/countries-emoji.json'
+import rawCountriesEmoji from '../data/countries-emoji.json'
+import { getEmojiCountries } from '../src/countryData'
 
 const countriesFor = (codes: string[]) =>
   getCountriesAsync(
@@ -123,7 +124,7 @@ describe('search', () => {
 })
 
 describe('type lists match the bundled data', () => {
-  const data = countriesEmoji as Record<
+  const data = getEmojiCountries() as unknown as Record<
     string,
     { name: Record<string, string> }
   >
@@ -148,5 +149,24 @@ describe('type lists match the bundled data', () => {
       .filter(([, country]) => !country.name.common)
       .map(([code]) => code)
     expect(missing).toEqual([])
+  })
+})
+
+describe('the bundled dataset decodes losslessly', () => {
+  // The shipped asset is stored column-wise to keep the package small: the
+  // translation keys, region and subregion live in lookup tables instead of
+  // being repeated for all 250 countries (see src/countryData.ts). This is the
+  // guard that compacting it dropped nothing -- the decoded map has to equal
+  // the readable source in data/, which is the file a maintainer edits.
+  it('reproduces the readable source exactly', () => {
+    expect(getEmojiCountries()).toEqual(rawCountriesEmoji)
+  })
+
+  it('derives each flag key from the country code', () => {
+    const countries = getEmojiCountries()
+    expect(countries.FR.flag).toBe('flag-fr')
+    for (const [cca2, country] of Object.entries(countries)) {
+      expect(country.flag).toBe(`flag-${cca2.toLowerCase()}`)
+    }
   })
 })
