@@ -31,6 +31,7 @@ export const CountryFilter = ({
     filterPlaceholderTextColor,
     fontFamily,
     fontSize,
+    keyboardAppearance,
     onBackgroundTextColor,
   } = useTheme()
   return (
@@ -40,6 +41,7 @@ export const CountryFilter = ({
       autoFocus={autoFocus}
       placeholder={placeholder}
       placeholderTextColor={filterPlaceholderTextColor}
+      keyboardAppearance={keyboardAppearance}
       style={[
         styles.input,
         { fontFamily, fontSize, color: onBackgroundTextColor },

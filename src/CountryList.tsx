@@ -1,8 +1,9 @@
-import { memo, useCallback, useEffect, useMemo, useRef } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Dimensions,
   FlatList,
   PixelRatio,
+  Pressable,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -17,6 +18,11 @@ import { Flag } from './Flag'
 import { type Country } from './types'
 
 const borderBottomWidth = 2 / PixelRatio.get()
+// The alpha filter is a single column of letters; each hit target is this wide
+// and the column is capped to match, so it cannot stretch and steal width from
+// the country list beside it.
+const letterColumnWidth = 20
+const letterHeight = 23
 
 const styles = StyleSheet.create({
   container: {
@@ -24,16 +30,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  letters: {
-    flex: 1,
+  // The scroll view itself. react-native-web gives every ScrollView
+  // `flexGrow: 1, flexShrink: 1` in its own base style, which a native
+  // ScrollView does not have -- so on web this column grew to half the row and
+  // squeezed the country list, while iOS and Android sized it to its content.
+  // Pinning the box here is what keeps the three platforms in agreement.
+  lettersColumn: {
+    flexGrow: 0,
+    flexShrink: 0,
+    width: letterColumnWidth,
     marginRight: 10,
+  },
+  // The content inside it. flexGrow rather than flex, because flex compiles to
+  // `flex-basis: 0%` on web and collapses the column the letters spread across.
+  letters: {
+    flexGrow: 1,
+    maxWidth: letterColumnWidth,
+    paddingVertical: 4,
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   letter: {
-    height: 23,
-    width: 20,
+    height: letterHeight,
+    width: letterColumnWidth,
+    // A full alphabet needs 26 * 23 = 598px, more than the ~592px a 640px web
+    // dialog leaves below the header, so the column overflowed and the last
+    // letter was clipped against the rounded corner. Shrinking closes that gap
+    // instead; on a full-screen phone there is slack and this never engages.
+    flexShrink: 1,
+    minHeight: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -63,17 +89,19 @@ interface LetterProps {
 const Letter = ({ letter, scrollTo }: LetterProps) => {
   const { fontSize, activeOpacity } = useTheme()
   return (
+    // The sizing lives on the touchable rather than an inner View because the
+    // touchable is the actual flex child of the column -- flexShrink on a
+    // wrapper inside it would never engage.
     <TouchableOpacity
       testID={`letter-${letter}`}
       accessibilityRole='button'
       onPress={() => scrollTo(letter)}
       activeOpacity={activeOpacity}
+      style={styles.letter}
     >
-      <View style={styles.letter}>
-        <CountryText style={[styles.letterText, { fontSize: fontSize * 0.8 }]}>
-          {letter}
-        </CountryText>
-      </View>
+      <CountryText style={[styles.letterText, { fontSize: fontSize * 0.8 }]}>
+        {letter}
+      </CountryText>
     </TouchableOpacity>
   )
 }
@@ -95,7 +123,11 @@ const CountryItem = ({
   withCallingCode = false,
   withCurrency,
 }: CountryItemProps) => {
-  const { activeOpacity, itemHeight, flagSize } = useTheme()
+  const { activeOpacity, itemHeight, flagSize, primaryColorVariant } =
+    useTheme()
+  // onHoverIn/onHoverOut only ever fire on platforms with a pointer, so this
+  // stays inert on a touch device.
+  const [hovered, setHovered] = useState(false)
 
   const extraContent: string[] = []
   if (withCallingCode && country.callingCode?.length) {
@@ -108,28 +140,33 @@ const CountryItem = ({
     typeof country.name === 'string' ? country.name : country.name.common
 
   return (
-    <TouchableOpacity
+    <Pressable
       testID={`country-selector-${country.cca2}`}
       accessibilityRole='button'
       onPress={() => onSelect(country)}
-      activeOpacity={activeOpacity}
+      onHoverIn={() => setHovered(true)}
+      onHoverOut={() => setHovered(false)}
+      style={({ pressed }) => [
+        styles.itemCountry,
+        { height: itemHeight },
+        hovered && { backgroundColor: primaryColorVariant },
+        pressed && { opacity: activeOpacity },
+      ]}
     >
-      <View style={[styles.itemCountry, { height: itemHeight }]}>
-        {withFlag && (
-          <Flag
-            countryCode={country.cca2}
-            withEmoji={withEmoji}
-            flagSize={flagSize}
-          />
-        )}
-        <View style={styles.itemCountryName}>
-          <CountryText numberOfLines={2} ellipsizeMode='tail'>
-            {countryName}
-            {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
-          </CountryText>
-        </View>
+      {withFlag && (
+        <Flag
+          countryCode={country.cca2}
+          withEmoji={withEmoji}
+          flagSize={flagSize}
+        />
+      )}
+      <View style={styles.itemCountryName}>
+        <CountryText numberOfLines={2} ellipsizeMode='tail'>
+          {countryName}
+          {extraContent.length > 0 && ` (${extraContent.join(', ')})`}
+        </CountryText>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
@@ -243,7 +280,9 @@ export const CountryList = ({
       />
       {withAlphaFilter && (
         <ScrollView
+          testID='alpha-filter-letters'
           scrollEnabled={false}
+          style={styles.lettersColumn}
           contentContainerStyle={styles.letters}
           keyboardShouldPersistTaps='always'
         >

@@ -33,10 +33,12 @@ export interface CloseButtonProps {
   onPress?(): void
 }
 
-const ANDROID_CLOSE_IMAGE =
-  require('./assets/images/close.android.png') as ImageSourcePropType
+// One icon for every platform. The two previous assets were the same glyph
+// anyway; the iOS one just carried so much internal padding that it rendered
+// as a ~9px hairline inside the 25px frame. Consumers who want a different
+// mark still pass `closeButtonImage`.
 const DEFAULT_CLOSE_IMAGE =
-  require('./assets/images/close.ios.png') as ImageSourcePropType
+  require('./assets/images/close.png') as ImageSourcePropType
 
 export const CloseButton = ({
   style,
@@ -45,12 +47,13 @@ export const CloseButton = ({
   onPress,
 }: CloseButtonProps) => {
   const { onBackgroundTextColor } = useTheme()
+  // Still platform specific: Android uses a ripple, iOS an opacity fade.
   const isAndroid = Platform.OS === 'android'
-  const source =
-    image ?? (isAndroid ? ANDROID_CLOSE_IMAGE : DEFAULT_CLOSE_IMAGE)
+  const source = image ?? DEFAULT_CLOSE_IMAGE
 
   const icon = (
     <Image
+      testID='close-button-image'
       source={source}
       style={[
         styles.imageStyle,

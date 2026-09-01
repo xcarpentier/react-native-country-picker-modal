@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import {
+  Keyboard,
   type FlatListProps,
   type ImageSourcePropType,
   type ImageStyle,
@@ -10,7 +11,7 @@ import {
 import { useCountryContext } from './CountryContext'
 import { CountryFilter, type CountryFilterProps } from './CountryFilter'
 import { CountryList } from './CountryList'
-import { CountryModal } from './CountryModal'
+import { CountryModal, type ModalInsets } from './CountryModal'
 import { FlagButton, type FlagButtonProps } from './FlagButton'
 import { HeaderModal } from './HeaderModal'
 import {
@@ -30,6 +31,7 @@ export interface CountryPickerProps {
   excludeCountries?: CountryCode[]
   preferredCountries?: CountryCode[]
   modalProps?: ModalProps
+  modalInsets?: ModalInsets
   filterProps?: CountryFilterProps
   flatListProps?: FlatListProps<Country>
   withEmoji?: boolean
@@ -68,6 +70,7 @@ export const CountryPicker = ({
   renderCountryFilter,
   filterProps,
   modalProps,
+  modalInsets,
   flatListProps,
   onSelect,
   withEmoji = true,
@@ -119,6 +122,10 @@ export const CountryPicker = ({
   }, [handleOpen])
 
   const onClose = useCallback(() => {
+    // The filter input usually still holds focus, and a native modal tears
+    // down without telling the keyboard, which then hangs over the screen
+    // underneath. Covers every close path, including picking a country.
+    Keyboard.dismiss()
     setFilter('')
     setVisible(false)
     handleClose?.()
@@ -176,13 +183,22 @@ export const CountryPicker = ({
         ) : (
           <FlagButton {...flagButtonProps} />
         ))}
+      {/*
+        `onDismiss` is deliberately not wired to `onClose`. It is a completion
+        callback: iOS fires it only once the slide-out animation has finished,
+        so reopening the picker before that lands let the previous close arrive
+        late and immediately shut the new modal again -- the picker appeared to
+        flicker open and needed a second tap. `onRequestClose` is the intent
+        callback and covers the back button and swipe dismissal. Consumers who
+        want the completion hook can still pass one through `modalProps`.
+      */}
       <CountryModal
         visible={visible}
         withModal={withModal}
         disableNativeModal={disableNativeModal}
+        modalInsets={modalInsets}
         {...modalProps}
         onRequestClose={onClose}
-        onDismiss={onClose}
       >
         <HeaderModal
           withFilter={withFilter}

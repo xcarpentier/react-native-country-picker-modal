@@ -159,21 +159,66 @@ import CountryPicker, { DARK_THEME } from 'react-native-country-picker-modal'
 />
 ```
 
-| Key                          | Default (light)                     |
-| ---------------------------- | ----------------------------------- |
-| `primaryColor`               | `'#ccc'`                            |
-| `primaryColorVariant`        | `'#eee'`                            |
-| `backgroundColor`            | `'#ffffff'`                         |
-| `onBackgroundTextColor`      | `'#000000'`                         |
-| `fontSize`                   | `16`                                |
-| `fontFamily`                 | `'System'` / `'Roboto'` / `'Arial'` |
-| `filterPlaceholderTextColor` | `'#aaa'`                            |
-| `activeOpacity`              | `0.5`                               |
-| `itemHeight`                 | 7% of screen height                 |
-| `flagSize`                   | `20` on Android, `30` elsewhere     |
-| `flagSizeButton`             | `20` on Android, `30` elsewhere     |
+| Key                          | Default (light)                                |
+| ---------------------------- | ---------------------------------------------- |
+| `primaryColor`               | `'#ccc'`                                       |
+| `primaryColorVariant`        | `'#eee'`                                       |
+| `backgroundColor`            | `'#ffffff'`                                    |
+| `onBackgroundTextColor`      | `'#000000'`                                    |
+| `fontSize`                   | `16`                                           |
+| `fontFamily`                 | `'System'` / `'Roboto'` / `'Arial'`            |
+| `filterPlaceholderTextColor` | `'#aaa'`                                       |
+| `keyboardAppearance`         | `'light'` (`'dark'` in `DARK_THEME`, iOS only) |
+| `activeOpacity`              | `0.5`                                          |
+| `itemHeight`                 | 7% of screen height                            |
+| `desktopBreakpoint`          | `768` (web only)                               |
+| `dialogMaxWidth`             | `480` (web only)                               |
+| `dialogMaxHeight`            | `640` (web only)                               |
+| `dialogBorderRadius`         | `12` (web only)                                |
+| `backdropColor`              | `'rgba(0, 0, 0, 0.45)'` (web only)             |
+| `flagSize`                   | `20` on Android, `30` elsewhere                |
+| `flagSizeButton`             | `20` on Android, `30` elsewhere                |
 
 `useTheme()` returns the fully resolved theme if you are building your own row or button.
+
+### Android and edge-to-edge
+
+Android 15 and newer always lay the app window out edge-to-edge. Two things in
+react-native do not follow, and the picker compensates for both:
+
+- `SafeAreaView` is `Platform.select({ ios: ..., default: View })`, so it applies
+  **no insets at all** on Android. The modal pads itself by
+  `StatusBar.currentHeight` instead.
+- The native modal sets `fitsSystemWindows` on its content and disables
+  edge-to-edge on the dialog window whenever `statusBarTranslucent` is false.
+  That offset the content by the status bar height while it stayed full-screen
+  tall, pushing the search bar down and the bottom of the list off screen. The
+  picker passes `statusBarTranslucent` so the dialog matches the app window.
+
+`navigationBarTranslucent` is deliberately left off, which lets the system inset
+the dialog above the navigation bar — the one inset core react-native cannot
+measure. If your app already uses `react-native-safe-area-context` and you want
+exact values, pass them in:
+
+```tsx
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+const insets = useSafeAreaInsets()
+
+<CountryPicker modalInsets={insets} countryCode='US' onSelect={onSelect} />
+```
+
+`modalInsets` accepts `{ top?: number; bottom?: number }` and overrides the
+measured values. It is ignored on iOS, where `SafeAreaView` reports real insets.
+
+### Web
+
+On web the picker is responsive. Below `desktopBreakpoint` it stays the full-screen
+sheet you get on a phone; at or above it the sheet becomes a centred dialog capped to
+`dialogMaxWidth` / `dialogMaxHeight` over a dimmed backdrop, because a country list
+stretched across a monitor is hard to read. Clicking the backdrop or pressing
+<kbd>Esc</kbd> closes the dialog, and rows highlight on hover using
+`primaryColorVariant`. Native is unaffected.
 
 ## Helper functions
 

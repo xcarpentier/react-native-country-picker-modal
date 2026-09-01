@@ -10,6 +10,7 @@ import {
 import { CountryProvider, DEFAULT_COUNTRY_CONTEXT } from './CountryContext'
 import { type CountryFilterProps } from './CountryFilter'
 import { CountryPicker } from './CountryPicker'
+import { type ModalInsets } from './CountryModal'
 import { ThemeProvider, type Theme } from './CountryTheme'
 import { type FlagButtonProps } from './FlagButton'
 import {
@@ -31,6 +32,7 @@ export interface CountryPickerModalProps {
   theme?: Theme
   translation?: TranslationLanguageCode
   modalProps?: ModalProps
+  modalInsets?: ModalInsets
   filterProps?: CountryFilterProps
   flatListProps?: FlatListProps<Country>
   placeholder?: string
@@ -89,7 +91,11 @@ export {
 
 export { CountryFilter, type CountryFilterProps } from './CountryFilter'
 export { CountryList, type CountryListProps } from './CountryList'
-export { CountryModal, type CountryModalProps } from './CountryModal'
+export {
+  CountryModal,
+  type CountryModalProps,
+  type ModalInsets,
+} from './CountryModal'
 export {
   CountryModalProvider,
   type CountryModalProviderProps,
