@@ -18,10 +18,20 @@ squash them by a few percent each.
 
 ## Referencing them
 
-The root README uses absolute `raw.githubusercontent.com` URLs rather than
-relative paths, because npmjs.com renders the README without the repository
-alongside it — a relative path shows a broken image on the package page. The
-URLs point at `master`, so a new GIF goes live when its branch merges.
+The root README uses absolute URLs rather than relative paths, because
+npmjs.com renders the README without the repository alongside it — a relative
+path shows a broken image on the package page, and a published README cannot be
+corrected without cutting another version.
+
+The URLs are pinned to the commit that introduced these files
+(`1c6a19e`) rather than to `master`. A branch ref would break the day that
+branch is deleted; `master` would 404 until the branch merges. A commit SHA is
+immutable, so the images render everywhere, immediately and permanently.
+
+The trade-off: re-recording a clip means updating the SHA in the root README in
+the same commit, or the old version keeps rendering. Once this work is on
+`master` you may prefer to switch back to a `master` ref so the images track
+future changes automatically.
 
 ## Recording
 

@@ -7,13 +7,13 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/v/react-native-country-picker-modal.svg?style=flat-square" alt="npm version"></a>
   <a href="https://www.npmjs.com/package/react-native-country-picker-modal"><img src="https://img.shields.io/npm/dm/react-native-country-picker-modal.svg?style=flat-square" alt="npm downloads"></a>
-  <a href="./LICENSE.md"><img src="https://img.shields.io/npm/l/react-native-country-picker-modal.svg?style=flat-square" alt="license"></a>
+  <a href="https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/LICENSE.md"><img src="https://img.shields.io/npm/l/react-native-country-picker-modal.svg?style=flat-square" alt="license"></a>
   <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen?style=flat-square" alt="hire an expert"></a>
 </p>
 
-| iOS                                                                                                                                                   | Android                                                                                                                                                       | Web                                                                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/master/.github/assets/iOS.gif" alt="iOS demo" width="200"/> | <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/master/.github/assets/Android.gif" alt="Android demo" width="200"/> | <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/master/.github/assets/Web.gif" alt="Web demo" width="200"/> |
+| iOS                                                                                                                                                    | Android                                                                                                                                                        | Web                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/1c6a19e/.github/assets/iOS.gif" alt="iOS demo" width="200"/> | <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/1c6a19e/.github/assets/Android.gif" alt="Android demo" width="200"/> | <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/1c6a19e/.github/assets/Web.gif" alt="Web demo" width="200"/> |
 
 ## Features
 
@@ -79,7 +79,7 @@ export default function App() {
 
 Tapping the flag opens the modal. To drive it yourself, pass `visible` and handle `onOpen` / `onClose`.
 
-A runnable version exercising every option lives in [`example/App.tsx`](./example/App.tsx).
+A runnable version exercising every option lives in [`example/App.tsx`](https://github.com/xcarpentier/react-native-country-picker-modal/blob/1c6a19e/example/App.tsx).
 
 ## Props
 
@@ -278,7 +278,7 @@ const [visible, setVisible] = useState(false)
 
 Emoji flags are the default and need no network access. Setting `withEmoji={false}` switches to bitmap flags, which are **not** bundled — they are roughly 500 KB and are fetched on first use from a GitHub Pages URL.
 
-To avoid depending on a third-party origin at runtime, host [`data/countries.json`](./data/countries.json) yourself:
+To avoid depending on a third-party origin at runtime, host [`data/countries.json`](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/data/countries.json) yourself:
 
 ```tsx
 import { setImageFlagsUrl } from 'react-native-country-picker-modal'
@@ -349,4 +349,4 @@ Looking for a React Native freelance expert with more than 12 years of experienc
 
 ## Licence
 
-[MIT](./LICENSE.md)
+[MIT](https://github.com/xcarpentier/react-native-country-picker-modal/blob/master/LICENSE.md)
