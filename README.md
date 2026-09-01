@@ -121,12 +121,13 @@ A runnable version exercising every option lives in [`example/App.tsx`](./exampl
 
 ### Modal
 
-| Prop                 | Type         | Default | Description                                                   |
-| -------------------- | ------------ | ------- | ------------------------------------------------------------- |
-| `withModal`          | `boolean`    | `true`  | When `false`, the list renders inline and no button is shown. |
-| `visible`            | `boolean`    | `false` | Open the modal from outside.                                  |
-| `onOpen` / `onClose` | `() => void` | —       | Called when the modal opens or closes.                        |
-| `withCloseButton`    | `boolean`    | `true`  | Show the close button in the header.                          |
+| Prop                 | Type                                | Default | Description                                                                                                   |
+| -------------------- | ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| `withModal`          | `boolean`                           | `true`  | When `false`, the list renders inline and no button is shown.                                                 |
+| `visible`            | `boolean`                           | `false` | Open the modal from outside.                                                                                  |
+| `onOpen` / `onClose` | `() => void`                        | —       | Called when the modal opens or closes.                                                                        |
+| `withCloseButton`    | `boolean`                           | `true`  | Show the close button in the header.                                                                          |
+| `modalInsets`        | `{ top?: number; bottom?: number }` | —       | Override the Android status/navigation bar insets. See [Android and edge-to-edge](#android-and-edge-to-edge). |
 
 ### Escape hatches
 
@@ -289,18 +290,22 @@ setImageFlagsUrl('https://cdn.example.com/countries/')
 
 v3 requires React 19 and React Native 0.78+. Most apps need no code changes; the list below is exhaustive.
 
-| v2                            | v3                            | Why                                                                                                      |
-| ----------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `getEmojiFlagAsync(code)`     | `getEmojiFlag(code)`          | The emoji is derived from the country code, so it is no longer asynchronous.                             |
-| `translation='svk'` / `'isr'` | `translation='slk'` / removed | Neither existed in the data and both silently fell back to English. `svk` was a typo for `slk` (Slovak). |
-| `useTheme(): Partial<Theme>`  | `useTheme(): ResolvedTheme`   | Values are always present, so `theme.fontSize!` becomes `theme.fontSize`.                                |
-| `import { Omit } from '...'`  | TypeScript's built-in `Omit`  | The custom alias shadowed the built-in.                                                                  |
+| v2                            | v3                            | Why                                                                                                                                                                     |
+| ----------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `getEmojiFlagAsync(code)`     | `getEmojiFlag(code)`          | The emoji is derived from the country code, so it is no longer asynchronous.                                                                                            |
+| `translation='svk'` / `'isr'` | `translation='slk'` / removed | Neither existed in the data and both silently fell back to English. `svk` was a typo for `slk` (Slovak).                                                                |
+| `useTheme(): Partial<Theme>`  | `useTheme(): ResolvedTheme`   | Values are always present, so `theme.fontSize!` becomes `theme.fontSize`.                                                                                               |
+| `import { Omit } from '...'`  | TypeScript's built-in `Omit`  | The custom alias shadowed the built-in.                                                                                                                                 |
+| `disableNativeModal`          | removed                       | The picker always uses react-native's `Modal`. react-native-web renders `Modal` natively now, so the portal it switched to was only ever needed to stack modals on iOS. |
+| `CountryModalProvider`        | removed                       | It existed solely to host the portal that `disableNativeModal` rendered into, so it had nothing left to do.                                                             |
 
-The default export and every prop are unchanged.
+The default export is unchanged. Every other prop is unchanged; the two
+removals above are the only breaking changes, and they affect you only if you
+were working around iOS's refusal to stack two native modals.
 
 Newly available in v3: the `ces`, `est`, `kor`, `pol`, `slk` and `urd` translations, which were present in the bundled data but rejected by the v2 types.
 
-Also fixed in v3: the web modal, which never rendered because the shim imported the wrong module; flags disappearing from list rows; search returning stale results after changing the translation or country list; and the modal slide animation restarting on every parent re-render.
+Also fixed in v3: the web modal, which never rendered because the shim imported the wrong module; flags disappearing from list rows; and search returning stale results after changing the translation or country list.
 
 ## Contributing
 
