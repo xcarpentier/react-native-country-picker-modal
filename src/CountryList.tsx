@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   PixelRatio,
 } from 'react-native'
-import { LegendList, LegendListRenderItemProps } from '@legendapp/list'
-import type { LegendListRef } from '@legendapp/list'
+import { LegendList, LegendListRenderItemProps } from '@legendapp/list/react-native'
+import type { LegendListRef } from '@legendapp/list/react-native'
 import { useTheme } from './CountryTheme'
 import { Country } from './types'
 import { Flag } from './Flag'

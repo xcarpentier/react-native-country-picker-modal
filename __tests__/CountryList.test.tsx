@@ -7,7 +7,7 @@ import { CountryProvider, DEFAULT_COUNTRY_CONTEXT } from '../src/CountryContext'
 import { Country } from '../src/types'
 
 // Mock LegendList with FlatList for testing
-jest.mock('@legendapp/list', () => {
+jest.mock('@legendapp/list/react-native', () => {
   const React = require('react')
   const { FlatList } = require('react-native')
 

@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react-native'
 import CountryPicker from '../src/'
 
 // Mock LegendList with FlatList for testing
-jest.mock('@legendapp/list', () => {
+jest.mock('@legendapp/list/react-native', () => {
   const React = require('react')
   const { FlatList } = require('react-native')
 

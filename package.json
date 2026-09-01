@@ -1,6 +1,6 @@
 {
   "name": "react-native-country-picker-modal",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "react-native country picker",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -58,7 +58,7 @@
     "fuse.js": "^7.0.0"
   },
   "peerDependencies": {
-    "@legendapp/list": ">=1.0.0",
+    "@legendapp/list": ">=3.0.0",
     "react": "*",
     "react-native": "*",
     "react-native-safe-area-context": ">=3.0.0"
@@ -67,7 +67,7 @@
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
-    "@legendapp/list": "^2.0.19",
+    "@legendapp/list": "^3.3.9",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "29.5.14",
     "@types/react": "~19.2.2",
