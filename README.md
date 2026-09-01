@@ -11,9 +11,9 @@
   <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen?style=flat-square" alt="hire an expert"></a>
 </p>
 
-| iOS                                                                                              | Android                                                                                          | Web                                                                                              |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| <img src="https://media.giphy.com/media/cKmlP4Ue5pUrH0DQLi/giphy.gif" width="200" height="400"/> | <img src="https://media.giphy.com/media/Q7SDti4eARGx2CQIGE/giphy.gif" width="200" height="400"/> | <img src="https://media.giphy.com/media/gKl3z3c7sVVL7KSSh8/giphy.gif" width="250" height="400"/> |
+| iOS                                                                                                                                                   | Android                                                                                                                                                       | Web                                                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/master/.github/assets/iOS.gif" alt="iOS demo" width="200"/> | <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/master/.github/assets/Android.gif" alt="Android demo" width="200"/> | <img src="https://raw.githubusercontent.com/xcarpentier/react-native-country-picker-modal/master/.github/assets/Web.gif" alt="Web demo" width="200"/> |
 
 ## Features
 
