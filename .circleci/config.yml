@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.2.0
+
+jobs:
+  verify:
+    executor:
+      name: node/default
+      tag: '22.11'
+    steps:
+      - checkout
+      # --ignore-scripts keeps the prepare script (bob build) from running
+      # during install, so a build failure is reported by `yarn verify` and
+      # not as an install error.
+      - node/install-packages:
+          pkg-manager: yarn
+          override-ci-command: yarn install --frozen-lockfile --ignore-scripts
+      - run:
+          name: Lint, typecheck, test and build
+          command: yarn verify
+
+workflows:
+  verify:
+    jobs:
+      - verify
