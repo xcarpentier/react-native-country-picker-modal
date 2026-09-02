@@ -7,7 +7,9 @@ jobs:
   verify:
     executor:
       name: node/default
-      tag: '22.11'
+      # react-native 0.87 requires ^22.13.0 || ^24.3.0 || >= 26.0.0, so this
+      # cannot drop below 22.13. The Actions workflow tracks 22 the same way.
+      tag: '22.23'
     steps:
       # The project's CircleCI checkout key was revoked while the pipeline sat
       # dormant, so the built-in `checkout` step dies with "Permission denied
