@@ -1,17 +1,17 @@
-import React, { useState, useEffect, ReactNode, memo } from 'react'
+import { memo, useEffect, useState, type ReactNode } from 'react'
 import {
-  TouchableOpacity,
   StyleSheet,
+  TouchableOpacity,
   View,
-  StyleProp,
-  ViewStyle,
-  TextProps,
+  type StyleProp,
+  type TextProps,
+  type ViewStyle,
 } from 'react-native'
-import { CountryCode } from './types'
-import { Flag } from './Flag'
-import { useContext } from './CountryContext'
+import { useCountryContext } from './CountryContext'
 import { CountryText } from './CountryText'
 import { useTheme } from './CountryTheme'
+import { Flag } from './Flag'
+import { type CountryCode } from './types'
 
 const styles = StyleSheet.create({
   container: {
@@ -32,83 +32,6 @@ const styles = StyleSheet.create({
   something: { fontSize: 16 },
 })
 
-type FlagWithSomethingProp = Pick<
-  FlagButtonProps,
-  | 'countryCode'
-  | 'withEmoji'
-  | 'withCountryNameButton'
-  | 'withCurrencyButton'
-  | 'withCallingCodeButton'
-  | 'withFlagButton'
-  | 'placeholder'
-> & { flagSize: number; allowFontScaling?: boolean }
-
-const FlagText = (props: TextProps & { children: ReactNode }) => (
-  <CountryText {...props} style={styles.something} />
-)
-
-const FlagWithSomething = memo(
-  ({
-    allowFontScaling,
-    countryCode,
-    withEmoji,
-    withCountryNameButton,
-    withCurrencyButton,
-    withCallingCodeButton,
-    withFlagButton,
-    flagSize,
-    placeholder,
-  }: FlagWithSomethingProp) => {
-    const { translation, getCountryInfoAsync } = useContext()
-    const [state, setState] = useState({
-      countryName: '',
-      currency: '',
-      callingCode: '',
-    })
-    const { countryName, currency, callingCode } = state
-    useEffect(() => {
-      if (countryCode) {
-        getCountryInfoAsync({ countryCode, translation })
-          .then(setState)
-          .catch(console.warn)
-      }
-    }, [
-      countryCode,
-      withCountryNameButton,
-      withCurrencyButton,
-      withCallingCodeButton,
-    ])
-
-    return (
-      <View style={styles.flagWithSomethingContainer}>
-        {countryCode ? (
-          <Flag
-            {...{ withEmoji, countryCode, withFlagButton, flagSize }}
-          />
-        ) : (
-          <FlagText allowFontScaling={allowFontScaling}>{placeholder}</FlagText>
-        )}
-
-        {withCountryNameButton && countryName ? (
-          <FlagText allowFontScaling={allowFontScaling}>
-            {countryName + ' '}
-          </FlagText>
-        ) : null}
-        {withCurrencyButton && currency ? (
-          <FlagText
-            allowFontScaling={allowFontScaling}
-          >{`(${currency}) `}</FlagText>
-        ) : null}
-        {withCallingCodeButton && callingCode ? (
-          <FlagText
-            allowFontScaling={allowFontScaling}
-          >{`+${callingCode}`}</FlagText>
-        ) : null}
-      </View>
-    )
-  },
-)
-
 export interface FlagButtonProps {
   allowFontScaling?: boolean
   withEmoji?: boolean
@@ -122,21 +45,111 @@ export interface FlagButtonProps {
   onOpen?(): void
 }
 
+type FlagWithSomethingProps = Pick<
+  FlagButtonProps,
+  | 'countryCode'
+  | 'withEmoji'
+  | 'withCountryNameButton'
+  | 'withCurrencyButton'
+  | 'withCallingCodeButton'
+  | 'withFlagButton'
+  | 'placeholder'
+  | 'allowFontScaling'
+> & { flagSize: number }
+
+const FlagText = (props: TextProps & { children: ReactNode }) => (
+  <CountryText {...props} style={styles.something} />
+)
+
+const FlagWithSomething = memo(
+  ({
+    allowFontScaling,
+    countryCode,
+    withEmoji = true,
+    withCountryNameButton = false,
+    withCurrencyButton = false,
+    withCallingCodeButton = false,
+    withFlagButton = true,
+    flagSize,
+    placeholder,
+  }: FlagWithSomethingProps) => {
+    const { translation, getCountryInfoAsync } = useCountryContext()
+    const [countryInfo, setCountryInfo] = useState({
+      countryName: '',
+      currency: '',
+      callingCode: '',
+    })
+    const { countryName, currency, callingCode } = countryInfo
+
+    useEffect(() => {
+      if (!countryCode) {
+        return
+      }
+      let cancelled = false
+      getCountryInfoAsync({ countryCode, translation })
+        .then((info) => {
+          if (!cancelled) setCountryInfo(info)
+        })
+        .catch(console.warn)
+      return () => {
+        cancelled = true
+      }
+    }, [getCountryInfoAsync, countryCode, translation])
+
+    return (
+      <View style={styles.flagWithSomethingContainer}>
+        {countryCode ? (
+          <Flag
+            countryCode={countryCode}
+            withEmoji={withEmoji}
+            withFlagButton={withFlagButton}
+            flagSize={flagSize}
+          />
+        ) : (
+          <FlagText allowFontScaling={allowFontScaling}>{placeholder}</FlagText>
+        )}
+
+        {withCountryNameButton && countryName ? (
+          <FlagText allowFontScaling={allowFontScaling}>
+            {`${countryName} `}
+          </FlagText>
+        ) : null}
+        {withCurrencyButton && currency ? (
+          <FlagText allowFontScaling={allowFontScaling}>
+            {`(${currency}) `}
+          </FlagText>
+        ) : null}
+        {withCallingCodeButton && callingCode ? (
+          <FlagText allowFontScaling={allowFontScaling}>
+            {`+${callingCode}`}
+          </FlagText>
+        ) : null}
+      </View>
+    )
+  },
+)
+FlagWithSomething.displayName = 'FlagWithSomething'
+
 export const FlagButton = ({
   allowFontScaling,
-  withEmoji,
-  withCountryNameButton,
-  withCallingCodeButton,
-  withCurrencyButton,
-  withFlagButton,
+  withEmoji = true,
+  withCountryNameButton = false,
+  withCallingCodeButton = false,
+  withCurrencyButton = false,
+  withFlagButton = true,
   countryCode,
   containerButtonStyle,
   onOpen,
   placeholder,
 }: FlagButtonProps) => {
-  const { flagSizeButton: flagSize } = useTheme()
+  const { flagSizeButton } = useTheme()
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={onOpen}>
+    <TouchableOpacity
+      testID='country-picker-button'
+      accessibilityRole='button'
+      activeOpacity={0.7}
+      onPress={onOpen}
+    >
       <View
         style={[
           styles.container,
@@ -145,27 +158,17 @@ export const FlagButton = ({
         ]}
       >
         <FlagWithSomething
-          {...{
-            allowFontScaling,
-            countryCode,
-            withEmoji,
-            withCountryNameButton,
-            withCallingCodeButton,
-            withCurrencyButton,
-            withFlagButton,
-            flagSize: flagSize!,
-            placeholder,
-          }}
+          allowFontScaling={allowFontScaling}
+          countryCode={countryCode}
+          withEmoji={withEmoji}
+          withCountryNameButton={withCountryNameButton}
+          withCallingCodeButton={withCallingCodeButton}
+          withCurrencyButton={withCurrencyButton}
+          withFlagButton={withFlagButton}
+          flagSize={flagSizeButton}
+          placeholder={placeholder}
         />
       </View>
     </TouchableOpacity>
   )
-}
-
-FlagButton.defaultProps = {
-  withEmoji: true,
-  withCountryNameButton: false,
-  withCallingCodeButton: false,
-  withCurrencyButton: false,
-  withFlagButton: true,
 }

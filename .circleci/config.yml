@@ -1,17 +1,45 @@
 version: 2.1
+
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@5.2.0
+
 jobs:
-  build-and-test:
+  verify:
     executor:
       name: node/default
+      # react-native 0.87 requires ^22.13.0 || ^24.3.0 || >= 26.0.0, so this
+      # cannot drop below 22.13. The Actions workflow tracks 22 the same way.
+      tag: '22.23'
     steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install --legacy-peer-deps
-            - run: npm test
+      # The project's CircleCI checkout key was revoked while the pipeline sat
+      # dormant, so the built-in `checkout` step dies with "Permission denied
+      # (publickey)" before any of the steps below run. The repository is
+      # public, so clone over HTTPS instead, which needs no credentials.
+      # Replace this with a plain `- checkout` once a valid user key is added
+      # under Project Settings -> SSH Keys.
+      - run:
+          name: Checkout over HTTPS
+          command: |
+            git clone --no-checkout \
+              "https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" .
+            # A pull request opened from a fork has its head in the base
+            # repository's refs/pull namespace rather than in a branch.
+            if [ -n "${CIRCLE_PULL_REQUEST:-}" ]; then
+              git fetch --force origin \
+                "refs/pull/${CIRCLE_PULL_REQUEST##*/}/head:refs/remotes/origin/pr" || true
+            fi
+            git checkout --force "${CIRCLE_SHA1}"
+      # --ignore-scripts keeps the prepare script (bob build) from running
+      # during install, so a build failure is reported by `yarn verify` and
+      # not as an install error.
+      - node/install-packages:
+          pkg-manager: yarn
+          override-ci-command: yarn install --frozen-lockfile --ignore-scripts
+      - run:
+          name: Lint, typecheck, test and build
+          command: yarn verify
+
 workflows:
-  build-and-test:
+  verify:
     jobs:
-      - build-and-test
+      - verify

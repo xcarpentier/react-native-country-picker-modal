@@ -1,54 +1,28 @@
-import React, { ReactNode, useState, useEffect } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import {
-  ModalProps,
-  FlatListProps,
-  StyleProp,
-  ViewStyle,
-  ImageSourcePropType,
-  ImageStyle,
+  Keyboard,
+  type FlatListProps,
+  type ImageSourcePropType,
+  type ImageStyle,
+  type ModalProps,
+  type StyleProp,
+  type ViewStyle,
 } from 'react-native'
-import { CountryModal } from './CountryModal'
-import { HeaderModal } from './HeaderModal'
-import { Country, CountryCode, FlagType, Region, Subregion } from './types'
-import { CountryFilter, CountryFilterProps } from './CountryFilter'
-import { FlagButton } from './FlagButton'
-import { useContext } from './CountryContext'
+import { useCountryContext } from './CountryContext'
+import { CountryFilter, type CountryFilterProps } from './CountryFilter'
 import { CountryList } from './CountryList'
+import { CountryModal, type ModalInsets } from './CountryModal'
+import { FlagButton, type FlagButtonProps } from './FlagButton'
+import { HeaderModal } from './HeaderModal'
+import {
+  FlagType,
+  type Country,
+  type CountryCode,
+  type Region,
+  type Subregion,
+} from './types'
 
-interface State {
-  visible: boolean
-  countries: Country[]
-  filter?: string
-  filterFocus?: boolean
-}
-
-interface RenderFlagButtonProps
-  extends React.ComponentProps<typeof FlagButton> {
-  renderFlagButton?(props: React.ComponentProps<typeof FlagButton>): ReactNode
-}
-
-interface RenderCountryFilterProps
-  extends React.ComponentProps<typeof CountryFilter> {
-  renderCountryFilter?(
-    props: React.ComponentProps<typeof CountryFilter>,
-  ): ReactNode
-}
-
-const renderFlagButton = (props: RenderFlagButtonProps): ReactNode =>
-  props.renderFlagButton ? (
-    props.renderFlagButton(props)
-  ) : (
-    <FlagButton {...props} />
-  )
-
-const renderFilter = (props: RenderCountryFilterProps): ReactNode =>
-  props.renderCountryFilter ? (
-    props.renderCountryFilter(props)
-  ) : (
-    <CountryFilter {...props} />
-  )
-
-interface CountryPickerProps {
+export interface CountryPickerProps {
   allowFontScaling?: boolean
   countryCode?: CountryCode
   region?: Region
@@ -57,6 +31,7 @@ interface CountryPickerProps {
   excludeCountries?: CountryCode[]
   preferredCountries?: CountryCode[]
   modalProps?: ModalProps
+  modalInsets?: ModalInsets
   filterProps?: CountryFilterProps
   flatListProps?: FlatListProps<Country>
   withEmoji?: boolean
@@ -71,111 +46,99 @@ interface CountryPickerProps {
   withCurrency?: boolean
   withFlag?: boolean
   withModal?: boolean
-  disableNativeModal?: boolean
   visible?: boolean
   placeholder?: string
   containerButtonStyle?: StyleProp<ViewStyle>
   closeButtonImage?: ImageSourcePropType
   closeButtonStyle?: StyleProp<ViewStyle>
   closeButtonImageStyle?: StyleProp<ImageStyle>
-  renderFlagButton?(props: React.ComponentProps<typeof FlagButton>): ReactNode
-  renderCountryFilter?(
-    props: React.ComponentProps<typeof CountryFilter>,
-  ): ReactNode
+  renderFlagButton?(props: FlagButtonProps): ReactNode
+  renderCountryFilter?(props: CountryFilterProps): ReactNode
   onSelect(country: Country): void
   onOpen?(): void
   onClose?(): void
 }
 
-export const CountryPicker = (props: CountryPickerProps) => {
-  const {
-    allowFontScaling,
-    countryCode,
-    region,
-    subregion,
-    countryCodes,
-    renderFlagButton: renderButton,
-    renderCountryFilter,
-    filterProps,
-    modalProps,
-    flatListProps,
-    onSelect,
-    withEmoji,
-    withFilter,
-    withCloseButton,
-    withCountryNameButton,
-    withCallingCodeButton,
-    withCurrencyButton,
-    containerButtonStyle,
-    withAlphaFilter,
-    withCallingCode,
-    withCurrency,
-    withFlag,
-    withModal,
-    disableNativeModal,
-    withFlagButton,
-    onClose: handleClose,
-    onOpen: handleOpen,
-    closeButtonImage,
-    closeButtonStyle,
-    closeButtonImageStyle,
-    excludeCountries,
-    placeholder,
-    preferredCountries,
-  } = props
-  const [state, setState] = useState<State>({
-    visible: props.visible || false,
-    countries: [],
-    filter: '',
-    filterFocus: false,
-  })
-  const { translation, getCountriesAsync } = useContext()
-  const { visible, filter, countries, filterFocus } = state
+export const CountryPicker = ({
+  allowFontScaling = true,
+  countryCode,
+  region,
+  subregion,
+  countryCodes,
+  renderFlagButton,
+  renderCountryFilter,
+  filterProps,
+  modalProps,
+  modalInsets,
+  flatListProps,
+  onSelect,
+  withEmoji = true,
+  withFilter,
+  withCloseButton,
+  withCountryNameButton,
+  withCallingCodeButton,
+  withCurrencyButton,
+  containerButtonStyle,
+  withAlphaFilter = false,
+  withCallingCode = false,
+  withCurrency,
+  withFlag,
+  withModal = true,
+  withFlagButton,
+  onClose: handleClose,
+  onOpen: handleOpen,
+  closeButtonImage,
+  closeButtonStyle,
+  closeButtonImageStyle,
+  excludeCountries,
+  placeholder = 'Select Country',
+  preferredCountries,
+  visible: visibleProp = false,
+}: CountryPickerProps) => {
+  // v2 held all four of these in one object and updated it with
+  // `setState({ ...state, x })` from seven different handlers, which lost
+  // updates whenever two fired against the same render's closure.
+  const [visible, setVisible] = useState(visibleProp)
+  const [countries, setCountries] = useState<Country[]>([])
+  const [filter, setFilter] = useState('')
+  const [filterFocus, setFilterFocus] = useState(false)
+
+  const { translation, getCountriesAsync } = useCountryContext()
+
+  // React's documented "adjusting state when a prop changes" pattern. Doing
+  // this during render rather than in an effect avoids the extra commit that
+  // made the modal flicker when opened via the `visible` prop.
+  const [lastVisibleProp, setLastVisibleProp] = useState(visibleProp)
+  if (lastVisibleProp !== visibleProp) {
+    setLastVisibleProp(visibleProp)
+    setVisible(visibleProp)
+  }
+
+  const onOpen = useCallback(() => {
+    setVisible(true)
+    handleOpen?.()
+  }, [handleOpen])
+
+  const onClose = useCallback(() => {
+    // The filter input usually still holds focus, and a native modal tears
+    // down without telling the keyboard, which then hangs over the screen
+    // underneath. Covers every close path, including picking a country.
+    Keyboard.dismiss()
+    setFilter('')
+    setVisible(false)
+    handleClose?.()
+  }, [handleClose])
+
+  const onSelectClose = useCallback(
+    (country: Country) => {
+      onSelect(country)
+      onClose()
+    },
+    [onSelect, onClose],
+  )
 
   useEffect(() => {
-    if (state.visible !== props.visible) {
-      setState({ ...state, visible: props.visible || false })
-    }
-  }, [props.visible])
-
-  const onOpen = () => {
-    setState({ ...state, visible: true })
-    if (handleOpen) {
-      handleOpen()
-    }
-  }
-  const onClose = () => {
-    setState({ ...state, filter: '', visible: false })
-    if (handleClose) {
-      handleClose()
-    }
-  }
-
-  const setFilter = (filter: string) => setState({ ...state, filter })
-  const setCountries = (countries: Country[]) =>
-    setState({ ...state, countries })
-  const onSelectClose = (country: Country) => {
-    onSelect(country)
-    onClose()
-  }
-  const onFocus = () => setState({ ...state, filterFocus: true })
-  const onBlur = () => setState({ ...state, filterFocus: false })
-  const flagProp = {
-    allowFontScaling,
-    countryCode,
-    withEmoji,
-    withCountryNameButton,
-    withCallingCodeButton,
-    withCurrencyButton,
-    withFlagButton,
-    renderFlagButton: renderButton,
-    onOpen,
-    containerButtonStyle,
-    placeholder: placeholder || 'Select Country',
-  }
-
-  useEffect(() => {
-    let cancel = false
+    let cancelled = false
     getCountriesAsync(
       withEmoji ? FlagType.EMOJI : FlagType.FLAT,
       translation,
@@ -186,68 +149,90 @@ export const CountryPicker = (props: CountryPickerProps) => {
       preferredCountries,
       withAlphaFilter,
     )
-      .then((countries) => (cancel ? null : setCountries(countries)))
+      .then((result) => {
+        if (!cancelled) setCountries(result)
+      })
       .catch(console.warn)
 
     return () => {
-      cancel = true
+      cancelled = true
     }
-  }, [translation, withEmoji])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [translation, withEmoji, region, subregion, withAlphaFilter])
+
+  const flagButtonProps: FlagButtonProps = {
+    allowFontScaling,
+    countryCode,
+    withEmoji,
+    withCountryNameButton,
+    withCallingCodeButton,
+    withCurrencyButton,
+    withFlagButton,
+    onOpen,
+    containerButtonStyle,
+    placeholder,
+  }
 
   return (
     <>
-      {withModal && renderFlagButton(flagProp)}
+      {withModal &&
+        (renderFlagButton ? (
+          renderFlagButton(flagButtonProps)
+        ) : (
+          <FlagButton {...flagButtonProps} />
+        ))}
+      {/*
+        `onDismiss` is deliberately not wired to `onClose`. It is a completion
+        callback: iOS fires it only once the slide-out animation has finished,
+        so reopening the picker before that lands let the previous close arrive
+        late and immediately shut the new modal again -- the picker appeared to
+        flicker open and needed a second tap. `onRequestClose` is the intent
+        callback and covers the back button and swipe dismissal. Consumers who
+        want the completion hook can still pass one through `modalProps`.
+      */}
       <CountryModal
-        {...{ visible, withModal, disableNativeModal, ...modalProps }}
+        visible={visible}
+        withModal={withModal}
+        modalInsets={modalInsets}
+        {...modalProps}
         onRequestClose={onClose}
-        onDismiss={onClose}
       >
         <HeaderModal
-          {...{
-            withFilter,
-            onClose,
-            closeButtonImage,
-            closeButtonImageStyle,
-            closeButtonStyle,
-            withCloseButton,
-          }}
-          renderFilter={(props) =>
-            renderFilter({
-              ...props,
+          withFilter={withFilter}
+          withCloseButton={withCloseButton}
+          closeButtonImage={closeButtonImage}
+          closeButtonImageStyle={closeButtonImageStyle}
+          closeButtonStyle={closeButtonStyle}
+          onClose={onClose}
+          renderFilter={() => {
+            const countryFilterProps: CountryFilterProps = {
               allowFontScaling,
-              renderCountryFilter,
               onChangeText: setFilter,
               value: filter,
-              onFocus,
-              onBlur,
+              onFocus: () => setFilterFocus(true),
+              onBlur: () => setFilterFocus(false),
               ...filterProps,
-            })
-          }
+            }
+            return renderCountryFilter ? (
+              renderCountryFilter(countryFilterProps)
+            ) : (
+              <CountryFilter {...countryFilterProps} />
+            )
+          }}
         />
         <CountryList
-          {...{
-            onSelect: onSelectClose,
-            data: countries,
-            letters: [],
-            withAlphaFilter: withAlphaFilter && filter === '',
-            withCallingCode,
-            withCurrency,
-            withFlag,
-            withEmoji,
-            filter,
-            filterFocus,
-            flatListProps,
-          }}
+          onSelect={onSelectClose}
+          data={countries}
+          withAlphaFilter={withAlphaFilter && filter === ''}
+          withCallingCode={withCallingCode}
+          withCurrency={withCurrency}
+          withFlag={withFlag}
+          withEmoji={withEmoji}
+          filter={filter}
+          filterFocus={filterFocus}
+          flatListProps={flatListProps}
         />
       </CountryModal>
     </>
   )
-}
-
-CountryPicker.defaultProps = {
-  withModal: true,
-  withAlphaFilter: false,
-  withCallingCode: false,
-  placeholder: 'Select Country',
-  allowFontScaling: true,
 }
