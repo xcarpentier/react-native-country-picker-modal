@@ -2866,8 +2866,9 @@ react-is@^18.0.0:
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
 "react-native-country-picker-modal@link:..":
-  version "0.0.0"
-  uid ""
+  version "3.0.0"
+  dependencies:
+    fuse.js "^7.5.0"
 
 react-native-web@^0.21.2:
   version "0.21.2"
